@@ -1,6 +1,7 @@
-# pohja
+# SET LIST MAKER
 
-Pohja kevään 2021 harjoitustöiden GIT-repoille
+Käyttöliittymä helpottamaan dj-settien tekoa
 
-Lue käyttöohjeet TIMistä: <https://tim.jyu.fi/view/kurssit/tie/ohj2/tyokalut/git/ohj2git#fork>
+- Lue käyttöohjeet TIMistä: <https://tim.jyu.fi/view/kurssit/tie/ohj2/tyokalut/git/ohj2git#fork>
+- suunnitelmat [TIMissä](https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/melllaem)
 
