@@ -10,8 +10,8 @@ import javafx.fxml.FXML;
  */
 public class MusicGUIController {
     @FXML private void handlePrint() {
-        Dialogs.showMessageDialog("Ei osata vielä tulostaa.");
-    }
+        PrintController.tulosta("Juujuu");
+        }
    
     @FXML private void handleAddTrack() {
         Dialogs.showMessageDialog("Ei osata vielä lisätä kappaletta settiin");
