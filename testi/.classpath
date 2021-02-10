@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-15-JavaFX">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/devel/jar/Ali.jar"/>
-	<classpathentry kind="lib" path="C:/devel/jar/fxgui.jar"/>
-	<classpathentry kind="lib" path="C:/devel/jar/Graphics.jar"/>
-	<classpathentry kind="lib" path="C:/devel/jar/Music.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ohj2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
