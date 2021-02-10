@@ -25,7 +25,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Menu">
                <items>
-              <MenuItem mnemonicParsing="false" text="Print" />
+              <MenuItem mnemonicParsing="false" text="Print" onAction="#handlePrint" />
                   <MenuItem mnemonicParsing="false" text="Exit" />
                </items>
           </Menu>
@@ -47,7 +47,7 @@
    <center>
       <SplitPane dividerPositions="0.2593889242520688, 0.5" BorderPane.alignment="CENTER">
          <items>
-            <BorderPane minWidth="150.0">
+            <BorderPane>
                <center>
                   <ListChooser prefWidth="170.0" rivit="Alex Pervukhin - This for B&#10;Kozac - Hoodlove&#10;Silat Beksi - On my own&#10;Pîrvu - Do this&#10;Pîrvu - Keep me busy&#10;" BorderPane.alignment="CENTER" />
                </center>
@@ -133,7 +133,7 @@
                         </Label>
                      </center>
                      <right>
-                        <Button mnemonicParsing="false" text="Edit" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#handleEdit" text="Edit" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </BorderPane.margin>
@@ -142,7 +142,7 @@
                   </BorderPane>
                </top>
             </BorderPane>
-            <BorderPane maxWidth="300.0" prefWidth="300.0">
+            <BorderPane maxWidth="300.0">
                <center>
                   <ListChooser prefWidth="286.0" rivit="" BorderPane.alignment="CENTER" />
                </center>
@@ -171,12 +171,12 @@
          <right>
             <HBox alignment="CENTER_RIGHT" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Add track">
+                  <Button mnemonicParsing="false" onAction="#handleAddTrack" text="Add track">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="669.0" layoutY="18.0" mnemonicParsing="false" text="Delete track" />
+                  <Button layoutX="669.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleDeleteTrack" text="Delete track" />
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -189,7 +189,7 @@
          <left>
             <HBox minHeight="40.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="New track">
+                  <Button mnemonicParsing="false" onAction="#handleNewTrack" text="New track">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>

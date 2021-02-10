@@ -1,6 +1,7 @@
 package music;
 
 import fi.jyu.mit.fxgui.*;
+import javafx.fxml.FXML;
 
 /**
  * @author laura
@@ -8,5 +9,21 @@ import fi.jyu.mit.fxgui.*;
  *
  */
 public class MusicGUIController {
-	//
+    @FXML private void handlePrint() {
+        Dialogs.showMessageDialog("Ei osata vielä tulostaa.");
+    }
+   
+    @FXML private void handleAddTrack() {
+        Dialogs.showMessageDialog("Ei osata vielä lisätä kappaletta settiin");
+   }
+    @FXML private void handleDeleteTrack() {
+        Dialogs.showMessageDialog("Ei osata vielä poistaa setistä");
+   } 
+    @FXML private void handleNewTrack() {
+        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta kappaletta");
+   }
+    @FXML private void handleEdit() {
+        var resurssi = MusicGUIController.class.getResource("EditTrackView.fxml");
+        ModalController.showModal(resurssi, "Track Info", null, "");
+   }
 }
