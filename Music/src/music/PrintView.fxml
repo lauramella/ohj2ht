@@ -2,15 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.PrintController">
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="handlePrint" mnemonicParsing="false" text="Print">
+            <Button mnemonicParsing="false" onAction="#handlePrint" text="Print">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
@@ -18,4 +18,7 @@
          </children>
       </HBox>
    </bottom>
+   <center>
+      <TextArea fx:id="tulostusAlue" prefHeight="200.0" prefWidth="200.0" text="teksti&#10;t&#10;t&#10;t&#10;t&#10;t&#10;t&#10;t&#10;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

@@ -9,17 +9,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.LoginController">
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="New user">
+            <Button mnemonicParsing="false" onAction="#handleNewUser" text="New user">
                <HBox.margin>
                   <Insets bottom="20.0" left="290.0" right="10.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Ok">
+            <Button fx:id="buttonOk" mnemonicParsing="false" onAction="#handleOk" text="Ok">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" top="15.0" />
                </HBox.margin>
@@ -35,7 +34,7 @@
       </Label>
    </left>
    <right>
-      <ComboBoxChooser prefWidth="150.0" rivit="User1&#10;User2" BorderPane.alignment="CENTER">
+      <ComboBoxChooser fx:id="textVastaus1" prefWidth="150.0" rivit="User1&#10;User2" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="30.0" />
          </BorderPane.margin>

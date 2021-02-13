@@ -7,36 +7,37 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 /**
- * Muokkausikkunan tapahtumat
+ * jsj
  * @author laura
- * @version 10.2.2021
+ * @version 11.2.2021
  *
  */
-public class EditTrackController implements ModalControllerInterface<String> {
-    @FXML private Button buttonSulje;
-    @FXML private void handleCancel() {
-        ModalController.closeStage(buttonSulje);;
+public class NewUserController implements ModalControllerInterface<String> {
+    @FXML private Button buttonSulje4;
+    @FXML private void handleCancel4() {
+        ModalController.closeStage(buttonSulje4);
    }
-    @FXML private void handleDelete() {
-        Dialogs.showQuestionDialog("Delete track", "Do you want to delete this track?", "Yes", "No");
-   }
-    @FXML private void handleSave() {
-        Dialogs.showMessageDialog("Ei toimi tallennus");
-   }
+    @FXML private void handleAddUser() {
+        Dialogs.showMessageDialog("Ei toimi lis‰‰minen");
+   } 
+ 
     @Override
     public String getResult() {
         // TODO Auto-generated method stub
         return null;
     }
+
     @Override
     public void handleShown() {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void setDefault(String arg0) {
         // TODO Auto-generated method stub
         
     }
+    
 
 }

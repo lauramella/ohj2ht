@@ -12,11 +12,10 @@ import javafx.scene.control.TextArea;
  *
  */
 public class PrintController implements ModalControllerInterface<String>{
-    @FXML TextArea tulostusAlue;
     
-    @FXML private void handleOK() {
-    ModalController.closeStage(tulostusAlue);
-    }
+    @FXML TextArea tulostusAlue;
+
+    
     @FXML private void handlePrint() {
       Dialogs.showMessageDialog("Ei osata vielä tulostaa");
     }

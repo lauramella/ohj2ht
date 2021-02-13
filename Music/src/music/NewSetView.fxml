@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.NewSetController">
    <top>
       <Label alignment="CENTER" text="Add new set" BorderPane.alignment="CENTER">
          <font>
@@ -23,14 +22,14 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Save">
+            <Button mnemonicParsing="false" onAction="#handleSave2" text="Save">
                <HBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                  <Insets bottom="20.0" left="90.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="84.0" layoutY="48.0" mnemonicParsing="false" text="Back">
+            <Button fx:id="buttonSulje2" layoutX="84.0" layoutY="48.0" mnemonicParsing="false" onAction="#handleCancel2" text="Cancel">
                <HBox.margin>
-                  <Insets bottom="20.0" left="10.0" right="20.0" top="10.0" />
+                  <Insets bottom="20.0" right="20.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
