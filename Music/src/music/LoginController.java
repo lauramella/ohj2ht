@@ -3,7 +3,6 @@ package music;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -23,11 +22,7 @@ public class LoginController implements ModalControllerInterface<String> {
            ModalController.closeStage(textVastaus1);
        }
 
-        
-        
-        
-        
-        
+                
         @FXML private void handleNewUser() {
             var resurssi4 = LoginController.class.getResource("NewUserView.fxml");
             ModalController.showModal(resurssi4, "New user", null, "");

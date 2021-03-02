@@ -49,7 +49,7 @@
          <items>
             <BorderPane>
                <center>
-                  <ListChooser prefWidth="170.0" rivit="Alex Pervukhin - This for B&#10;Kozac - Hoodlove&#10;Silat Beksi - On my own&#10;Pîrvu - Do this&#10;Pîrvu - Keep me busy&#10;" BorderPane.alignment="CENTER" />
+                  <ListChooser fx:id="chooserKappaleet" prefWidth="170.0" rivit="Alex Pervukhin - This for B&#10;Kozac - Hoodlove&#10;Silat Beksi - On my own&#10;Pîrvu - Do this&#10;Pîrvu - Keep me busy&#10;" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <VBox alignment="CENTER" maxWidth="300.0" BorderPane.alignment="CENTER">
@@ -71,7 +71,7 @@
             </BorderPane>
             <BorderPane>
                <center>
-                  <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="panelKappale" fitToWidth="true" BorderPane.alignment="CENTER">
                      <content>
                         <GridPane hgap="10.0">
                           <columnConstraints>

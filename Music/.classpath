@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="C:/devel/jar/Graphics.jar"/>
 	<classpathentry kind="lib" path="C:/devel/jar/Music.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ohj2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
