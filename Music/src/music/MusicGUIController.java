@@ -2,6 +2,7 @@ package music;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.*;
@@ -21,8 +22,6 @@ import music2.SailoException;
  *
  */
 public class MusicGUIController implements Initializable {
-
-
 
     @FXML private TextField hakuehto;
     @FXML private ComboBoxChooser<String> comboTracks;
@@ -128,12 +127,15 @@ public class MusicGUIController implements Initializable {
         var resurssi = MusicGUIController.class.getResource("EditTrackView.fxml");
         ModalController.showModal(resurssi, "Track Info", null, "");
     }
+    
 //==================================================
     
-    private Music music;
-    
+    private Music music;    
     private TextArea areaKappale = new TextArea();
     
+    /**
+     * Alustus
+     */
     private void alusta() {
         panelKappale.setContent(areaKappale);
         areaKappale.setFont(new Font("Courier New", 12));
@@ -141,6 +143,7 @@ public class MusicGUIController implements Initializable {
         chooserKappaleet.clear();
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
     }
+    
     
     /**
      * Asetetaan k‰ytett‰v‰ music
@@ -151,6 +154,9 @@ public class MusicGUIController implements Initializable {
     }
     
     
+    /**
+     * N‰ytet‰‰n kappale
+     */
     private void naytaKappale() {
         Kappale kappaleKohdalla = chooserKappaleet.getSelectedObject();
         
@@ -158,11 +164,23 @@ public class MusicGUIController implements Initializable {
         
         areaKappale.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKappale)){
-            kappaleKohdalla.tulosta(os);
+           tulosta(os, kappaleKohdalla);
         }
     }
     
+    private void tulosta(PrintStream os, Kappale kappale) {
+        os.println("---------------------------------");
+        kappale.tulosta(os);
+        os.println("---------------------------------");
+      //  List<Kappale> biisiLista = music.annaKappaleet(setti);
+    }
     
+    
+    
+    
+    /**
+     * Haetaan kappale
+     */ 
     private void hae(int knro) {
         chooserKappaleet.clear();
         
@@ -174,6 +192,8 @@ public class MusicGUIController implements Initializable {
         }
         chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
     }
+    
+    
     
     
     /**

@@ -22,12 +22,12 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleSave2" text="Save">
+            <Button mnemonicParsing="false" onAction="#handleSave" text="Save">
                <HBox.margin>
                   <Insets bottom="20.0" left="90.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonSulje2" layoutX="84.0" layoutY="48.0" mnemonicParsing="false" onAction="#handleCancel2" text="Cancel">
+            <Button fx:id="buttonSulje" layoutX="84.0" layoutY="48.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" top="10.0" />
                </HBox.margin>

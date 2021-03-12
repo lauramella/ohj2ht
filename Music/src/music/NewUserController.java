@@ -13,9 +13,9 @@ import javafx.scene.control.Button;
  *
  */
 public class NewUserController implements ModalControllerInterface<String> {
-    @FXML private Button buttonSulje4;
-    @FXML private void handleCancel4() {
-        ModalController.closeStage(buttonSulje4);
+    @FXML private Button buttonSulje;
+    @FXML private void handleCancel() {
+        ModalController.closeStage(buttonSulje);
    }
     @FXML private void handleAddUser() {
         Dialogs.showMessageDialog("Ei toimi lis‰‰minen");

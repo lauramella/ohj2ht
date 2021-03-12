@@ -66,8 +66,9 @@ public class Kappale {
         out.println("Info: " + info);
     }
     
+    
     /**
-     * Tulostetaan henkilömn tiedot
+     * Tulostetaan kappaleen tiedot
      * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
@@ -95,6 +96,7 @@ public class Kappale {
         seuraavaNro++;
         return this.tunnusNro;
     }
+    
     
     /**
      * Apumetodi, jolla saadaan täyettyä testiarvot jäsenelle.

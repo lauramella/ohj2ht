@@ -3,6 +3,8 @@
  */
 package music2;
 
+import java.util.List;
+
 /**
  * CRC - kortti
 |------------------------------------------------------------------------|
@@ -29,9 +31,10 @@ package music2;
  * @version 28.2.2021
  *
  */
-public class Music {
-    
+public class Music {   
     private Kappaleet kappaleet = new Kappaleet();
+    private Setit setit = new Setit();
+    private Relaatiot relaatiot = new Relaatiot();
     
     /**
      * Lisätään uusi kappale
@@ -40,6 +43,128 @@ public class Music {
      */
     public void lisaa(Kappale kappale) throws SailoException {
         this.kappaleet.lisaa(kappale);
+    }
+    
+    /**
+     * Lisätään uusi setti
+     * @param setti lisättävä setti
+     */
+    public void lisaa(Setti setti) {
+        setit.lisaa(setti);
+    }
+    
+    /**
+     * Lisätään uusi relaatio
+     * @param rel lisättävä relaatio
+     */
+    public void lisaa(Relaatio rel) {
+        relaatiot.lisaa(rel);
+    }
+   
+    
+
+    /**
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        Music music = new Music();
+        Kappale kappale1 = new Kappale();
+        Kappale kappale2 = new Kappale();
+        Kappale kappale3 = new Kappale();
+        Kappale kappale4 = new Kappale();
+        Kappale kappale5 = new Kappale();
+        kappale1.rekisteroi();
+        kappale1.taytaKappaleTiedoilla();
+        kappale2.rekisteroi();
+        kappale2.taytaKappaleTiedoilla();
+        kappale3.rekisteroi();
+        kappale3.taytaKappaleTiedoilla();
+        kappale4.rekisteroi();
+        kappale4.taytaKappaleTiedoilla();
+        kappale5.rekisteroi();
+        kappale5.taytaKappaleTiedoilla();
+        
+        try {
+            music.lisaa(kappale1);
+            music.lisaa(kappale2);
+            music.lisaa(kappale3);
+            music.lisaa(kappale4);
+            music.lisaa(kappale5);
+            music.lisaa(kappale2);
+        } catch (SailoException e) {
+            System.err.println(e.getMessage());
+        }
+
+        
+        for (int i=0; i < music.getKappaleet(); i++) {
+            Kappale kappale = music.annaKappale(i);
+            kappale.tulosta(System.out);
+        }
+       
+        // ============================SETIT===================================
+        
+        Setti setti1 = new Setti();
+        Setti setti2 = new Setti();
+        Setti setti3 = new Setti();
+        setti1.rekisteroi();
+        setti2.rekisteroi();
+        setti3.rekisteroi();
+        setti1.taytaSettiTiedoilla();   
+        setti2.taytaSettiTiedoilla();
+        setti3.taytaSettiTiedoilla();
+        music.lisaa(setti1);
+        music.lisaa(setti2);
+        music.lisaa(setti3);
+        
+        System.out.println("============= Setit testi =================");
+        
+        List<Setti> settiLista = music.annaSetit();
+        for (Setti set : settiLista) {
+            set.tulosta(System.out);
+       }
+        
+       //====================RELAATIOT===========================================
+        Relaatio rel1 = new Relaatio(1,1);
+        Relaatio rel2 = new Relaatio(2,1);
+        Relaatio rel3 = new Relaatio(3,1);
+        Relaatio rel4 = new Relaatio(1,2);
+        Relaatio rel5 = new Relaatio(4,1);
+        rel1.rekisteroi();
+        rel2.rekisteroi();
+        rel3.rekisteroi();
+        rel4.rekisteroi();
+        rel5.rekisteroi();
+        
+        music.lisaa(rel1);
+        music.lisaa(rel2);
+        music.lisaa(rel3);
+        music.lisaa(rel4);
+        
+        System.out.println("============= Setit testi =================");
+        
+        List<Relaatio> relaatioLista = music.annaRelaatiot(1);                        //anna kaikki relaatiot, jotka setId=1
+        
+          for (Relaatio rel : relaatioLista) {
+                   rel.tulosta(System.out);
+              }
+    
+    }
+    
+    
+    
+    /**
+     * @return lista seteistä
+     */
+    public List<Setti> annaSetit () {
+        return setit.annaSetit();
+    }
+    
+    /**
+     * @param setId setin tunnusnumero
+     * @return lista tietyn setin relaatioista
+     */
+    public List<Relaatio> annaRelaatiot(int setId) {
+        return relaatiot.annaRelaatiot(setId);
     }
     
     
@@ -58,38 +183,6 @@ public class Music {
      */
     public Kappale annaKappale(int i) {
         return kappaleet.anna(i);
-    }
-    
-
-    /**
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Music music = new Music();
-        Kappale kappale1 = new Kappale();
-        Kappale kappale2 = new Kappale();
-        kappale1.rekisteroi();
-        kappale1.taytaKappaleTiedoilla();
-        kappale2.rekisteroi();
-        kappale2.taytaKappaleTiedoilla();
-        
-        try {
-            music.lisaa(kappale1);
-            music.lisaa(kappale2);
-            music.lisaa(kappale2);
-            music.lisaa(kappale2);
-            music.lisaa(kappale2);
-            music.lisaa(kappale2);
-        } catch (SailoException e) {
-            System.err.println(e.getMessage());
-        }
-
-        
-        for (int i=0; i < music.getKappaleet(); i++) {
-            Kappale kappale = music.annaKappale(i);
-            kappale.tulosta(System.out);
-        }
-    
     }
 
 }

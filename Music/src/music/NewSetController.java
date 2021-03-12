@@ -2,10 +2,14 @@ package music;
 
 
 import fi.jyu.mit.fxgui.Dialogs;
+import music2.SailoException;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import music2.Kappale;
+import music2.Music;
+import music2.Setti;
 
 /**
  * @author laura
@@ -13,12 +17,14 @@ import javafx.scene.control.Button;
  *
  */
 public class NewSetController implements ModalControllerInterface<String> {
-    @FXML private Button buttonSulje2;
-    @FXML private void handleCancel2() {
-        ModalController.closeStage(buttonSulje2);
+    private Music music;
+    @FXML private Button buttonSulje;
+    @FXML private void handleCancel() {
+        ModalController.closeStage(buttonSulje);
    }
-    @FXML private void handleSave2() {
+    @FXML private void handleSave() {
         Dialogs.showMessageDialog("Ei toimi tallennus");
+        
    } 
  
     @Override
@@ -38,5 +44,25 @@ public class NewSetController implements ModalControllerInterface<String> {
         // TODO Auto-generated method stub
         
     }
-//
+    
+    
+    /**
+     * Asetetaan k‰ytett‰v‰ music
+     * @param music jota k‰ytet‰‰n
+     */
+    public void setMusic(Music music) {
+        this.music = music;
+    }
+    
+    /**
+     * lis‰t‰‰n uusi setti
+     */
+    public void uusiSetti() {
+        Setti setti = new Setti();
+        setti.rekisteroi();
+        setti.taytaSettiTiedoilla();
+        music.lisaa(setti);
+    }
+    
+
 }

@@ -13,11 +13,11 @@ import javafx.scene.control.Button;
  *
  */
 public class RenameSetController implements ModalControllerInterface<String> {
-    @FXML private Button buttonSulje3;
-    @FXML private void handleCancel3() {
-        ModalController.closeStage(buttonSulje3);
+    @FXML private Button buttonSulje;
+    @FXML private void handleCancel() {
+        ModalController.closeStage(buttonSulje);
    }
-    @FXML private void handleSave3() {
+    @FXML private void handleSave() {
         Dialogs.showMessageDialog("Ei toimi tallennus");
    } 
  
