@@ -31,7 +31,8 @@ import java.util.List;
  */
 public class Relaatiot {
     private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
-    private String nimi;
+    private String nimi = "";
+    private int lkm;
 
 
     /**
@@ -70,6 +71,7 @@ public class Relaatiot {
         relaatiot.lisaa(rel3);
         relaatiot.lisaa(rel4);
         
+        
         List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);                        //anna kaikki relaatiot, jotka setId=1
         
           for (Relaatio rel : relaatioLista) {
@@ -80,7 +82,7 @@ public class Relaatiot {
 
          /**
           * Haetaan kaikki setin relaatiot
-          * @param setId setin tunnusnumero jolle relaatioita haetaan
+          * @param settiTunnusNro setin tunnusnumero jolle relaatioita haetaan
           * @return tietorakenne jossa viitteet löydetteyihin relaatioihin
           * @example
           * <pre name="test">
@@ -106,10 +108,10 @@ public class Relaatiot {
           *  loytyneet.get(0) == rel5 === true;
           * </pre> 
           */   
-    public List<Relaatio> annaRelaatiot(int setId) {
+    public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
         List <Relaatio> loydetyt = new ArrayList<Relaatio>();
         for (Relaatio rel : alkiot)
-            if (rel.getSettiNro()== setId) loydetyt.add(rel);
+            if (rel.getSettiNro()== settiTunnusNro) loydetyt.add(rel);
         return loydetyt;
     }   
 

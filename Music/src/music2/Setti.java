@@ -34,15 +34,11 @@ import kanta.Tarkistus;
  * @version 8.3.2021
  *
  */
-public class Setti {
-    
-    //TODO miten tulostaa biisilista ( artisti - biisin nimi)
+public class Setti {   
     
     private int     tunnusNro;
-    private int     kappaleNro;
     private String  name    ="";
     private int     kappaleetMaara;
-    private Collection<Kappale> alkiot = new ArrayList<Kappale>();
     
     private static int seuraavaNro  = 1;
     
@@ -54,8 +50,7 @@ public class Setti {
     // Viel‰ ei tarvita mit‰‰n
     }
     
-     
-    
+        
     
     /**
      * Tulostetaan setin tiedot
@@ -106,6 +101,13 @@ public class Setti {
         kappaleetMaara = 0;
     }
     
+    /**
+     * @return Kappaleen nimi
+     */
+    public String getNimi() {
+        return name;
+    }
+    
 
     /**
      * Palautetaan setin oma id
@@ -127,6 +129,11 @@ public class Setti {
     
         setti1.tulosta(System.out);
          
+    }
+    
+    @Override
+    public String toString() {
+        return name;
     }
    
 }

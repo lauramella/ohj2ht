@@ -84,6 +84,18 @@ public class Kappaleet {
         return alkiot[i];
     }
     
+    /**
+     * @param knro kappaleen tunnusnumero
+     * @return palauttaa kappaleen, jolla sama tunnusnumero
+     */
+    public Kappale kappaleTunnus(int knro) {
+        for (int i=0; i < alkiot.length; i++) {
+        if (alkiot[i].getTunnusNro()== knro)
+            return alkiot[i];
+        }
+        return null;
+    }
+    
     
     /**
      * Palauttaa kappaleiden lukumäärän

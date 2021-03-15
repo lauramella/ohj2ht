@@ -1,5 +1,7 @@
 package music2;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +33,7 @@ import java.util.List;
  */
 public class Setit {
     private Collection<Setti> alkiot = new ArrayList<Setti>();
-    private String nimi;
+    private String nimi = "";
 
 
     /**
@@ -102,7 +104,7 @@ public class Setit {
     *  loytyneet.get(1) == s2 === true;
     * </pre> 
     */   
-    public List<Setti> annaRelaatiot() {
+    public List<Setti> annaSetit() {
         List <Setti> loydetyt = new ArrayList<Setti>();
             for (Setti set : alkiot)
                 loydetyt.add(set);
@@ -115,19 +117,13 @@ public class Setit {
         return nimi + ", settien lkm: " + alkiot.size();
     }
     
-    
-    
-    
     /**
-     * @return lista seteistä
+     * Tulostetaan kappaleen tiedot
+     * @param os tietovirta johon tulostetaan
      */
-    public List<Setti> annaSetit() {
-        List<Setti> listaSetit = new ArrayList<Setti>();
-        for (Setti setti : alkiot)
-            listaSetit.add(setti);
-        return listaSetit;
+    public void tulosta(OutputStream os) {
+        tulosta(new PrintStream(os));
     }
-    
     
 
 }

@@ -44,6 +44,13 @@ public class Relaatio {
         this.settiNro = settiNro;
     }
     
+    /**
+     * @return palauttaa kappaleen tunnusnumeron
+     */
+    public int getKNro() {
+        return this.kappaleNro;
+    }
+    
             
     /**
      * Antaa relaatiolle seuraavan rekisterinumeron.
@@ -92,11 +99,18 @@ public class Relaatio {
     public void tulosta(PrintStream out) { 
         out.println("Relaatio: " + tunnusNro);    
     }
+    
+    
+    
+    @Override
+    public String toString() {
+        return "Relaatio: " + tunnusNro;
+    }
    
     
     /**
-    * Palautetaan mille jäsenelle harrastus kuuluu
-    * @return setin id
+    * Palautetaan setin tunnusNro
+    * @return setin tunnusNro
     */
     public int getSettiNro() {
         return settiNro;
@@ -104,8 +118,8 @@ public class Relaatio {
     
     
     /**
-     * Palautetaan setin oma id
-     * @return setin tunnusnumero
+     * Palautetaan relaation tunnusnumero
+     * @return relaation tunnusnumero
      */
     public int getTunnusNro() {
         return tunnusNro;

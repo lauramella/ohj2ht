@@ -3,6 +3,8 @@
  */
 package music2;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 /**
@@ -60,8 +62,16 @@ public class Music {
     public void lisaa(Relaatio rel) {
         relaatiot.lisaa(rel);
     }
-   
     
+    
+    /**
+     * palauttaa kappaleen nimen
+     * @param kappaleTunnus kappaleen tunnusnumero
+     */
+    public void getKappaleNimi(int kappaleTunnus) {
+        this.getKappaleNimi(kappaleTunnus);       
+    }
+  
 
     /**
      * @param args ei käytössä
@@ -139,6 +149,7 @@ public class Music {
         music.lisaa(rel2);
         music.lisaa(rel3);
         music.lisaa(rel4);
+        music.lisaa(rel5);
         
         System.out.println("============= Setit testi =================");
         
@@ -150,6 +161,14 @@ public class Music {
     
     }
     
+    /**
+     * @param settiTunnusNro setin tunnusnumero
+     * @return lista tietyn setin relaatioista
+     */
+    public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
+        return relaatiot.annaRelaatiot(settiTunnusNro);
+    }
+    
     
     
     /**
@@ -157,14 +176,6 @@ public class Music {
      */
     public List<Setti> annaSetit () {
         return setit.annaSetit();
-    }
-    
-    /**
-     * @param setId setin tunnusnumero
-     * @return lista tietyn setin relaatioista
-     */
-    public List<Relaatio> annaRelaatiot(int setId) {
-        return relaatiot.annaRelaatiot(setId);
     }
     
     
@@ -183,6 +194,14 @@ public class Music {
      */
     public Kappale annaKappale(int i) {
         return kappaleet.anna(i);
+    }
+    
+    /**
+     * @param knro kappalenumero
+     * @return palauttaa kappaleen jolla sama tunnusnumero
+     */
+    public Kappale kappaleTunnus(int knro) {
+        return kappaleet.kappaleTunnus(knro);
     }
 
 }

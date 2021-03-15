@@ -143,9 +143,6 @@
                </top>
             </BorderPane>
             <BorderPane maxWidth="300.0">
-               <center>
-                  <ListChooser prefWidth="286.0" rivit="" BorderPane.alignment="CENTER" />
-               </center>
                <top>
                   <VBox BorderPane.alignment="CENTER">
                      <children>
@@ -154,7 +151,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <ComboBoxChooser fx:id="comboSets" prefWidth="250.0" rivit="Select&#10;Minimal setti&#10;Techno &#10;VinylOnly">
+                        <ComboBoxChooser fx:id="comboSets" prefWidth="250.0" rivit="Select">
                            <VBox.margin>
                               <Insets bottom="5.0" left="20.0" right="20.0" />
                            </VBox.margin>
@@ -162,6 +159,13 @@
                      </children>
                   </VBox>
                </top>
+               <center>
+                  <ScrollPane fx:id="panelSetti" BorderPane.alignment="CENTER">
+                     <content>
+                        <ListChooser fx:id="chooserbiisiLista" minWidth="300.0" rivit="" />
+                     </content>
+                  </ScrollPane>
+               </center>
             </BorderPane>
          </items>
       </SplitPane>

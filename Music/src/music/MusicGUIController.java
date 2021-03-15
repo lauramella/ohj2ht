@@ -14,7 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import music2.Kappale;
 import music2.Music;
+import music2.Relaatio;
+import music2.Relaatiot;
 import music2.SailoException;
+import music2.Setti;
 
 /**
  * @author laura
@@ -25,9 +28,11 @@ public class MusicGUIController implements Initializable {
 
     @FXML private TextField hakuehto;
     @FXML private ComboBoxChooser<String> comboTracks;
-    @FXML private ComboBoxChooser<String> comboSets;
+    @FXML private ComboBoxChooser<Setti> comboSets;
     @FXML private ListChooser<Kappale> chooserKappaleet;
+    @FXML private ListChooser<Kappale> chooserbiisiLista; 
     @FXML private ScrollPane panelKappale;
+    @FXML private ScrollPane panelSetti;
 
    private String username = "User1";
     
@@ -60,6 +65,9 @@ public class MusicGUIController implements Initializable {
     }
     
 
+    /**
+     * Tallennetaan ja samalla suljetaan sovellus.
+     */
     private void tallenna() {
         Dialogs.showMessageDialog("Suljetaan sovellus.");
     }
@@ -86,8 +94,9 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleNewSet() {
-        var resurssi2 = MusicGUIController.class.getResource("NewSetView.fxml");
-        ModalController.showModal(resurssi2, "New set", null, "");
+       // var resurssi2 = MusicGUIController.class.getResource("NewSetView.fxml");
+      //  ModalController.showModal(resurssi2, "New set", null, "");
+        uusiSetti();
     }
     
 
@@ -108,7 +117,8 @@ public class MusicGUIController implements Initializable {
     
 
     @FXML private void handleAddTrack() {
-        Dialogs.showMessageDialog("Ei osata viel‰ lis‰t‰ kappaletta settiin");
+       // Dialogs.showMessageDialog("Ei osata viel‰ lis‰t‰ kappaletta settiin");
+        kappaleSettiin();
     }
     
     
@@ -132,6 +142,9 @@ public class MusicGUIController implements Initializable {
     
     private Music music;    
     private TextArea areaKappale = new TextArea();
+    private TextArea areaSetti = new TextArea();
+    private Kappale kappaleKohdalla;
+    private Setti settiKohdalla;
     
     /**
      * Alustus
@@ -140,50 +153,76 @@ public class MusicGUIController implements Initializable {
         panelKappale.setContent(areaKappale);
         areaKappale.setFont(new Font("Courier New", 12));
         panelKappale.setFitToHeight(true);
+        panelSetti.setContent(areaSetti);
+        areaSetti.setFont(new Font("Courier New", 12));
+        panelSetti.setFitToHeight(true);
         chooserKappaleet.clear();
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
-    }
+        chooserbiisiLista.clear();
+        comboSets.addSelectionListener(e -> naytaSetti());
+    }   
     
     
     /**
-     * Asetetaan k‰ytett‰v‰ music
-     * @param music jota k‰ytet‰‰n
+     * Lis‰t‰‰n tietty kappale settiin
      */
-    public void setMusic(Music music) {
-        this.music = music;
-    }
-    
-    
-    /**
-     * N‰ytet‰‰n kappale
-     */
-    private void naytaKappale() {
-        Kappale kappaleKohdalla = chooserKappaleet.getSelectedObject();
-        
+    private void kappaleSettiin() {
+        kappaleKohdalla = chooserKappaleet.getSelectedObject();
+        settiKohdalla = comboSets.getSelectedObject();
         if (kappaleKohdalla == null) return;
-        
-        areaKappale.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKappale)){
-           tulosta(os, kappaleKohdalla);
+        if (settiKohdalla == null) return;
+        Relaatio rel = new Relaatio(kappaleKohdalla.getTunnusNro(),settiKohdalla.getTunnusNro());
+        music.lisaa(rel);
+        naytaSetti();
+         }
+    
+    
+    /**
+     * N‰ytet‰‰n setti
+     */
+    private void naytaSetti() {
+        settiKohdalla = comboSets.getSelectedObject();
+        if (settiKohdalla == null) return;
+        List<Relaatio> relaatioLista = music.annaRelaatiot(settiKohdalla.getTunnusNro());
+        areaSetti.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaSetti)){
+           tulosta(os, relaatioLista);
         }
     }
     
-    private void tulosta(PrintStream os, Kappale kappale) {
-        os.println("---------------------------------");
-        kappale.tulosta(os);
-        os.println("---------------------------------");
-      //  List<Kappale> biisiLista = music.annaKappaleet(setti);
-    }
     
-    
+    /**
+     * Haetaan kappale ja laitetaan se valituksi
+     * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
+     */ 
+    private void haeSetti(int snro) {       
+        List<Relaatio> relaatioLista = music.annaRelaatiot(snro);
+        for (Relaatio rel : relaatioLista) {
+            rel.tulosta(System.out);
+       }
+        comboSets.setSelectedIndex(snro); //t‰st‰ tulee muutosviesti
+    } 
     
     
     /**
-     * Haetaan kappale
+     * Lis‰t‰‰n uusi setti
+     */
+    private void uusiSetti() {
+        Setti setti = new Setti();
+        setti.rekisteroi();
+        setti.taytaSettiTiedoilla(); //Korvaa dialogilla
+        music.lisaa(setti);
+        comboSets.add(setti);
+        haeSetti(setti.getTunnusNro());
+    }
+    
+    
+    /**
+     * Haetaan kappale ja laitetaan se valituksi
+     * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
      */ 
-    private void hae(int knro) {
-        chooserKappaleet.clear();
-        
+    private void haeKappaleTiedot(int knro) {
+        chooserKappaleet.clear();        
         int index = 0;
         for (int i = 0; i < music.getKappaleet(); i++) {
             Kappale kappale = music.annaKappale(i);
@@ -191,11 +230,9 @@ public class MusicGUIController implements Initializable {
             chooserKappaleet.add(kappale.getNimi(), kappale);
         }
         chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
-    }
+    } 
     
-    
-    
-    
+           
     /**
      * Lis‰t‰‰n uusi kappale
      */
@@ -209,6 +246,56 @@ public class MusicGUIController implements Initializable {
             Dialogs.showMessageDialog("Ongelmia kappaleen lis‰‰misess‰");
             return;
         }
-        hae(kappale.getTunnusNro());
+        haeKappaleTiedot(kappale.getTunnusNro());
+    }
+
+    
+    /**
+     * Tulostaa kappaleen tiedot
+     * @param os tietovirta johon tulostetaan
+     * @param kappale joka tulostetaan
+     */
+    private void tulosta(PrintStream os, final Kappale kappale) {
+        os.println("---------------------------------");
+        kappale.tulosta(os);
+        os.println("---------------------------------");
+    }
+    
+    
+    /**
+     * Tulostaa setin kappaleet
+     * @param os tietovirta johon tulostetaan
+     * @param reLista setiss‰ olevat relaatiot
+     */
+    private void tulosta(PrintStream os, List<Relaatio> reLista) {
+        os.println("---------------------------------");
+        for (Relaatio rel : reLista) {
+           music.kappaleTunnus(rel.getKNro()).tulosta1(os);
+        }
+        os.println("---------------------------------");
+    }
+    
+    
+    /**
+     * N‰ytet‰‰n kappale
+     */
+    private void naytaKappale() {
+        kappaleKohdalla = chooserKappaleet.getSelectedObject();
+        
+        if (kappaleKohdalla == null) return;
+        
+        areaKappale.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKappale)){
+           tulosta(os, kappaleKohdalla);
+        }
+    }
+    
+    
+    /**
+     * Asetetaan k‰ytett‰v‰ music
+     * @param music jota k‰ytet‰‰n
+     */
+    public void setMusic(Music music) {
+        this.music = music;
     }
 }

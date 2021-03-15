@@ -2,6 +2,7 @@ package music;
 
 
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import music2.SailoException;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
@@ -18,6 +19,7 @@ import music2.Setti;
  */
 public class NewSetController implements ModalControllerInterface<String> {
     private Music music;
+   // @FXML private ListChooser<Setti> chooserSetit;
     @FXML private Button buttonSulje;
     @FXML private void handleCancel() {
         ModalController.closeStage(buttonSulje);
@@ -54,15 +56,17 @@ public class NewSetController implements ModalControllerInterface<String> {
         this.music = music;
     }
     
-    /**
-     * lis‰t‰‰n uusi setti
-     */
-    public void uusiSetti() {
-        Setti setti = new Setti();
-        setti.rekisteroi();
-        setti.taytaSettiTiedoilla();
-        music.lisaa(setti);
-    }
     
+    
+    
+//  /**
+//   * lis‰t‰‰n uusi setti
+//   */
+//  public void uusiSetti() {
+//      Setti setti = new Setti();
+//      setti.rekisteroi();
+//      setti.taytaSettiTiedoilla();
+//      music.lisaa(setti);
+//  }  
 
 }

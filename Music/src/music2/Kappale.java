@@ -68,6 +68,23 @@ public class Kappale {
     
     
     /**
+     * @param out tietovirta johon tulostetaan
+     */
+    public void tulosta1(PrintStream out) {
+        out.println(artist + " - " + name);
+    }
+    
+    
+    /**
+     * Tulostetaan kappaleen tiedot
+     * @param os tietovirta johon tulostetaan
+     */
+    public void tulosta1(OutputStream os) {
+        tulosta1(new PrintStream(os));
+    }
+        
+    
+    /**
      * Tulostetaan kappaleen tiedot
      * @param os tietovirta johon tulostetaan
      */
@@ -123,6 +140,11 @@ public class Kappale {
         return name;
     }
     
+    @Override
+    public String toString() {
+        return artist + " " + name;
+    }
+    
 
     /**
      * Palauttaa kappaleen tunnusnumeron
@@ -152,5 +174,4 @@ public class Kappale {
         kappale2.tulosta(System.out);
           
     }
-
 }
