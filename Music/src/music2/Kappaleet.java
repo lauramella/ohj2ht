@@ -3,6 +3,14 @@
  */
 package music2;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Scanner;
+
 /**
  * CRC-kortti
 |------------------------------------------------------------------------|
@@ -32,6 +40,7 @@ public class Kappaleet {
     
     private static final int MAX_KAPPALEITA = 5;
     private int lkm = 0;
+    private String tiedostonNimi = "";
     private Kappale[] alkiot;
 
     
@@ -89,7 +98,7 @@ public class Kappaleet {
      * @return palauttaa kappaleen, jolla sama tunnusnumero
      */
     public Kappale kappaleTunnus(int knro) {
-        for (int i=0; i < alkiot.length; i++) {
+        for (int i=0; i < this.getLkm(); i++) {
         if (alkiot[i].getTunnusNro()== knro)
             return alkiot[i];
         }
@@ -107,31 +116,92 @@ public class Kappaleet {
     
     
     /**
+     * Lukee kappaleet tiedostosta
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     */
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        String nimi = hakemisto + "/kappaleet.dat";
+        File ftied = new File(nimi);
+        try (Scanner fi = new Scanner(new FileInputStream(ftied))) { 
+            while ( fi.hasNext() ) {
+                String s = "";
+                s = fi.nextLine();
+                Kappale kappale = new Kappale();
+                kappale.parse(s); //vois palauttaa jotain?
+                lisaa(kappale);
+            }
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Ei saa luettua tiedostoa " + nimi);
+        //} catch ( IOException e ) {
+            //throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Tallentaa kappaleet tiedostoon.
+     * Tiedoston muoto:
+     * <pre>
+     * 1 |Hoodlove      |Kozac          |Fasten Musique    |   |    |vinyl |    |      |Electronic|Techno |           |Germany |infoa..
+     * 3 |This for B    |Alex Pervukhin |Lac002            |   |    |vinyl |    |      |Electronic|Minimal|2018       |Ukraine |  
+     * </pre> 
+     * @param tiednimi tallennettavan tiedoston nimi
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void tallenna(String tiednimi) throws SailoException {
+        File ftied = new File(tiednimi + "/kappaleet.dat");
+        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
+            for (int i = 0; i < getLkm(); i++) {
+                Kappale kappale = anna(i);
+                fo.println(kappale);
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("Tiedosto " + ftied.getAbsolutePath() + " ei aukea.");
+            return;
+        }       
+    }
+    
+    
+    /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
         Kappaleet kappaleet = new Kappaleet();
+        
+        try {
+            kappaleet.lueTiedostosta("musa");
+        } catch (SailoException e1) {
+            System.err.println(e1.getMessage());
+        }
+        
         Kappale kappale1 = new Kappale();
         Kappale kappale2 = new Kappale();
         kappale1.rekisteroi();
         kappale1.taytaKappaleTiedoilla();
         kappale2.rekisteroi();
         kappale2.taytaKappaleTiedoilla();
-       
+
         try {
-        kappaleet.lisaa(kappale1);
-        kappaleet.lisaa(kappale2);
+            kappaleet.lisaa(kappale1);
+            kappaleet.lisaa(kappale2);
+
+            System.out.println("======== Kappaleet testi ========");
+
+            for (int i=0; i < kappaleet.getLkm(); i++) {
+                Kappale kappale = kappaleet.anna(i);
+                System.out.println("Kappaleen indeksi: " + i);
+                kappale.tulosta(System.out);
+            }
         }catch (SailoException e) {
             System.err.println(e.getMessage());
         }
         
-        System.out.println("======== Kappaleet testi ========");
-   
-        for (int i=0; i < kappaleet.getLkm(); i++) {
-            Kappale kappale = kappaleet.anna(i);
-            System.out.println("Kappaleen indeksi: " + i);
-            kappale.tulosta(System.out);
-        }
+        try {
+            kappaleet.tallenna("musa");
+        } catch (SailoException e) {
+            e.printStackTrace();
+        }        
     }
 
 }

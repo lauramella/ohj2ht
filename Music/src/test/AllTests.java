@@ -16,7 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
      // kanta.test.HetuTarkistusTest.class,
       music2.test.KappaleTest.class,
       music2.test.KappaleetTest.class,
-      //music2.test.SettiTest.class,
+      music2.test.SettiTest.class,
       music2.test.SetitTest.class,
       //music2.test.MusicTest.class
       music2.test.RelaatiotTest.class,

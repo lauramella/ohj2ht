@@ -92,15 +92,18 @@
                <children>
                   <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSave" text="Save">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="160.0" right="5.0" top="5.0" />
+                        <Insets bottom="10.0" left="160.0" right="5.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDelete" text="Delete">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </HBox>
          </bottom>
       </BorderPane>

@@ -3,8 +3,6 @@
  */
 package music2;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 /**
@@ -37,6 +35,7 @@ public class Music {
     private Kappaleet kappaleet = new Kappaleet();
     private Setit setit = new Setit();
     private Relaatiot relaatiot = new Relaatiot();
+    private String hakemisto = "musa";
     
     /**
      * Lis‰t‰‰n uusi kappale
@@ -46,6 +45,56 @@ public class Music {
     public void lisaa(Kappale kappale) throws SailoException {
         this.kappaleet.lisaa(kappale);
     }
+    
+    
+    /**
+     * Lukee kappaleiden tiedot tiedostosta
+     * @param nimi jota k‰yte‰‰n lukemisessa
+     * @throws SailoException jos lukeminen ep‰onnistuu
+     */
+    public void lueTiedostosta(String nimi) throws SailoException {
+        kappaleet = new Kappaleet();
+        setit = new Setit();
+        relaatiot = new Relaatiot();
+        
+       // setTiedosto(nimi);
+        kappaleet.lueTiedostosta(nimi);
+        setit.lueTiedostosta(nimi);
+        relaatiot.lueTiedostosta(nimi);
+    }
+    
+    
+
+    /**
+     * Tallettaa kerhon tiedot tiedostoon
+     * @throws SailoException jos tallettamisessa ongelmia
+     */
+    public void tallenna() throws SailoException {
+        String virhe = "";
+        try {
+            kappaleet.tallenna(hakemisto);
+        } catch ( SailoException ex ) {
+            virhe = ex.getMessage();
+        }
+
+        try {
+            setit.tallenna(hakemisto);
+        } catch ( SailoException ex ) {
+            virhe += ex.getMessage();
+        }
+        
+        try {
+            relaatiot.tallenna(hakemisto);
+        } catch ( SailoException ex ) {
+            virhe += ex.getMessage();
+        }
+        
+        if ( !"".equals(virhe) ) throw new SailoException(virhe);
+    }
+
+    
+    
+
     
     /**
      * Lis‰t‰‰n uusi setti
@@ -63,15 +112,6 @@ public class Music {
         relaatiot.lisaa(rel);
     }
     
-    
-    /**
-     * palauttaa kappaleen nimen
-     * @param kappaleTunnus kappaleen tunnusnumero
-     */
-    public void getKappaleNimi(int kappaleTunnus) {
-        this.getKappaleNimi(kappaleTunnus);       
-    }
-  
 
     /**
      * @param args ei k‰ytˆss‰

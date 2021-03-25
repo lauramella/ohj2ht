@@ -1,19 +1,26 @@
 package music2;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * CRC-kortti
- |------------------------------------------------------------------------|
+|------------------------------------------------------------------------|
 | Luokan nimi: Relaatiot                             | Avustajat:        |
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
-|                                                    | - Kappale         |
-| - huolehtii Kappaleet ja Setit -luokkien välisestä | - Setti           |
-|   yhteistyöstä ja välittää näitä tietoja pyydet-   | - Kappaleet       |
-|   täessä                                           | - Setit           |
+|                                                    | - Relaatio        |
+| - huolehtii Kappaleet ja Setit -luokkien välisestä |                   |
+|   yhteistyöstä ja välittää näitä tietoja pyydet-   |                   |
+|   täessä                                           |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -29,10 +36,9 @@ import java.util.List;
  * @version 12.3.2021
  *
  */
-public class Relaatiot {
+public class Relaatiot implements Iterable<Relaatio> {
     private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
     private String nimi = "";
-    private int lkm;
 
 
     /**
@@ -49,6 +55,54 @@ public class Relaatiot {
     public void lisaa(Relaatio rel) {
         alkiot.add(rel);
     }
+    
+    
+    /**
+     * Lukee relaatiot tiedostosta
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     */
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        String nimi1 = hakemisto + "/relaatiot.dat";
+        File ftied = new File(nimi1);
+        try (Scanner fi = new Scanner(new FileInputStream(ftied))) { 
+            while ( fi.hasNext() ) {
+                String s = "";
+                s = fi.nextLine().trim();
+                if ( "".equals(s) || s.charAt(0) == ';' ) continue;
+                Relaatio relaatio = new Relaatio(1,1);
+                relaatio.parse(s); //vois palauttaa jotain?
+                lisaa(relaatio);
+            }
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
+        //} catch ( IOException e ) {
+            //throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    }
+
+    
+    /**
+     * Tallentaa relaatiot tiedostoon.
+     * Tiedoston muoto:
+     * <pre>
+     * 1 |2  |1
+     * 3 |4  |1
+     * </pre> 
+     * @param tiednimi tallennettavan tiedoston nimi
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void tallenna(String tiednimi) throws SailoException {
+        File ftied = new File(tiednimi + "/relaatiot.dat");
+        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
+            for (var relaatiot: alkiot) {
+                fo.println(relaatiot.toString());
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("Tiedosto " + ftied.getAbsolutePath() + " ei aukea.");
+            return;
+        }       
+    }
 
 
     /**
@@ -57,6 +111,13 @@ public class Relaatiot {
      */
     public static void main(String[] args) {
         Relaatiot relaatiot = new Relaatiot();
+        
+        try {
+            relaatiot.lueTiedostosta("musa");
+        } catch (SailoException e1) {
+            System.err.println(e1.getMessage());
+        }
+        
         Relaatio rel1 = new Relaatio(1,1);
         Relaatio rel2 = new Relaatio(2,1);
         Relaatio rel3 = new Relaatio(3,1);
@@ -77,6 +138,12 @@ public class Relaatiot {
           for (Relaatio rel : relaatioLista) {
                    rel.tulosta(System.out);
               }
+          
+          try {
+              relaatiot.tallenna("musa");
+          } catch (SailoException e) {
+              e.printStackTrace();
+          }
 
     }   
 
@@ -113,6 +180,13 @@ public class Relaatiot {
         for (Relaatio rel : alkiot)
             if (rel.getSettiNro()== settiTunnusNro) loydetyt.add(rel);
         return loydetyt;
-    }   
+    }
+
+
+        @Override
+        public Iterator<Relaatio> iterator() {
+            return alkiot.iterator();
+        }  
+
 
 }

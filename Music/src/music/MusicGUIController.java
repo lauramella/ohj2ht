@@ -34,23 +34,11 @@ public class MusicGUIController implements Initializable {
     @FXML private ScrollPane panelKappale;
     @FXML private ScrollPane panelSetti;
 
-   private String username = "User1";
+   private String username = "musa";
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         alusta();
-    }
-    
-    
-    /**
-     * @param nimi tiedosto josta kerhon tiedot luetaan
-     */
-    protected void lueTiedosto(String nimi) {
-        username = nimi;
-        // setTitle("Kerho - " + username);
-        String virhe = "Ei osata lukea viel‰";  // TODO: t‰h‰n oikea tiedoston lukeminen
-        // if (virhe != null) 
-        Dialogs.showMessageDialog(virhe);
     }
 
 
@@ -62,14 +50,6 @@ public class MusicGUIController implements Initializable {
         if (uusinimi == null) return true;
         lueTiedosto(uusinimi);
         return true;
-    }
-    
-
-    /**
-     * Tallennetaan ja samalla suljetaan sovellus.
-     */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Suljetaan sovellus.");
     }
     
 
@@ -160,9 +140,41 @@ public class MusicGUIController implements Initializable {
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
         chooserbiisiLista.clear();
         comboSets.addSelectionListener(e -> naytaSetti());
-    }   
+    } 
     
     
+    private String tallenna() {
+        try {
+            music.tallenna();
+            return null;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
+    }
+   
+    
+    /**
+     * TODO
+     * @param nimi kayttajan nimi
+     * @return palauttaa null muuten antaa ilmoituksen virhe
+     */
+    protected String lueTiedosto(String nimi) {
+        username = nimi;
+        // setTitle("Kerho - " + username);
+        try {
+            music.lueTiedostosta(nimi);
+            haeKappaleTiedot(0);
+            return null;
+        } catch (SailoException e) {
+            haeKappaleTiedot(0);
+            String virhe = e.getMessage(); 
+            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+    }
+
+      
     /**
      * Lis‰t‰‰n tietty kappale settiin
      */
@@ -195,7 +207,8 @@ public class MusicGUIController implements Initializable {
      * Haetaan kappale ja laitetaan se valituksi
      * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
      */ 
-    private void haeSetti(int snro) {       
+    private void haeSetti(int snro) {
+        //comboSets.clear();  silmukassa kysyt‰‰n tietokannasta kaikki setit  
         List<Relaatio> relaatioLista = music.annaRelaatiot(snro);
         for (Relaatio rel : relaatioLista) {
             rel.tulosta(System.out);

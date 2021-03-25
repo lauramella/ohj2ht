@@ -37,6 +37,10 @@ public class Main extends Application {
 
             primaryStage.show();
             if ( !musicCtrl.avaa() ) Platform.exit();
+            
+
+
+            
         } catch(Exception e) {
             e.printStackTrace();
         }}

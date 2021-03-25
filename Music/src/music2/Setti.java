@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Tarkistus;
 
 
@@ -15,8 +16,8 @@ import kanta.Tarkistus;
 | Luokan nimi: Setti                                 | Avustajat:        |
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
-|                                                    | - Kappale         |
-| - pit‰‰ yll‰ varsinaista rekisteri‰ kappaleista    | - Kappaleet       |
+|                                                    | -                 |
+| - pit‰‰ yll‰ varsinaista rekisteri‰ kappaleista    | -                 |
 |   tietyss‰ listassa                                | -                 |
 | - lukee ja kirjoittaa kappaleet tiedostoon         |                   |
 |   pyyt‰m‰ll‰ apua avustajiltaan                    |                   |
@@ -78,7 +79,7 @@ public class Setti {
      * <pre name="test">
      *  Setti setti1 = new Setti();
      *  setti1.getTunnusNro() === 0;
-     *  setti11.rekisteroi();
+     *  setti1.rekisteroi();
      *  Setti setti2 = new Setti();
      *  setti2.rekisteroi();
      *  int n1 = setti1.getTunnusNro();
@@ -93,6 +94,20 @@ public class Setti {
     }
     
     
+
+
+    /**
+     * Asettaa tunnusnumeron ja samalla varmistaa ett‰
+     * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nro) {
+        tunnusNro = nro;
+        if ( tunnusNro >= seuraavaNro ) seuraavaNro = tunnusNro + 1;
+    }
+
+    
+    
     /**
      * Apumetodi, jolla saadaan t‰yetty‰ testiarvot Setille.
      */
@@ -102,7 +117,7 @@ public class Setti {
     }
     
     /**
-     * @return Kappaleen nimi
+     * @return Setin nimi
      */
     public String getNimi() {
         return name;
@@ -131,9 +146,50 @@ public class Setti {
          
     }
     
+    
+    /**
+     * Palauttaa setin tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return setti tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Setti setti = new Setti();
+     *   setti.parse("   2   |  Setti1 | 4 ");
+     *   setti.toString()    === "2|Setti1|4";
+     * </pre>
+     */
     @Override
     public String toString() {
-        return name;
+        //return name;
+        return "" + getTunnusNro() + "|" + name + "|" + kappaleetMaara;
     }
+    
+    
+
+    /**
+     * Selvit‰‰ setin tiedot | erotellusta merkkijonosta.
+     * Pit‰‰ huolen ett‰ seuraavaNro on suurempi kuin tuleva tunnusnro.
+     * @param rivi josta setin tiedot otetaan
+     * @example
+     * <pre name="test">
+     *   Setti setti = new Setti();
+     *   setti.parse("   2   |  Setti1  | 3 ");
+     *   setti.toString()    === "2|Setti1|3";
+     *   
+     *   setti.rekisteroi();
+     *   int n = setti.getTunnusNro();
+     *   setti.parse(""+(n+20));
+     *   setti.rekisteroi();
+     *   setti.getTunnusNro() === n+20+1;
+     *   setti.toString()     === "" + (n+20+1) + "|Setti1|3";
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuilder sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        name = Mjonot.erota(sb, '|', name);
+        kappaleetMaara = Mjonot.erota(sb, '|', kappaleetMaara);
+    }
+
+
    
 }

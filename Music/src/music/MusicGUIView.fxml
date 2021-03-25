@@ -177,10 +177,12 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#handleAddTrack" text="Add track">
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   <Button layoutX="669.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleDeleteTrack" text="Delete track" />
+                  <Button mnemonicParsing="false" text="Up" />
+                  <Button mnemonicParsing="false" text="Down" />
                </children>
                <BorderPane.margin>
                   <Insets />

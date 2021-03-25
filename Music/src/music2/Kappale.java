@@ -6,6 +6,7 @@ package music2;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
 import kanta.*;
 
 /**
@@ -142,10 +143,72 @@ public class Kappale {
     
     @Override
     public String toString() {
-        return artist + " " + name;
+        //return artist + " | " + name;
+        return "" +
+            getTunnusNro() + "|" +
+            artist + "|" +
+            name + "|" +
+            format + "|" +
+            label + "|" +
+            bpm + "|" +
+            length + "|" +
+            genre + "|" +
+            style + "|" +
+            released + "|" +
+            country + "|" + 
+            info;
     }
     
+    
+    /**
+     * Asettaa tunnusnumeron ja samalla varmistaa ett‰
+     * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+    }
+    
+    
+    /**
+     * Selvit‰‰ kappaleen tiedot | erotellusta merkkijonosta
+     * Pit‰‰ huolen ett‰ seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * @param rivi josta kappaleen tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Kappale kappale = new Kappale();
+     *   kappale.parse("   3  |  Guy From Downstairs   | Nokia");
+     *   kappale.getTunnusNro() === 3;
+     *   kappale.toString().startsWith("3|Guy From Downstairs|Nokia|") === true; // on enemm‰kin kuin 3 kentt‰‰, siksi loppu |
+     *
+     *   kappale.rekisteroi();
+     *   int n = kappale.getTunnusNro();
+     *   kappale.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   kappale.rekisteroi();           // ja tarkistetaan ett‰ seuraavalla kertaa tulee yht‰ isompi
+     *   kappale.getTunnusNro() === n+20+1;
+     *     
+     * </pre>
+     */
 
+    public void parse(String rivi) {
+        var sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        artist = Mjonot.erota(sb, '|', artist);
+        name = Mjonot.erota(sb, '|', name);
+        format = Mjonot.erota(sb, '|', format);
+        label = Mjonot.erota(sb, '|', label);
+        bpm = Mjonot.erota(sb, '|', bpm);
+        length = Mjonot.erota(sb, '|', length);
+        genre = Mjonot.erota(sb, '|', genre);
+        style = Mjonot.erota(sb, '|', style);
+        released = Mjonot.erota(sb, '|', released);
+        country = Mjonot.erota(sb, '|', country);
+        info = Mjonot.erota(sb, '|', info);
+    }
+
+    
     /**
      * Palauttaa kappaleen tunnusnumeron
      * @return kappaleen tunnusnumero

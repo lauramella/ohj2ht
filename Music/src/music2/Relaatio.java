@@ -3,6 +3,8 @@ package music2;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * CRC-kortti
 |------------------------------------------------------------------------|
@@ -72,6 +74,45 @@ public class Relaatio {
         seuraavaNro++;
         return this.tunnusNro;
     }
+    
+    
+    /**
+     * Asettaa tunnusnumeron ja samalla varmistaa ett‰
+     * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+    }
+    
+    
+    /**
+     * Selvit‰‰ relaation tiedot | erotellusta merkkijonosta
+     * Pit‰‰ huolen ett‰ seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * @param rivi josta relaation tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Relaatio relaatio = new Relaatio(1,1);
+     *   relaatio.parse("   2  |  1   | 1");
+     *   relaatio.getTunnusNro() === 2;
+     *   relaatio.toString()    === "2|1|1";
+     *   relaatio.rekisteroi();
+     *   int n = relaatio.getTunnusNro();
+     *   relaatio.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   relaatio.rekisteroi();           // ja tarkistetaan ett‰ seuraavalla kertaa tulee yht‰ isompi
+     *   relaatio.getTunnusNro() === n+20+1;
+     *     
+     * </pre>
+     */
+
+    public void parse(String rivi) {
+        var sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        kappaleNro = Mjonot.erota(sb, '|', kappaleNro);
+        settiNro = Mjonot.erota(sb, '|', settiNro);
+    }
   
        
     /**
@@ -101,10 +142,20 @@ public class Relaatio {
     }
     
     
-    
+    /**
+     * Palauttaa relaation tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return relaatio tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Relaatio relaatio = new Relaatio(1,2);
+     *   relaatio.parse("   1   |  1 | 2 ");
+     *   relaatio.toString()    === "1|1|2";
+     * </pre>
+     */
     @Override
     public String toString() {
-        return "Relaatio: " + tunnusNro;
+        //return "Relaatio: " + tunnusNro;
+        return "" + getTunnusNro() + "|" + kappaleNro + "|" + settiNro;
     }
    
     
