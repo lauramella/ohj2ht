@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -36,12 +36,13 @@ import java.util.Scanner;
  * @version 27.2.2021
  *
  */
-public class Kappaleet {
+public class Kappaleet implements Cloneable {
     
     private static final int MAX_KAPPALEITA = 5;
     private int lkm = 0;
     private String tiedostonNimi = "";
     private Kappale[] alkiot;
+    private boolean muutettu = false;
 
     
     /**
@@ -76,9 +77,12 @@ public class Kappaleet {
      */
     
     public void lisaa(Kappale kappale) throws SailoException{
-        if (lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+        if (lkm >= alkiot.length) 
+            alkiot = Arrays.copyOf(alkiot, alkiot.length+10);
+            //throw new SailoException("Liikaa alkioita");
         this.alkiot[this.lkm] = kappale;
         lkm++;
+        muutettu = true;
     }
     
     /**
@@ -131,6 +135,7 @@ public class Kappaleet {
                 kappale.parse(s); //vois palauttaa jotain?
                 lisaa(kappale);
             }
+            muutettu = false;
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi);
         //} catch ( IOException e ) {
@@ -150,6 +155,9 @@ public class Kappaleet {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
+        if ( !muutettu ) return;
+        if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
+        //boolean muutettu true tallenna
         File ftied = new File(tiednimi + "/kappaleet.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (int i = 0; i < getLkm(); i++) {
@@ -159,7 +167,8 @@ public class Kappaleet {
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedosto " + ftied.getAbsolutePath() + " ei aukea.");
             return;
-        }       
+        } 
+        muutettu = false;
     }
     
     

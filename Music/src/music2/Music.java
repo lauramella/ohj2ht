@@ -64,6 +64,14 @@ public class Music {
     }
     
     
+    /**
+     * @param hakemisto hakemisto
+     */
+    public void setHakemisto(String hakemisto) {
+        this.hakemisto = hakemisto;
+    }
+    
+    
 
     /**
      * Tallettaa kerhon tiedot tiedostoon

@@ -39,6 +39,7 @@ import java.util.Scanner;
 public class Relaatiot implements Iterable<Relaatio> {
     private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
     private String nimi = "";
+    private boolean muutettu = false;
 
 
     /**
@@ -54,6 +55,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      */
     public void lisaa(Relaatio rel) {
         alkiot.add(rel);
+        muutettu = true;
     }
     
     
@@ -74,6 +76,7 @@ public class Relaatiot implements Iterable<Relaatio> {
                 relaatio.parse(s); //vois palauttaa jotain?
                 lisaa(relaatio);
             }
+            muutettu = false;
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
         //} catch ( IOException e ) {
@@ -93,6 +96,8 @@ public class Relaatiot implements Iterable<Relaatio> {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
+        if ( !muutettu ) return;
+        if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
         File ftied = new File(tiednimi + "/relaatiot.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (var relaatiot: alkiot) {
@@ -101,7 +106,8 @@ public class Relaatiot implements Iterable<Relaatio> {
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedosto " + ftied.getAbsolutePath() + " ei aukea.");
             return;
-        }       
+        } 
+        muutettu = false;
     }
 
 

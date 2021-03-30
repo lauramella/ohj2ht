@@ -34,7 +34,6 @@ public class MusicGUIController implements Initializable {
     @FXML private ScrollPane panelKappale;
     @FXML private ScrollPane panelSetti;
 
-   private String username = "musa";
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -47,7 +46,8 @@ public class MusicGUIController implements Initializable {
      */
     public boolean avaa() {
         String uusinimi = LoginController.kysyNimi(null, username);
-        if (uusinimi == null) return true;
+        if (uusinimi == null) return false;
+        music.setHakemisto(uusinimi);
         lueTiedosto(uusinimi);
         return true;
     }
@@ -125,6 +125,7 @@ public class MusicGUIController implements Initializable {
     private TextArea areaSetti = new TextArea();
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
+    private String username = "musa";
     
     /**
      * Alustus
@@ -152,6 +153,7 @@ public class MusicGUIController implements Initializable {
             return ex.getMessage();
         }
     }
+    
    
     
     /**
@@ -164,7 +166,9 @@ public class MusicGUIController implements Initializable {
         // setTitle("Kerho - " + username);
         try {
             music.lueTiedostosta(nimi);
+            haeSetit();
             haeKappaleTiedot(0);
+            naytaSetti();
             return null;
         } catch (SailoException e) {
             haeKappaleTiedot(0);
@@ -172,7 +176,7 @@ public class MusicGUIController implements Initializable {
             if ( virhe != null ) Dialogs.showMessageDialog(virhe);
             return virhe;
         }
-    }
+    }   
 
       
     /**
@@ -225,9 +229,23 @@ public class MusicGUIController implements Initializable {
         setti.rekisteroi();
         setti.taytaSettiTiedoilla(); //Korvaa dialogilla
         music.lisaa(setti);
-        comboSets.add(setti);
+        haeSetit();
         haeSetti(setti.getTunnusNro());
+        naytaSetti();
     }
+    
+    
+    /**
+    * Hakee setit
+    */
+    public void haeSetit() { 
+        comboSets.clear();
+        List<Setti> settiLista = music.annaSetit();
+            for (Setti set : settiLista) {
+                 comboSets.add(set);
+           }
+    }
+  
     
     
     /**
@@ -243,8 +261,8 @@ public class MusicGUIController implements Initializable {
             chooserKappaleet.add(kappale.getNimi(), kappale);
         }
         chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
-    } 
-    
+    }
+       
            
     /**
      * Lis‰t‰‰n uusi kappale

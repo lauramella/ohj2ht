@@ -34,7 +34,7 @@
       </Label>
    </left>
    <right>
-      <ComboBoxChooser fx:id="textVastaus1" prefWidth="150.0" rivit="User1&#10;User2" BorderPane.alignment="CENTER">
+      <ComboBoxChooser fx:id="textVastaus1" prefWidth="150.0" rivit="musa&#10;User2" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="30.0" />
          </BorderPane.margin>

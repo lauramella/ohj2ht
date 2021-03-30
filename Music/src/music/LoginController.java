@@ -19,7 +19,9 @@ public class LoginController implements ModalControllerInterface<String> {
         
         @FXML private Button buttonOk;
         @FXML private void handleOk() {
+           vastaus = textVastaus1.getSelectedText();
            ModalController.closeStage(textVastaus1);
+           
        }
 
                 

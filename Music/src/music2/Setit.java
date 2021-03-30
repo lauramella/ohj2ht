@@ -39,6 +39,7 @@ import java.util.Scanner;
 public class Setit {
     private Collection<Setti> alkiot = new ArrayList<Setti>();
     private String nimi = "";
+    private boolean muutettu = false;
 
 
     /**
@@ -54,6 +55,7 @@ public class Setit {
      */
     public void lisaa(Setti setti) {
         alkiot.add(setti);
+        muutettu = true;
     }
   
 
@@ -142,6 +144,7 @@ public class Setit {
                 setti.parse(s); // voisi olla virhekäsittely
                 lisaa(setti);
             }
+            muutettu = false;
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
         }
@@ -155,18 +158,22 @@ public class Setit {
      * 2|Minimal|5
      * 3|Setti4|5
      * </pre>
-     * @param hakemisto tallennettavan tiedoston hakemisto
+     * @param tiednimi tallennettavan tiedoston hakemisto
      * @throws SailoException jos talletus epäonnistuu
      */
-    public void tallenna(String hakemisto) throws SailoException {
-        File ftied = new File(hakemisto + "/setit.dat");
+    public void tallenna(String tiednimi) throws SailoException {
+        if ( !muutettu ) return;
+        if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
+        File ftied = new File(tiednimi + "/setit.dat");
+        
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (var sets: alkiot) {
                 fo.println(sets.toString());
             }
         } catch (FileNotFoundException ex) {
             throw new SailoException("Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
-        }        
+        }
+        muutettu = false;
     }
     
     
