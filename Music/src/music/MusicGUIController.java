@@ -108,6 +108,8 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleNewTrack() {
+        //var resurssi = MusicGUIController.class.getResource("AddNewTrackView.fxml");
+        //ModalController.showModal(resurssi, "Track Info", null, "");
        // Dialogs.showMessageDialog("Ei osata viel‰ lis‰t‰ uutta kappaletta");
         uusiKappale();
     }
@@ -141,6 +143,7 @@ public class MusicGUIController implements Initializable {
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
         chooserbiisiLista.clear();
         comboSets.addSelectionListener(e -> naytaSetti());
+        comboSets.clear();
     } 
     
     
@@ -211,8 +214,7 @@ public class MusicGUIController implements Initializable {
      * Haetaan kappale ja laitetaan se valituksi
      * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
      */ 
-    private void haeSetti(int snro) {
-        //comboSets.clear();  silmukassa kysyt‰‰n tietokannasta kaikki setit  
+    private void haeSetti(int snro) { 
         List<Relaatio> relaatioLista = music.annaRelaatiot(snro);
         for (Relaatio rel : relaatioLista) {
             rel.tulosta(System.out);
@@ -229,9 +231,10 @@ public class MusicGUIController implements Initializable {
         setti.rekisteroi();
         setti.taytaSettiTiedoilla(); //Korvaa dialogilla
         music.lisaa(setti);
+        naytaSetti();
         haeSetit();
         haeSetti(setti.getTunnusNro());
-        naytaSetti();
+        //naytaSetti();
     }
     
     
@@ -239,7 +242,6 @@ public class MusicGUIController implements Initializable {
     * Hakee setit
     */
     public void haeSetit() { 
-        comboSets.clear();
         List<Setti> settiLista = music.annaSetit();
             for (Setti set : settiLista) {
                  comboSets.add(set);

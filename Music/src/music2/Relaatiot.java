@@ -54,6 +54,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * @param rel lisättävä setti
      */
     public void lisaa(Relaatio rel) {
+        rel.rekisteroi();
         alkiot.add(rel);
         muutettu = true;
     }
