@@ -2,15 +2,18 @@ package music;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import music2.Kappale;
 import music2.Music;
@@ -27,12 +30,26 @@ import music2.Setti;
 public class MusicGUIController implements Initializable {
 
     @FXML private TextField hakuehto;
+    @FXML private Label labelVirhe;
+    @FXML private ComboBoxChooser<String> cbKentat;
     @FXML private ComboBoxChooser<String> comboTracks;
     @FXML private ComboBoxChooser<Setti> comboSets;
     @FXML private ListChooser<Kappale> chooserKappaleet;
     @FXML private ListChooser<Kappale> chooserbiisiLista; 
+    @FXML private GridPane gridKappale;
     @FXML private ScrollPane panelKappale;
-    @FXML private ScrollPane panelSetti;
+    @FXML private ScrollPane panelSetti;   
+    @FXML private TextField editArtist;
+    @FXML private TextField editName;
+    @FXML private TextField editFormat;
+    @FXML private TextField editLabel;
+    @FXML private TextField editBpm;
+    @FXML private TextField editLength;
+    @FXML private TextField editGenre;
+    @FXML private TextField editStyle;
+    @FXML private TextField editReleased;
+    @FXML private TextField editCountry;
+    @FXML private TextField editInfo;
 
     
     @Override
@@ -97,7 +114,6 @@ public class MusicGUIController implements Initializable {
     
 
     @FXML private void handleAddTrack() {
-       // Dialogs.showMessageDialog("Ei osata viel‰ lis‰t‰ kappaletta settiin");
         kappaleSettiin();
     }
     
@@ -116,25 +132,25 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleEdit() {
-        muokkaa();
+        muokkaa(1);
     }
     
 //==================================================
     
     private Music music;    
-    private TextArea areaKappale = new TextArea();
     private TextArea areaSetti = new TextArea();
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
     private String username = "musa";
+    private TextField edits[];
+    private int kentta = 0; 
     
     /**
-     * Alustus
+     * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
+     * yksi iso tekstikentt‰, johon voidaan tulostaa kappaleiden tiedot.
+     * Alustetaan myˆs kappalelistan kuuntelija
      */
     private void alusta() {
-        panelKappale.setContent(areaKappale);
-        areaKappale.setFont(new Font("Courier New", 12));
-        panelKappale.setFitToHeight(true);
         panelSetti.setContent(areaSetti);
         areaSetti.setFont(new Font("Courier New", 12));
         panelSetti.setFitToHeight(true);
@@ -143,9 +159,30 @@ public class MusicGUIController implements Initializable {
         chooserbiisiLista.clear();
         comboSets.addSelectionListener(e -> naytaSetti());
         comboSets.clear();
-    } 
+        edits = EditTrackController.luoKentat(gridKappale); 
+        for (TextField edit: edits)  
+            if ( edit != null ) {  
+                edit.setEditable(false);  
+                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(EditTrackController.getFieldId(e.getSource(),0)); });  
+                edit.focusedProperty().addListener((a,o,n) -> kentta = EditTrackController.getFieldId(edit,kentta));  
+            }
+        }
     
     
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+   
+   /**
+    * Tietojen tallennus
+    * @return null jos onnistuu, muuten virhe tekstin‰
+    */
     private String tallenna() {
         try {
             music.tallenna();
@@ -157,8 +194,19 @@ public class MusicGUIController implements Initializable {
     }
     
     
-    private void muokkaa() {
-        EditTrackController.kysyKappale(null, kappaleKohdalla);
+    private void muokkaa(int k) {
+        if (kappaleKohdalla == null) return;
+        try {
+            Kappale kappale;
+            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k);
+            if (kappale == null) return;
+            music.korvaaTaiLisaa(kappale);
+            haeKappaleTiedot(kappale.getTunnusNro());
+        } catch (CloneNotSupportedException e) {  
+            // 
+        } catch (SailoException e) { 
+            Dialogs.showMessageDialog(e.getMessage()); 
+        }
     }
     
    
@@ -251,7 +299,6 @@ public class MusicGUIController implements Initializable {
                  comboSets.add(set);
            }
     }
-  
     
     
     /**
@@ -259,13 +306,26 @@ public class MusicGUIController implements Initializable {
      * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
      */ 
     private void haeKappaleTiedot(int knro) {
+        int k = cbKentat.getSelectionModel().getSelectedIndex();
+        String ehto = hakuehto.getText(); 
+        if (k > 0 || ehto.length() > 0)
+        naytaVirhe(String.format("Ei osata hakea (kentt‰: %d, ehto: %s)", k, ehto));
+        else
+            naytaVirhe(null);
+        
         chooserKappaleet.clear();        
         int index = 0;
-        for (int i = 0; i < music.getKappaleet(); i++) {
-            Kappale kappale = music.annaKappale(i);
-            if (kappale.getTunnusNro() == knro) index = i;
-            chooserKappaleet.add(kappale.getName(), kappale);
-        }
+        Collection<Kappale> kappaleet;
+        try {
+            kappaleet = music.etsi(ehto, k);
+            int i = 0;
+            for (Kappale kappale:kappaleet) {
+                if (kappale.getTunnusNro() == knro) index = i;
+                chooserKappaleet.add(kappale.getName(), kappale);
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Kappaleen hakemisessa ongelmia! " + ex.getMessage());
+        }       
         chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
     }
        
@@ -274,28 +334,17 @@ public class MusicGUIController implements Initializable {
      * Lis‰t‰‰n uusi kappale
      */
     private void uusiKappale() {
-        Kappale kappale = new Kappale();
-        kappale.rekisteroi();
-        kappale.taytaKappaleTiedoilla(); //Korvaa dialogilla
         try {
+            Kappale kappale = new Kappale();
+            kappale = EditTrackController.kysyKappale(null, kappale, 1);
+            if ( kappale == null ) return;
+            kappale.rekisteroi();
             music.lisaa(kappale);
+            haeKappaleTiedot(kappale.getTunnusNro());
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia kappaleen lis‰‰misess‰");
             return;
         }
-        haeKappaleTiedot(kappale.getTunnusNro());
-    }
-
-    
-    /**
-     * Tulostaa kappaleen tiedot
-     * @param os tietovirta johon tulostetaan
-     * @param kappale joka tulostetaan
-     */
-    private void tulosta(PrintStream os, final Kappale kappale) {
-        os.println("---------------------------------");
-        kappale.tulosta(os);
-        os.println("---------------------------------");
     }
     
     
@@ -316,15 +365,11 @@ public class MusicGUIController implements Initializable {
     /**
      * N‰ytet‰‰n kappale
      */
-    private void naytaKappale() {
-        kappaleKohdalla = chooserKappaleet.getSelectedObject();
-        
+    protected void naytaKappale() {
+        kappaleKohdalla = chooserKappaleet.getSelectedObject();       
         if (kappaleKohdalla == null) return;
         
-        areaKappale.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKappale)){
-           tulosta(os, kappaleKohdalla);
-        }
+        EditTrackController.naytaKappale(edits, kappaleKohdalla);
     }
     
     

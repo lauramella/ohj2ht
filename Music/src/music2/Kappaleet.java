@@ -8,7 +8,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -36,11 +40,12 @@ import java.util.Scanner;
  * @version 27.2.2021
  *
  */
-public class Kappaleet implements Cloneable {
+public class Kappaleet implements Iterable<Kappale> {
     
     private static final int MAX_KAPPALEITA = 5;
     private int lkm = 0;
-    private String tiedostonNimi = "";
+    private String kokoNimi = "";
+    private String tiedostonNimi = "kappaleet";
     private Kappale[] alkiot;
     private boolean muutettu = false;
 
@@ -65,17 +70,13 @@ public class Kappaleet implements Cloneable {
      * kappaleet.lisaa(kappale1); kappaleet.getLkm() ===1;
      * kappaleet.lisaa(kappale2); kappaleet.getLkm() ===2;
      * kappaleet.lisaa(kappale1); kappaleet.getLkm() ===3;
-     * kappaleet.anna(0) === kappale1;
-     * kappaleet.anna(1) === kappale2;
-     * kappaleet.anna(2) === kappale1;
-     * kappaleet.anna(1) == kappale1 === false;
-     * kappaleet.anna(1) == kappale2 === true;
-     * kappaleet.anna(3) === kappale1; #THROWS IndexOutOfBoundsException
+     * Iterator<Kappale> it = kappaleet.iterator(); 
+     * it.next() === kappale1;
+     * it.next() === kappale2; 
+     * it.next() === kappale1;  
      * kappaleet.lisaa(kappale1); kappaleet.getLkm() === 4;
      * kappaleet.lisaa(kappale1); kappaleet.getLkm() === 5;
-     * kappaleet.lisaa(kappale1); #THROWS SailoException
-     */
-    
+     */   
     public void lisaa(Kappale kappale) throws SailoException{
         if (lkm >= alkiot.length) 
             alkiot = Arrays.copyOf(alkiot, alkiot.length+10);
@@ -169,6 +170,163 @@ public class Kappaleet implements Cloneable {
             return;
         } 
         muutettu = false;
+    }
+    
+    
+    /**
+     * Korvaa kappaleen tietorakenteessa.  Ottaa kappaleen omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva kappale.  Jos ei löydy,
+     * niin lisätään uutena jäsenenä.
+     * @param kappale lisätäävän kappaleen viite.  Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Kappaleet kappaleet = new Kappaleet();
+     * Kappale kappale1 = new Kappale(), kappale2 = new Kappale();
+     * kappale1.rekisteroi(); kappale2.rekisteroi();
+     * kappaleet.getLkm() === 0;
+     * kappaleet.korvaaTaiLisaa(kappale1); kappaleet.getLkm() === 1;
+     * kappaleet.korvaaTaiLisaa(kappale2); kappaleet.getLkm() === 2;
+     * Kappale kappale3 = kappale1.clone();
+     * kappale3.aseta(3,"kkk");
+     * Iterator<Kappale> it = kappaleet.iterator();
+     * it.next() == kappale1 === true;
+     * kappaleet.korvaaTaiLisaa(kappale3); kappaleet.getLkm() === 2;
+     * it = kappaleet.iterator();
+     * Kappale k0 = it.next();
+     * k0 === kappale3;
+     * k0 == kappale3 === true; 
+     * k0 == kappale1 === false;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Kappale kappale) throws SailoException {
+       int id = kappale.getTunnusNro();
+       for (int i = 0; i < lkm; i++) {
+           if ( alkiot[i].getTunnusNro() == id ) {
+               alkiot[i] = kappale;
+               muutettu = true;
+               return;
+           }
+       }
+       lisaa(kappale);
+    }
+    
+    
+    /**
+     * Luokka kappaleiden iteroimiseksi.
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #PACKAGEIMPORT
+     * #import java.util.*;
+     * 
+     * Kappaleet kappaleet = new Kappaleet();
+     * Kappale kappale1 = new Kappale(), kappale2 = new Kappale();
+     * kappale1.rekisteroi(); kappale2.rekisteroi();
+     *
+     * kappaleet.lisaa(kappale1); 
+     * kappaleet.lisaa(kappale2); 
+     * kappaleet.lisaa(kappale1); 
+     * 
+     * StringBuilder ids = new StringBuilder(30);
+     * for (Kappale kappale:kappaleet)   // Kokeillaan for-silmukan toimintaa
+     *   ids.append(" "+kappale.getTunnusNro());           
+     * 
+     * String tulos = " " + kappale1.getTunnusNro() + " " + kappale2.getTunnusNro() + " " + kappale1.getTunnusNro();
+     * 
+     * ids.toString() === tulos; 
+     * 
+     * ids = new StringBuilder(30);
+     * for (Iterator<Kappale>  i=kappaleet.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
+     *   Kappale kappale = i.next();
+     *   ids.append(" "+kappale.getTunnusNro());           
+     * }
+     * 
+     * ids.toString() === tulos;
+     * 
+     * Iterator<Kappale>  i=kappaleet.iterator();
+     * i.next() == kappale1  === true;
+     * i.next() == kappale2  === true;
+     * i.next() == kappale1  === true;
+     * 
+     * i.next();  #THROWS NoSuchElementException
+     *  
+     * </pre>
+     */
+    public class KappaleetIterator implements Iterator<Kappale> {
+        private int kohdalla = 0;
+    
+        /**
+         * Onko olemassa vielä seuraavaa kappaletta
+         * @see java.util.Iterator#hasNext()
+         * @return true jos on vielä kappaleita
+         */
+        @Override
+        public boolean hasNext() {
+            return kohdalla < getLkm();
+        }
+
+
+        /**
+         * Annetaan seuraava kappale
+         * @return seuraava kappale
+         * @throws NoSuchElementException jos seuraava alkiota ei enää ole
+         * @see java.util.Iterator#next()
+         */
+        @Override
+        public Kappale next() throws NoSuchElementException {
+            if ( !hasNext() ) throw new NoSuchElementException("Ei oo");
+            return anna(kohdalla++);
+        }
+        
+        
+        /**
+         * Tuhoamista ei ole toteutettu
+         * @throws UnsupportedOperationException aina
+         * @see java.util.Iterator#remove()
+         */
+        @Override
+        public void remove() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException("Me ei poisteta");
+            }
+        }
+    
+    /**
+     * Palautetaan iteraattori kappaleistaan.
+     * @return kappale iteraattori
+     */
+    @Override
+    public Iterator<Kappale> iterator() {
+        return new KappaleetIterator();
+    }
+    
+    
+    /** 
+     * Palauttaa "taulukossa" hakuehtoon vastaavien kappaleiden viitteet 
+     * @param hakuehto hakuehto 
+     * @param k etsittävän kentän indeksi  
+     * @return tietorakenteen löytyneistä kappaleista 
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     *   Kappaleet kappaleet = new Kappaleet(); 
+     *   Kappale kappale1 = new Kappale(); kappale1.parse("1|Alex|This For B|Vinyl|"); 
+     *   Kappale kappale2 = new Kappale(); kappale2.parse("2|Guy From Downstairs||Vinyl|"); 
+     *   Kappale kappale3 = new Kappale(); kappale3.parse("3|Sebastian Eric|Not This Time||Tzinah Records|130"); 
+     *   Kappale kappale4 = new Kappale(); kappale4.parse("4|Runy|Ice Queen|digi"); 
+     *   Kappale kappale5 = new Kappale(); kappale5.parse("5|Robag Wruhme|Yes|Digi"); 
+     *   kappaleet.lisaa(kappale1); kappaleet.lisaa(kappale2); kappaleet.lisaa(kappale3); kappaleet.lisaa(kappale4); kappaleet.lisaa(kappale5);
+     *   // TODO: toistaiseksi palauttaa kaikki kappaleet 
+     * </pre> 
+     */ 
+    @SuppressWarnings("unused")
+    public Collection<Kappale> etsi(String hakuehto, int k) { 
+        Collection<Kappale> loytyneet = new ArrayList<Kappale>(); 
+        for (Kappale kappale : this) { 
+            loytyneet.add(kappale);  
+        } 
+        return loytyneet; 
     }
     
     

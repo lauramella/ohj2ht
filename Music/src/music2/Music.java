@@ -3,7 +3,10 @@
  */
 package music2;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Iterator;
+import org.junit.*;
 
 /**
  * CRC - kortti
@@ -45,6 +48,30 @@ public class Music {
     public void lisaa(Kappale kappale) throws SailoException {
         this.kappaleet.lisaa(kappale);
     }
+    
+    
+    /** 
+     * Korvaa kappaleen tietorakenteessa.  Ottaa kapapleen omistukseensa. 
+     * Etsitään samalla tunnusnumerolla oleva kappale.  Jos ei löydy, 
+     * niin lisätään uutena kappaleena. 
+     * @param kappale lisättävän kappaleen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @throws SailoException jos tietorakenne on jo täynnä 
+     */
+    public void korvaaTaiLisaa(Kappale kappale) throws SailoException {
+        kappaleet.korvaaTaiLisaa(kappale);
+    }
+    
+    
+    /** 
+    * Palauttaa "taulukossa" hakuehtoon vastaavien kappaleiden viitteet 
+    * @param hakuehto hakuehto  
+    * @param k etsittävän kentän indeksi  
+    * @return tietorakenteen löytyneistä kappaleista
+    * @throws SailoException Jos jotakin menee väärin
+    */ 
+    public Collection<Kappale> etsi(String hakuehto, int k) throws SailoException { 
+        return kappaleet.etsi(hakuehto, k); 
+    } 
     
     
     /**
@@ -251,5 +278,4 @@ public class Music {
     public Kappale kappaleTunnus(int knro) {
         return kappaleet.kappaleTunnus(knro);
     }
-
 }

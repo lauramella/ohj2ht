@@ -1,16 +1,21 @@
 package music;
 
 import java.net.URL;
+import javafx.scene.Node;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.ohj2.Mjonot;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import music2.Kappale;
 
@@ -22,7 +27,7 @@ import music2.Kappale;
  */
 public class EditTrackController implements ModalControllerInterface<Kappale>, Initializable {
     
-
+    @FXML private GridPane gridKappale;
     @FXML private TextField editArtist;
     @FXML private TextField editName;
     @FXML private TextField editFormat;
@@ -33,8 +38,9 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     @FXML private TextField editStyle;
     @FXML private TextField editReleased;
     @FXML private TextField editCountry;
-    @FXML private TextArea editInfo;
+    @FXML private TextField editInfo;
     @FXML private Button buttonSulje;
+    @FXML private Label labelVirhe;
     
     @FXML private void handleCancel() {
         ModalController.closeStage(buttonSulje);;
@@ -45,7 +51,7 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
    }
     
     @FXML private void handleSave() {
-        Dialogs.showMessageDialog("Ei toimi tallennus");
+        //Dialogs.showMessageDialog("Ei toimi tallennus");
    }
     
     @Override
@@ -60,7 +66,8 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     
     @Override
     public void handleShown() {
-        editName.requestFocus();      
+        kentta = Math.max(apukappale.ekaKentta(), Math.min(kentta, apukappale.getKenttia()-1));
+        edits[kentta].requestFocus();      
     }
     
     
@@ -70,54 +77,143 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     @Override
     public void setDefault(Kappale oletus) {
         kappaleKohdalla = oletus;
-        naytaKappale(kappaleKohdalla);
+        naytaKappale(edits, kappaleKohdalla);
         
     }
     
     
     //========================================================================================================
     private Kappale kappaleKohdalla;
+    private static Kappale apukappale = new Kappale();
+    private TextField edits[];
+    private int kentta = 0;
+    
+    
+    /**
+    * Luodaan GridPaneen kappaleen tiedot
+    * @param gridKappale mihin tiedot luodaan
+    * @return luodut tekstikent‰t
+    */
+    public static TextField[] luoKentat(GridPane gridKappale) {
+        gridKappale.getChildren().clear();
+        TextField[] edits = new TextField[apukappale.getKenttia()];
+           
+        for (int i=0, k = apukappale.ekaKentta(); k < apukappale.getKenttia(); k++, i++) {
+            Label label = new Label(apukappale.getKysymys(k));
+            gridKappale.add(label, 0, i);
+            TextField edit = new TextField();
+            edits[k] = edit;
+            edit.setId("e"+k);
+            gridKappale.add(edit, 1, i);
+        }
+        return edits;
+    }
+    
+    
+    /**
+    * Tyhjent‰‰n tekstikent‰t 
+    * @param edits tyhjennett‰v‰t kent‰t
+    */
+    public static void tyhjenna(TextField[] edits) {
+        for (TextField edit: edits) 
+            if ( edit != null ) edit.setText(""); 
+    }
+    
+    
+    /**
+     * Palautetaan komponentin id:st‰ saatava luku
+     * @param obj tutkittava komponentti
+     * @param oletus mik‰ arvo jos id ei ole kunnollinen
+     * @return komponentin id lukuna 
+     */
+     public static int getFieldId(Object obj, int oletus) {
+         if ( !( obj instanceof Node)) return oletus;
+         Node node = (Node)obj;
+         return Mjonot.erotaInt(node.getId().substring(1),oletus);
+     }
+    
     
     /**
      * Tekee tarvittavat muut alustukset.
      */
     protected void alusta() {
-        //
+        edits = luoKentat(gridKappale);
+        for (TextField edit : edits)
+            if ( edit != null )
+                edit.setOnKeyReleased( e -> kasitteleMuutosKappaleeseen((TextField)(e.getSource())));        
+    }
+    
+    
+    private void setKentta(int kentta) {
+        this.kentta = kentta;
+    }
+    
+    
+    /**
+     * K‰sitell‰‰n kappaleeseen tullut muutos
+     * @param edit muuttunut kentt‰
+     */
+    private void kasitteleMuutosKappaleeseen(TextField edit) {
+        if (kappaleKohdalla == null) return;
+        int k = getFieldId(edit,apukappale.ekaKentta());
+        String s = edit.getText();
+        String virhe = null;
+        virhe = kappaleKohdalla.aseta(k,s); 
+        if (virhe == null) {
+            Dialogs.setToolTipText(edit,"");
+            edit.getStyleClass().removeAll("virhe");
+            naytaVirhe(virhe);
+        }
+        if (virhe == null) {
+            Dialogs.setToolTipText(edit,"");
+            edit.getStyleClass().removeAll("virhe");
+            naytaVirhe(virhe);
+        } else {
+            Dialogs.setToolTipText(edit,virhe);
+            edit.getStyleClass().add("virhe");
+            naytaVirhe(virhe);
+        }
+    }
+    
+    
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
     }
     
     
     /**
      * N‰ytet‰‰n kappaleen tiedot TextField komponentteihin
+     * @param edits taulukko jossa tekstikentti‰
      * @param kappale n‰ytett‰v‰ kappale
      */
-    public void naytaKappale(Kappale kappale) {
+    public static void naytaKappale(TextField[] edits, Kappale kappale) {
         if (kappale == null) return;
-        editArtist.setText(kappale.getArtist());
-        editName.setText(kappale.getName());
-        editFormat.setText(kappale.getFormat());
-        editLabel.setText(kappale.getLabel());
-        editBpm.setText(kappale.getBpm());
-        editLength.setText(kappale.getLength());
-        editGenre.setText(kappale.getGenre());
-        editStyle.setText(kappale.getStyle());
-        editReleased.setText(kappale.getReleased());
-        editCountry.setText(kappale.getCountry());
-        editInfo.setText(kappale.getInfo());
+        for (int k = kappale.ekaKentta(); k < kappale.getKenttia(); k++) {
+            edits[k].setText(kappale.anna(k));
+        }
     }
-    
+   
     
     /**
      * Luodaan kappaleen kysymisdialogi ja palautetaan sama tietue muutettuna tai null
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mit‰ dataan n‰ytet‰‰n oletuksena
+     * @param kentta mik‰ kentt‰ saa fokuksen kun n‰ytet‰‰n 
      * @return null jos painetaan Cancel, muuten t‰ytetty tietue
      */
-    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus) {
+    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta) {
         //ModalController.showModal(resurssi, "Track Info", null, "");
-        return ModalController.showModal(
+        return ModalController.<Kappale, EditTrackController>showModal(
                 EditTrackController.class.getResource("EditTrackView.fxml"),
                 "Track Info",
-                modalityStage, oletus, null 
+                modalityStage, oletus,
+                ctrl -> ctrl.setKentta(kentta)
                 );
     }
 
