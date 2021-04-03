@@ -40,7 +40,7 @@ public class Kappale {
     private String  name    ="";
     private String  format  ="";
     private String  label   ="";
-    private int     bpm;
+    private String  bpm     ="";
     private String  length  ="";
     private String  genre   ="";
     private String  style   ="";
@@ -124,7 +124,7 @@ public class Kappale {
         name    ="This for B";
         format  ="Vinyl";
         label   ="Lac002";
-        bpm     =000;
+        bpm     ="000";
         length  ="";
         genre   ="Electronic";
         style   ="Minimal";
@@ -137,10 +137,91 @@ public class Kappale {
     /**
      * @return Kappaleen nimi
      */
-    public String getNimi() {
+    public String getName() {
         return name;
     }
     
+    
+    /**
+     * @return artisti
+     */
+    public String getArtist() {
+        return artist;
+    }
+    
+    
+    /**
+     * @return format
+     */
+    public String getFormat() {
+        return format;
+    }
+    
+  
+    /**
+     * @return label
+     */
+    public String getLabel() {
+        return label;
+    }
+    
+    
+    /**
+     * @return kappaleen bpm
+     */
+    public String getBpm() {
+        return bpm;
+    }
+    
+    
+    /**
+     * @return kappaleen pituus
+     */
+    public String getLength() {
+        return length;
+    }
+    
+    
+    /**
+     * @return kappaleen genre
+     */
+    public String getGenre() {
+        return genre;
+    }
+    
+    
+    /**
+     * @return style
+     */
+    public String getStyle() {
+        return style;
+    }
+    
+    
+    /**
+     * @return julkaisuvuosi
+     */
+    public String getReleased() {
+        return released;
+    }
+    
+    
+    /**
+     * @return maa
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    
+    /**
+     * @return kappaleen info
+     */
+    public String getInfo() {
+        return info;
+    }
+    
+       
     @Override
     public String toString() {
         //return artist + " | " + name;

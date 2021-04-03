@@ -75,7 +75,7 @@ public class MusicGUIController implements Initializable {
     
     @FXML private void handleNewSet() {
        // var resurssi2 = MusicGUIController.class.getResource("NewSetView.fxml");
-      //  ModalController.showModal(resurssi2, "New set", null, "");
+      //  ModalController.showModal(resurssi2, "New set", null, kappaleKohdalla);
         uusiSetti();
     }
     
@@ -116,8 +116,7 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleEdit() {
-        var resurssi = MusicGUIController.class.getResource("EditTrackView.fxml");
-        ModalController.showModal(resurssi, "Track Info", null, "");
+        muokkaa();
     }
     
 //==================================================
@@ -155,6 +154,11 @@ public class MusicGUIController implements Initializable {
             Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
             return ex.getMessage();
         }
+    }
+    
+    
+    private void muokkaa() {
+        EditTrackController.kysyKappale(null, kappaleKohdalla);
     }
     
    
@@ -260,7 +264,7 @@ public class MusicGUIController implements Initializable {
         for (int i = 0; i < music.getKappaleet(); i++) {
             Kappale kappale = music.annaKappale(i);
             if (kappale.getTunnusNro() == knro) index = i;
-            chooserKappaleet.add(kappale.getNimi(), kappale);
+            chooserKappaleet.add(kappale.getName(), kappale);
         }
         chooserKappaleet.setSelectedIndex(index); //tästä tulee muutosviesti
     }
