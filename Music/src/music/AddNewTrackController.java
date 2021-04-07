@@ -3,6 +3,7 @@ package music;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.ohj2.Mjonot;
@@ -36,8 +37,7 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
 
     @Override
     public Kappale getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return uusikappale;
     }
 
     @Override
@@ -49,39 +49,78 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
     @Override
     public void setDefault(Kappale oletus) {
         uusikappale = oletus;
-        EditTrackController.naytaKappale(edits, uusikappale);
+        naytaKappale(edits, uusikappale);
         
     }
     
     @FXML private void handleSaveNew() {
-        try {
-            music.tallenna();
-        } catch (SailoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ModalController.closeStage(labelVirhe);
     }
     
+    
     @FXML private void handleCancel() {
-        ModalController.closeStage(buttonSulje);;
+        uusikappale = null;
+        ModalController.closeStage(buttonSulje);
    }
     
 
     private static Kappale uusikappale = new Kappale();
     private TextField edits[];
     private int kentta = 0;
-    private Music music;
-    
     
     /**
-    * Tyhjent‰‰n tekstikent‰t 
-    * @param edits tyhjennett‰v‰t kent‰t
+    * Luodaan GridPaneen kappaleen tiedot
+    * @param gridKappale mihin tiedot luodaan
+    * @return luodut tekstikent‰t
     */
-    public static void tyhjenna(TextField[] edits) {
-        for (TextField edit: edits) 
-            if ( edit != null ) edit.setText(""); 
+    public static TextField[] luoKentat(GridPane gridKappale) {
+        gridKappale.getChildren().clear();
+        TextField[] fedits = new TextField[uusikappale.getKenttia()];
+           
+        for (int i=0, k = uusikappale.ekaKentta(); k < uusikappale.getKenttia(); k++, i++) {
+            Label label = new Label(uusikappale.getKysymys(k));
+            gridKappale.add(label, 0, i);
+            TextField edit = new TextField();
+            fedits[k] = edit;
+            edit.setId("e"+k);
+            gridKappale.add(edit, 1, i);
+        }
+        return fedits;
     }
     
+        /**
+        * N‰ytet‰‰n tietueen tiedot TextField komponentteihin
+         * @param edits taulukko TextFieldeist‰ johon n‰ytet‰‰n
+         * @param kappale n‰ytett‰v‰ tietue
+         */
+        public static void naytaKappale(TextField[] edits, Kappale kappale) {
+            if (kappale == null) return;
+            for (int k = kappale.ekaKentta(); k < kappale.getKenttia(); k++) {
+                edits[k].setText(kappale.anna(k));
+            }
+       }
+
+    
+    /**
+     * K‰sitell‰‰n kappaleeseen tullut muutos
+     * @param edit muuttunut kentt‰
+     */
+    private void kasitteleMuutosKappaleeseen(TextField edit) {
+        if (uusikappale == null) return;
+        int k = getFieldId(edit,uusikappale.ekaKentta());
+        String s = edit.getText();
+        String virhe = null;
+        virhe = uusikappale.aseta(k,s); 
+        if (virhe == null) {
+            Dialogs.setToolTipText(edit,"");
+            edit.getStyleClass().removeAll("virhe");
+            naytaVirhe(virhe);
+        } else {
+            Dialogs.setToolTipText(edit,virhe);
+            edit.getStyleClass().add("virhe");
+            naytaVirhe(virhe);
+        }
+    }
     
     /**
      * Palautetaan komponentin id:st‰ saatava luku
@@ -94,14 +133,25 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
          Node node = (Node)obj;
          return Mjonot.erotaInt(node.getId().substring(1),oletus);
      }
+    
+    
+     
+     /**
+      * Tekee tarvittavat muut alustukset.
+      */
+     protected void alusta() {
+         edits = luoKentat(gridKappale);
+         for (TextField edit : edits)
+             if ( edit != null )
+                 edit.setOnKeyReleased( e -> kasitteleMuutosKappaleeseen((TextField)(e.getSource()))); 
+     }
+     
+    
      
 
 
 
 
-
-
-    @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");
@@ -110,17 +160,6 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
         }
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
-    }
-    
-    
-    /**
-     * Tekee tarvittavat muut alustukset.
-     */
-    protected void alusta() {
-      //  edits = luoKentat(gridKappale);
-     //   for (TextField edit : edits)
-           // if ( edit != null )
-               // edit.setOnKeyReleased( e -> kasitteleMuutosKappaleeseen((TextField)(e.getSource())));        
     }
     
     
@@ -134,22 +173,17 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
      * Luodaan kappaleen kysymisdialogi ja palautetaan sama tietue muutettuna tai null
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mit‰ dataan n‰ytet‰‰n oletuksena
-     * @param kentta mik‰ kentt‰ saa fokuksen kun n‰ytet‰‰n 
-     * @param music music
+     * @param kentta mik‰ kentt‰ saa fokuksen kun n‰ytet‰‰n c
      * @return null jos painetaan Cancel, muuten t‰ytetty tietue
      */
-    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta, Music music) {
-        //ModalController.showModal(resurssi, "Track Info", null, "");
+    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta) {
         return ModalController.<Kappale, AddNewTrackController>showModal(
                 AddNewTrackController.class.getResource("AddNewTrackView.fxml"),
                 "Track Info",
                 modalityStage, oletus,
-                ctrl -> { ctrl.setKentta(kentta); ctrl.setMusic(music); }
+                ctrl -> { ctrl.setKentta(kentta); }
                 );
     }
     
-    private void setMusic(Music music) {
-        this.music = music;
-    }
 
 }

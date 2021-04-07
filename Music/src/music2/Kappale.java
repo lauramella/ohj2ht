@@ -285,7 +285,7 @@ public class Kappale implements Cloneable {
      * @return Kappaleen nimi
      */
     public String getName() {
-        return name;
+        return artist + " - " + name;
     }
     
     
@@ -301,15 +301,15 @@ public class Kappale implements Cloneable {
      */
     @Override
     public String toString() {
-        //return artist + " | " + name;
-        StringBuilder sb = new StringBuilder("");
-        String erotin = "";
-        for (int k = 0; k < getKenttia(); k++) {
-            sb.append(erotin);
-            sb.append(anna(k));
-            erotin = "|";
-        }
-        return sb.toString();            
+        return artist + " - " + name;
+        //StringBuilder sb = new StringBuilder("");
+        //String erotin = "";
+        //for (int k = 0; k < getKenttia(); k++) {
+            //sb.append(erotin);
+            //sb.append(anna(k));
+            //erotin = "|";
+        //}
+       // return sb.toString();            
     }  
     
     

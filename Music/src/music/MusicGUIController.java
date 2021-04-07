@@ -91,8 +91,6 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleNewSet() {
-       // var resurssi2 = MusicGUIController.class.getResource("NewSetView.fxml");
-      //  ModalController.showModal(resurssi2, "New set", null, kappaleKohdalla);
         uusiSetti();
     }
     
@@ -124,9 +122,6 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleNewTrack() {
-        //var resurssi = MusicGUIController.class.getResource("AddNewTrackView.fxml");
-        //ModalController.showModal(resurssi, "Track Info", null, "");
-       // Dialogs.showMessageDialog("Ei osata viel‰ lis‰t‰ uutta kappaletta");
         uusiKappale();
     }
     
@@ -199,10 +194,11 @@ public class MusicGUIController implements Initializable {
         if (kappaleKohdalla == null) return;
         try {
             Kappale kappale;
-            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k, music);
+            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k);
             if (kappale == null) return;
             music.korvaaTaiLisaa(kappale);
             haeKappaleTiedot(kappale.getTunnusNro());
+            EditTrackController.naytaKappale(edits, kappale);
         } catch (CloneNotSupportedException e) {  
             // 
         } catch (SailoException e) { 
@@ -284,17 +280,18 @@ public class MusicGUIController implements Initializable {
         setti.rekisteroi();
         setti.taytaSettiTiedoilla(); //Korvaa dialogilla
         music.lisaa(setti);
-        naytaSetti();
+        //naytaSetti();
         haeSetit();
         haeSetti(setti.getTunnusNro());
-        //naytaSetti();
+        naytaSetti();
     }
     
     
     /**
     * Hakee setit
     */
-    public void haeSetit() { 
+    public void haeSetit() {
+        comboSets.clear();
         List<Setti> settiLista = music.annaSetit();
             for (Setti set : settiLista) {
                  comboSets.add(set);
@@ -337,11 +334,13 @@ public class MusicGUIController implements Initializable {
     private void uusiKappale() {
         try {
             Kappale kappale = new Kappale();
-            kappale = AddNewTrackController.kysyKappale(null, kappale, 1, music);
+            kappale = AddNewTrackController.kysyKappale(null, kappale, 1);
             if ( kappale == null ) return;
+            tallenna();
             kappale.rekisteroi();
             music.lisaa(kappale);
             haeKappaleTiedot(kappale.getTunnusNro());
+            EditTrackController.naytaKappale(edits, kappale);
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia kappaleen lis‰‰misess‰");
             return;

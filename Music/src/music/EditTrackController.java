@@ -32,7 +32,7 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     @FXML private Label labelVirhe;
     
     @FXML private void handleCancel() {
-        ModalController.closeStage(buttonSulje);;
+        ModalController.closeStage(buttonSulje);
    }
     
     @FXML private void handleDelete() {
@@ -40,13 +40,13 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
    }
     
     @FXML private void handleSave() {
-        try {
-            music.tallenna();
-        } catch (SailoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-   }
+       if ( kappaleKohdalla != null && kappaleKohdalla.anna(kappaleKohdalla.ekaKentta()).trim().equals("") ) {
+                        naytaVirhe("Ei saa olla tyhj‰");
+                       return;
+                    }
+                    ModalController.closeStage(labelVirhe);
+     }
+   
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -81,7 +81,6 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
     private int kentta = 0;
-    private Music music;
     
     
     /**
@@ -195,22 +194,17 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mit‰ dataan n‰ytet‰‰n oletuksena
      * @param kentta mik‰ kentt‰ saa fokuksen kun n‰ytet‰‰n 
-     * @param music music
      * @return null jos painetaan Cancel, muuten t‰ytetty tietue
      */
-    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta, Music music) {
-        //ModalController.showModal(resurssi, "Track Info", null, "");
+    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta) {
         return ModalController.<Kappale, EditTrackController>showModal(
                 EditTrackController.class.getResource("EditTrackView.fxml"),
                 "Track Info",
                 modalityStage, oletus,
-                ctrl -> { ctrl.setKentta(kentta); ctrl.setMusic(music); }
+                ctrl -> { ctrl.setKentta(kentta);  }
                 );
     }
-    
-    private void setMusic(Music music) {
-        this.music = music;
-    }
+ 
     
  
 

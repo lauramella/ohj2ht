@@ -158,7 +158,6 @@ public class Kappaleet implements Iterable<Kappale> {
     public void tallenna(String tiednimi) throws SailoException {
         if ( !muutettu ) return;
         if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
-        //boolean muutettu true tallenna
         File ftied = new File(tiednimi + "/kappaleet.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (int i = 0; i < getLkm(); i++) {
