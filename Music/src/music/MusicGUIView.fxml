@@ -64,7 +64,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </ComboBoxChooser>
-                        <TextField />
+                        <TextField fx:id="hakuehto" />
                      </children>
                   </VBox>
                </top>
@@ -93,7 +93,7 @@
                           </rowConstraints>
                            <children>
                               <Label text="Artist" />
-                              <TextField fx:id="editArtist" GridPane.columnIndex="1" />
+                              <TextField GridPane.columnIndex="1" />
                               <Label text="Name" GridPane.rowIndex="1" />
                               <Label text="Format" GridPane.rowIndex="2" />
                               <Label text="Label" GridPane.rowIndex="3" />
@@ -105,16 +105,16 @@
                               <Label text="Released" GridPane.rowIndex="8" />
                               <Label text="Country" GridPane.rowIndex="9" />
                               <Label text="Info" GridPane.rowIndex="10" />
-                              <TextField fx:id="editName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="editFormat" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="editLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="editBpm" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <TextField fx:id="editLength" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <TextField fx:id="editGenre" prefHeight="26.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <TextField fx:id="editStyle" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <TextField fx:id="editReleased" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <TextField fx:id="editCountry" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                              <TextField fx:id="editInfo" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField prefHeight="26.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" top="10.0" />
@@ -201,6 +201,9 @@
                </children>
             </HBox>
          </left>
+         <center>
+            <Label fx:id="labelVirhe" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </bottom>
 </BorderPane>

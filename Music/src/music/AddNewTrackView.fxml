@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.EditTrackController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.AddNewTrackController">
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
             <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
                <content>
-                  <GridPane hgap="10.0">
+                  <GridPane fx:id="gridKappale" hgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="RIGHT" hgrow="NEVER" prefWidth="70.0" />
                       <ColumnConstraints hgrow="SOMETIMES" />
@@ -84,24 +84,18 @@
                      </font>
                   </Label>
                </center>
-               <right>
-                  <Button fx:id="buttonSulje" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" BorderPane.alignment="CENTER">
-                     <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </BorderPane.margin>
-                  </Button>
-               </right>
             </BorderPane>
          </top>
          <bottom>
             <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSave" text="Save">
+                  <Label fx:id="labelVirhe" text="Label" />
+                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSaveNew" text="Save">
                      <HBox.margin>
                         <Insets bottom="10.0" left="160.0" right="5.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDelete" text="Delete">
+                  <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin>

@@ -18,9 +18,9 @@ import javafx.scene.text.Font;
 import music2.Kappale;
 import music2.Music;
 import music2.Relaatio;
-import music2.Relaatiot;
 import music2.SailoException;
 import music2.Setti;
+import static music.EditTrackController.getFieldId;
 
 /**
  * @author laura
@@ -31,8 +31,8 @@ public class MusicGUIController implements Initializable {
 
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
-    @FXML private ComboBoxChooser<String> cbKentat;
-    @FXML private ComboBoxChooser<String> comboTracks;
+   // @FXML private ComboBoxChooser<String> cbKentat;
+    @FXML private ComboBoxChooser<Kappale> comboTracks;
     @FXML private ComboBoxChooser<Setti> comboSets;
     @FXML private ListChooser<Kappale> chooserKappaleet;
     @FXML private ListChooser<Kappale> chooserbiisiLista; 
@@ -157,14 +157,14 @@ public class MusicGUIController implements Initializable {
         chooserKappaleet.clear();
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
         chooserbiisiLista.clear();
-        comboSets.addSelectionListener(e -> naytaSetti());
         comboSets.clear();
+        comboSets.addSelectionListener(e -> naytaSetti());
         edits = EditTrackController.luoKentat(gridKappale); 
         for (TextField edit: edits)  
             if ( edit != null ) {  
                 edit.setEditable(false);  
-                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(EditTrackController.getFieldId(e.getSource(),0)); });  
-                edit.focusedProperty().addListener((a,o,n) -> kentta = EditTrackController.getFieldId(edit,kentta));  
+                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
+                edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));  
             }
         }
     
@@ -178,6 +178,7 @@ public class MusicGUIController implements Initializable {
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
     }
+    
    
    /**
     * Tietojen tallennus
@@ -198,7 +199,7 @@ public class MusicGUIController implements Initializable {
         if (kappaleKohdalla == null) return;
         try {
             Kappale kappale;
-            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k);
+            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k, music);
             if (kappale == null) return;
             music.korvaaTaiLisaa(kappale);
             haeKappaleTiedot(kappale.getTunnusNro());
@@ -306,7 +307,7 @@ public class MusicGUIController implements Initializable {
      * @param knro kappaleen nro, joka aktivoidaan haun jälkeen
      */ 
     private void haeKappaleTiedot(int knro) {
-        int k = cbKentat.getSelectionModel().getSelectedIndex();
+        int k = comboTracks.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText(); 
         if (k > 0 || ehto.length() > 0)
         naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
@@ -336,7 +337,7 @@ public class MusicGUIController implements Initializable {
     private void uusiKappale() {
         try {
             Kappale kappale = new Kappale();
-            kappale = EditTrackController.kysyKappale(null, kappale, 1);
+            kappale = AddNewTrackController.kysyKappale(null, kappale, 1, music);
             if ( kappale == null ) return;
             kappale.rekisteroi();
             music.lisaa(kappale);

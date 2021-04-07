@@ -38,7 +38,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Artist" />
-                        <TextField fx:id="editArtist" text="Alex Pervukhin" GridPane.columnIndex="1" />
+                        <TextField text="Alex Pervukhin" GridPane.columnIndex="1" />
                         <Label text="Name" GridPane.rowIndex="1" />
                         <Label text="Format" GridPane.rowIndex="2" />
                         <Label text="Label" GridPane.rowIndex="3" />
@@ -50,16 +50,16 @@
                         <Label text="Released" GridPane.rowIndex="8" />
                         <Label text="Country" GridPane.rowIndex="9" />
                         <Label text="Info" GridPane.rowIndex="10" />
-                        <TextField fx:id="editName" text="This for B" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="editFormat" text="Vinyl" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="editLabel" text="Lac002" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="editBpm" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="editLength" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField fx:id="editGenre" prefHeight="26.0" prefWidth="128.0" text="Electronic" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField fx:id="editStyle" text="Minimal" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField fx:id="editReleased" text="2018" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <TextField fx:id="editCountry" text="Ukraine" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                        <TextField fx:id="editInfo" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <TextField text="This for B" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField text="Vinyl" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField text="Lac002" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField prefHeight="26.0" prefWidth="128.0" text="Electronic" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <TextField text="Minimal" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField text="2018" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField text="Ukraine" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
                      </children>
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
@@ -89,6 +89,7 @@
          <bottom>
             <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                <children>
+                  <Label fx:id="labelVirhe" />
                   <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSave" text="Save">
                      <HBox.margin>
                         <Insets bottom="10.0" left="160.0" right="5.0" top="10.0" />

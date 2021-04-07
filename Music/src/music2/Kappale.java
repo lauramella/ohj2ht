@@ -39,8 +39,8 @@ public class Kappale implements Cloneable {
     private String  name    ="";
     private String  format  ="";
     private String  label   ="";
-    private String  bpm     ="";
-    private String  length  ="";
+    private int     bpm;
+    private int     length;
     private String  genre   ="";
     private String  style   ="";
     private String  released=""; 
@@ -48,6 +48,15 @@ public class Kappale implements Cloneable {
     private String  info    ="";
     
     private static int seuraavaNro  = 1;
+    
+    
+    /**
+     * Alustetaan kappaleen merkkijono-attribuuti tyhjiksi jonoiksi
+     * ja tunnusnro = 0.
+     */
+    public Kappale() {
+        // Toistaiseksi ei tarvita mitään
+    }
     
     
     /**
@@ -109,7 +118,7 @@ public class Kappale implements Cloneable {
         case 9: return "" + released;
         case 10: return "" + country;
         case 11: return "" + info;
-        default: return "Äääliö";
+        default: return "Moikka";
         }
     }
     
@@ -147,10 +156,10 @@ public class Kappale implements Cloneable {
             label = tjono;
             return null;
         case 5:
-            bpm = tjono;
+            bpm = Mjonot.erota(sb, '§', bpm);
             return null;
         case 6:
-            length = tjono;
+            length = Mjonot.erota(sb, '§', bpm);
             return null;
         case 7:
             genre = tjono;
@@ -168,7 +177,7 @@ public class Kappale implements Cloneable {
             info = tjono;
             return null;
         default:
-            return "ÄÄliö";
+            return "Moikka";
         }
     }
     
@@ -180,7 +189,7 @@ public class Kappale implements Cloneable {
      */
     public String getKysymys(int k) {
         switch ( k ) {
-        case 0: return "Tunnus nro";
+        case 0: return "tunnus nro";
         case 1: return "artist";
         case 2: return "name";
         case 3: return "format";
@@ -192,7 +201,7 @@ public class Kappale implements Cloneable {
         case 9: return "released";
         case 10: return "country";
         case 11: return "info";
-        default: return "Äääliö";
+        default: return "Moikka";
         }
     }
     
@@ -262,8 +271,8 @@ public class Kappale implements Cloneable {
         name    ="This for B";
         format  ="Vinyl";
         label   ="Lac002";
-        bpm     ="000";
-        length  ="";
+        bpm     = 0;
+        length  = 0;
         genre   ="Electronic";
         style   ="Minimal";
         released="2018"; 
