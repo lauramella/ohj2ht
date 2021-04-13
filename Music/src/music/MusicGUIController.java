@@ -129,6 +129,10 @@ public class MusicGUIController implements Initializable {
     @FXML private void handleEdit() {
         muokkaa(1);
     }
+        
+    @FXML private void handleHakuehto() {
+        haeKappaleTiedot(0);
+    }
     
 //==================================================
     
@@ -137,6 +141,7 @@ public class MusicGUIController implements Initializable {
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
     private String username = "musa";
+    private static Kappale apukappale = new Kappale();
     private TextField edits[];
     private int kentta = 0; 
     
@@ -158,6 +163,11 @@ public class MusicGUIController implements Initializable {
                 edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
                 edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));  
             }
+        comboTracks.clear(); 
+        for (int k = apukappale.ekaKentta(); k < 7; k++) 
+            comboTracks.add(apukappale.getKysymys(k), null);
+        comboTracks.getSelectionModel().select(0);
+
         }
     
     
@@ -301,14 +311,12 @@ public class MusicGUIController implements Initializable {
     /**
      * Haetaan kappale ja laitetaan se valituksi
      * @param knro kappaleen nro, joka aktivoidaan haun jälkeen
+     * jos 0 aktivoidaan nykyinen kappale
      */ 
-    private void haeKappaleTiedot(int knro) {
-        int k = comboTracks.getSelectionModel().getSelectedIndex();
+    private void haeKappaleTiedot(int knro) {        
+        int k = comboTracks.getSelectionModel().getSelectedIndex() + apukappale.ekaKentta();
         String ehto = hakuehto.getText(); 
-        if (k > 0 || ehto.length() > 0)
-        naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-        else
-            naytaVirhe(null);
+        if (ehto.indexOf('*') < 0) ehto = "*" + ehto + "*"; 
         
         chooserKappaleet.clear();        
         int index = 0;
@@ -321,7 +329,7 @@ public class MusicGUIController implements Initializable {
                 chooserKappaleet.add(kappale.getName(), kappale);
             }
         } catch (SailoException ex) {
-            Dialogs.showMessageDialog("Kappaleen hakemisessa ongelmia! " + ex.getMessage());
+            naytaVirhe("Jäsenen hakemisessa ongelmia! " + ex.getMessage());
         }       
         chooserKappaleet.setSelectedIndex(index); //tästä tulee muutosviesti
     }

@@ -5,6 +5,7 @@ package music2;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Comparator;
 
 import fi.jyu.mit.ohj2.Mjonot;
 import kanta.*;
@@ -40,9 +41,9 @@ public class Kappale implements Cloneable {
     private String  format  ="";
     private String  label   ="";
     private int     bpm;
-    private int     length;
-    private String  genre   ="";
     private String  style   ="";
+    private String  genre   ="";
+    private int     length;
     private String  released=""; 
     private String  country =""; 
     private String  info    ="";
@@ -112,15 +113,35 @@ public class Kappale implements Cloneable {
         case 3: return "" + format;
         case 4: return "" + label;
         case 5: return "" + bpm;
-        case 6: return "" + length;
+        case 6: return "" + style;
         case 7: return "" + genre;
-        case 8: return "" + style;
+        case 8: return "" + length;
         case 9: return "" + released;
         case 10: return "" + country;
         case 11: return "" + info;
         default: return "Moikka";
         }
     }
+    
+    
+    /** 
+     * Antaa k:n kentän sisällön merkkijonona 
+     * @param k monenenko kentän sisältö palautetaan 
+     * @return kentän sisältö merkkijonona 
+     */ 
+    public String getAvain(int k) { 
+        switch ( k ) { 
+        case 0: return "" + tunnusNro; 
+        case 1: return "" + artist.toUpperCase(); 
+        case 2: return "" + name.toUpperCase(); 
+        case 3: return "" + format; 
+        case 4: return "" + label; 
+        case 5: return "" + bpm; 
+        case 6: return "" + style; 
+        default: return "Terve"; 
+        } 
+    }
+
     
     
     /**
@@ -159,13 +180,13 @@ public class Kappale implements Cloneable {
             bpm = Mjonot.erota(sb, '§', bpm);
             return null;
         case 6:
-            length = Mjonot.erota(sb, '§', bpm);
+            style = tjono;
             return null;
         case 7:
             genre = tjono;
             return null;
         case 8:
-            style = tjono;
+            length = Mjonot.erota(sb, '§', length);
             return null;
         case 9:
             released = tjono;
@@ -195,9 +216,9 @@ public class Kappale implements Cloneable {
         case 3: return "format";
         case 4: return "label";
         case 5: return "bpm";
-        case 6: return "length";
+        case 6: return "style";
         case 7: return "genre";
-        case 8: return "style";
+        case 8: return "length";
         case 9: return "released";
         case 10: return "country";
         case 11: return "info";
@@ -272,9 +293,9 @@ public class Kappale implements Cloneable {
         format  ="Vinyl";
         label   ="Lac002";
         bpm     = 0;
-        length  = 0;
-        genre   ="Electronic";
         style   ="Minimal";
+        genre   ="Electronic";
+        length  = 0;
         released="2018"; 
         country ="Ukraine";
         info    ="";
@@ -430,4 +451,39 @@ public class Kappale implements Cloneable {
     public int hashCode() {
         return tunnusNro;
     }
+    
+    /**
+     * @author laura
+     * @version 14.4.2021
+     *
+     */
+    public static class Vertailija implements Comparator<Kappale> {
+
+        private int k;
+        /**
+         * @param k minkä kentän mukaan vertaillaan
+         */
+        public Vertailija(int k) {
+            this.k = k;
+        }
+        
+        /**
+         * @return kokonaisluku
+         */
+        @Override
+        public int compare(Kappale kappale1, Kappale kappale2) {
+            return kappale1.getAvain(k).compareTo(kappale2.getAvain(k));
+        }  
+
+        /**
+         * @param o1 eka
+         * @param o2 toka
+         * @return kokonaisluku
+         */
+        @SuppressWarnings("unused")
+        public int compare1(Kappale o1, Kappale o2) {
+            // TODO Auto-generated method stub
+            return 0;
+        }}
+
 }

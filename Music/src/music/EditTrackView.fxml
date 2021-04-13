@@ -44,9 +44,9 @@
                         <Label text="Label" GridPane.rowIndex="3" />
                         <Label text="Label" GridPane.rowIndex="3" />
                         <Label text="Bpm" GridPane.rowIndex="4" />
-                        <Label text="Length" GridPane.rowIndex="5" />
+                        <Label text="Style" GridPane.rowIndex="5" />
                         <Label text="Genre" GridPane.rowIndex="6" />
-                        <Label text="Style" GridPane.rowIndex="7" />
+                        <Label text="Length" GridPane.rowIndex="7" />
                         <Label text="Released" GridPane.rowIndex="8" />
                         <Label text="Country" GridPane.rowIndex="9" />
                         <Label text="Info" GridPane.rowIndex="10" />
@@ -54,9 +54,9 @@
                         <TextField text="Vinyl" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField text="Lac002" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField text="Minimal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <TextField prefHeight="26.0" prefWidth="128.0" text="Electronic" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField text="Minimal" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
                         <TextField text="2018" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                         <TextField text="Ukraine" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />

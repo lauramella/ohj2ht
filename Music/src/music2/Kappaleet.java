@@ -11,9 +11,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import fi.jyu.mit.ohj2.WildChars;
 
 /**
  * CRC-kortti
@@ -319,12 +323,16 @@ public class Kappaleet implements Iterable<Kappale> {
      *   // TODO: toistaiseksi palauttaa kaikki kappaleet 
      * </pre> 
      */ 
-    @SuppressWarnings("unused")
     public Collection<Kappale> etsi(String hakuehto, int k) { 
-        Collection<Kappale> loytyneet = new ArrayList<Kappale>(); 
+        List<Kappale> loytyneet = new ArrayList<Kappale>(); 
+        int hk = k;
+        if (hk < 0) hk = 1;
         for (Kappale kappale : this) { 
-            loytyneet.add(kappale);  
-        } 
+                String sisalto = kappale.anna(k);
+                if (WildChars.onkoSamat(sisalto, hakuehto))
+                loytyneet.add(kappale);  
+        }
+        Collections.sort(loytyneet, new Kappale.Vertailija(hk));
         return loytyneet; 
     }
     

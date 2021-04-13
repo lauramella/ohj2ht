@@ -59,12 +59,12 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <ComboBoxChooser fx:id="comboTracks" minWidth="160.0" rivit="Track&#10;Artist&#10;Format&#10;Bpm&#10;Style">
+                        <ComboBoxChooser fx:id="comboTracks" minWidth="160.0" rivit="Track&#10;Artist&#10;Format&#10;Label&#10;">
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </ComboBoxChooser>
-                        <TextField fx:id="hakuehto" />
+                        <TextField fx:id="hakuehto" onAction="#handleHakuehto" />
                      </children>
                   </VBox>
                </top>
@@ -99,9 +99,9 @@
                               <Label text="Label" GridPane.rowIndex="3" />
                               <Label text="Label" GridPane.rowIndex="3" />
                               <Label text="Bpm" GridPane.rowIndex="4" />
-                              <Label text="Length" GridPane.rowIndex="5" />
+                              <Label text="Style" GridPane.rowIndex="5" />
                               <Label text="Genre" GridPane.rowIndex="6" />
-                              <Label text="Style" GridPane.rowIndex="7" />
+                              <Label text="Length" GridPane.rowIndex="7" />
                               <Label text="Released" GridPane.rowIndex="8" />
                               <Label text="Country" GridPane.rowIndex="9" />
                               <Label text="Info" GridPane.rowIndex="10" />
