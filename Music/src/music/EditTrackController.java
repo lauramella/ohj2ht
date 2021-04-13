@@ -16,8 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import music2.Kappale;
-import music2.Music;
-import music2.SailoException;
 
 /**
  * Muokkausikkunan tapahtumat

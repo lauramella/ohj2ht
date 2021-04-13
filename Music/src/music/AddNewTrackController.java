@@ -146,10 +146,6 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
                  edit.setOnKeyReleased( e -> kasitteleMuutosKappaleeseen((TextField)(e.getSource()))); 
      }
      
-    
-     
-
-
 
 
     private void naytaVirhe(String virhe) {

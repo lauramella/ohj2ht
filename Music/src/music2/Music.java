@@ -279,3 +279,11 @@ public class Music {
         return kappaleet.kappaleTunnus(knro);
     }
 }
+
+
+//chooserbiisiLista.clear();        
+//int index = 0;
+//for (Relaatio relaatio:relaatioLista) {
+  //  chooserbiisiLista.add(music.kappaleTunnus(relaatio.getKappaleNro()).getName(), relaatio);
+//}       
+//chooserbiisiLista.setSelectedIndex(index); //tästä tulee muutosviesti

@@ -47,26 +47,6 @@ public class NewSetController implements ModalControllerInterface<String> {
         
     }
     
-    
-    /**
-     * Asetetaan k‰ytett‰v‰ music
-     * @param music jota k‰ytet‰‰n
-     */
-    public void setMusic(Music music) {
-        this.music = music;
-    }
-    
-    
-    
-    
-//  /**
-//   * lis‰t‰‰n uusi setti
-//   */
-//  public void uusiSetti() {
-//      Setti setti = new Setti();
-//      setti.rekisteroi();
-//      setti.taytaSettiTiedoilla();
-//      music.lisaa(setti);
-//  }  
-
+   
+ 
 }

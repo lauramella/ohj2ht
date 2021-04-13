@@ -151,7 +151,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <ComboBoxChooser fx:id="comboSets" prefWidth="250.0" rivit="Select">
+                        <ComboBoxChooser fx:id="comboSets" prefWidth="250.0" rivit="">
                            <VBox.margin>
                               <Insets bottom="5.0" left="20.0" right="20.0" />
                            </VBox.margin>

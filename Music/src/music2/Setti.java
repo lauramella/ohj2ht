@@ -38,7 +38,7 @@ import kanta.Tarkistus;
 public class Setti {   
     
     private int     tunnusNro;
-    private String  name    ="";
+    private String  name    ="Setti1";
     private int     kappaleetMaara;
     
     private static int seuraavaNro  = 1;
@@ -159,10 +159,8 @@ public class Setti {
      */
     @Override
     public String toString() {
-        //return name;
         return "" + getTunnusNro() + "|" + name + "|" + kappaleetMaara;
     }
-    
     
 
     /**

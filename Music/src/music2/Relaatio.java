@@ -184,6 +184,8 @@ public class Relaatio {
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
+   
+    
     
 }   
     

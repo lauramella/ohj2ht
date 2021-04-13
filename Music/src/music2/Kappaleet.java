@@ -87,8 +87,8 @@ public class Kappaleet implements Iterable<Kappale> {
     }
     
     /**
-     * Palauttaa viitteen i:teen jäseneen
-     * @param i monennenko jäsenen viite halutaan
+     * Palauttaa viitteen i:teen kappaleeseen
+     * @param i monennenko kappaleen viite halutaan
      * @return viite kappaleeseen, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
      */

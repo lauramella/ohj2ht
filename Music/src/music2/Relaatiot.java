@@ -46,7 +46,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * Alustaminen
      */
     public Relaatiot() {
-       // ei viel‰ tarvii mit‰‰n.
+        //
     }
     
     

@@ -89,7 +89,7 @@
          <bottom>
             <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="labelVirhe" text="Label" />
+                  <Label fx:id="labelVirhe" />
                   <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSaveNew" text="Save">
                      <HBox.margin>
                         <Insets bottom="10.0" left="160.0" right="5.0" top="10.0" />
