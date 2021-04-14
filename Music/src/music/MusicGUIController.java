@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -31,7 +32,6 @@ public class MusicGUIController implements Initializable {
 
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
-   // @FXML private ComboBoxChooser<String> cbKentat;
     @FXML private ComboBoxChooser<Kappale> comboTracks;
     @FXML private ComboBoxChooser<Setti> comboSets;
     @FXML private ListChooser<Kappale> chooserKappaleet;
@@ -69,7 +69,6 @@ public class MusicGUIController implements Initializable {
         return true;
     }
     
-
     /**
      * Tarkistetaan onko tallennus tehty
      * @return true jos saa sulkea sovelluksen, false jos ei
@@ -79,17 +78,16 @@ public class MusicGUIController implements Initializable {
         return true;
     }
 
-
     @FXML private void handlePrint() {
-        PrintController.tulosta("Juujuu");
-    }
-    
+          PrintController tulostusCtrl = PrintController.tulosta(null); 
+          tulostaSetti(tulostusCtrl.getTextArea());
+    }   
     
     @FXML private void handleExit() {
-        Dialogs.showMessageDialog("Ei toimi");
-    }  
-    
-    
+       tallenna();
+       Platform.exit();
+    }
+       
     @FXML private void handleNewSet() {
         uusiSetti();
     }
@@ -102,7 +100,19 @@ public class MusicGUIController implements Initializable {
 
 
     @FXML private void handleDeleteSet() {
-        Dialogs.showQuestionDialog("Delete set", "Do you want to delete this set?", "Yes", "No");
+        poistaSetti();
+    }
+    
+    
+    private void poistaKappale() {
+        kappaleKohdalla = chooserKappaleet.getSelectedObject();
+    if (kappaleKohdalla == null) return;
+    Kappale kap = kappaleKohdalla;
+    music.poistaKappale(kap);
+    chooserbiisiLista.clear();
+    haeSetit();
+    haeKappaleTiedot(0);
+    chooserbiisiLista.clear();
     }
     
     
@@ -117,7 +127,7 @@ public class MusicGUIController implements Initializable {
     
     
     @FXML private void handleDeleteTrack() {
-        Dialogs.showMessageDialog("Ei osata viel‰ poistaa setist‰");
+        poistaRelaatio();
     } 
     
     
@@ -137,9 +147,9 @@ public class MusicGUIController implements Initializable {
 //==================================================
     
     private Music music;    
-    private TextArea areaSetti = new TextArea();
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
+    private Relaatio relaatioKohdalla;
     private String username = "musa";
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
@@ -169,6 +179,33 @@ public class MusicGUIController implements Initializable {
         comboTracks.getSelectionModel().select(0);
 
         }
+    
+
+
+    private void poistaSetti() {
+        settiKohdalla = comboSets.getSelectedObject();
+        if (settiKohdalla == null) return;
+        Setti set = settiKohdalla;
+        if ( !Dialogs.showQuestionDialog("Delete set", "Do you want to delete this set?", "Yes", "No") )
+        return;
+        music.poistaSetti(set);
+        haeSetit();
+        chooserbiisiLista.clear();
+    }
+
+    
+    private void poistaRelaatio() {
+        settiKohdalla = comboSets.getSelectedObject();
+        relaatioKohdalla = chooserbiisiLista.getSelectedObject();
+        if (settiKohdalla == null) return;
+        if (relaatioKohdalla == null) return;
+        Relaatio relaatio = relaatioKohdalla;
+        music.poistaRelaatio(relaatio);
+        chooserbiisiLista.clear();
+        int index = comboSets.getSelectedIndex();
+        comboSets.setSelectedIndex(index);
+        naytaSetti();               
+    }
     
     
     private void naytaVirhe(String virhe) {
@@ -201,11 +238,17 @@ public class MusicGUIController implements Initializable {
         if (kappaleKohdalla == null) return;
         try {
             Kappale kappale;
-            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k);
+            kappale = EditTrackController.kysyKappale(null, kappaleKohdalla.clone(), k, music);
+            int index = comboSets.getSelectedIndex();
+            haeKappaleTiedot(0);
+            comboSets.setSelectedIndex(index);
+            chooserbiisiLista.clear();
+            haeSetit();
             if (kappale == null) return;
             music.korvaaTaiLisaa(kappale);
             haeKappaleTiedot(kappale.getTunnusNro());
             EditTrackController.naytaKappale(edits, kappale);
+            haeKappaleTiedot(0);
         } catch (CloneNotSupportedException e) {  
             // 
         } catch (SailoException e) { 
@@ -251,7 +294,7 @@ public class MusicGUIController implements Initializable {
         naytaSetti();
          }
     
-    
+
     /**
      * N‰ytet‰‰n setti
      */
@@ -268,21 +311,8 @@ public class MusicGUIController implements Initializable {
 
 
     }
-    
-    
-    ///**
-     //* Haetaan kappale ja laitetaan se valituksi
-     //* @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
-     //*/ 
-    //private void haeSetti(int snro) { 
-      //  List<Relaatio> relaatioLista = music.annaRelaatiot(snro);
-        //for (Relaatio rel : relaatioLista) {
-         //   rel.tulosta(System.out);
-      // }
-        //comboSets.setSelectedIndex(snro); //t‰st‰ tulee muutosviesti
-    //} 
-    
-    
+
+
     /**
      * Lis‰t‰‰n uusi setti
      */
@@ -291,23 +321,22 @@ public class MusicGUIController implements Initializable {
         setti.rekisteroi();
         music.lisaa(setti);
         haeSetit();
-       // haeSetti(setti.getTunnusNro());
         naytaSetti();
     }
-    
-    
+
+
     /**
-    * Hakee setit
-    */
+     * Hakee setit
+     */
     public void haeSetit() {
         comboSets.clear();
         List<Setti> settiLista = music.annaSetit();
-            for (Setti set : settiLista) {
-                 comboSets.add(set.getNimi(), set);
-           }
+        for (Setti set : settiLista) {
+            comboSets.add(set.getNimi(), set);
+        }
     }
-    
-    
+
+
     /**
      * Haetaan kappale ja laitetaan se valituksi
      * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
@@ -317,7 +346,7 @@ public class MusicGUIController implements Initializable {
         int k = comboTracks.getSelectionModel().getSelectedIndex() + apukappale.ekaKentta();
         String ehto = hakuehto.getText(); 
         if (ehto.indexOf('*') < 0) ehto = "*" + ehto + "*"; 
-        
+
         chooserKappaleet.clear();        
         int index = 0;
         Collection<Kappale> kappaleet;
@@ -333,8 +362,8 @@ public class MusicGUIController implements Initializable {
         }       
         chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
     }
-       
-           
+
+
     /**
      * Lis‰t‰‰n uusi kappale
      */
@@ -353,33 +382,48 @@ public class MusicGUIController implements Initializable {
             return;
         }
     }
-    
-    
-    /**
-     * Tulostaa setin kappaleet
-     * @param os tietovirta johon tulostetaan
-     * @param reLista setiss‰ olevat relaatiot
-     */
-    private void tulosta(PrintStream os, List<Relaatio> reLista) {
-        os.println("---------------------------------");
-        for (Relaatio rel : reLista) {
-           music.kappaleTunnus(rel.getKNro()).tulosta1(os);
-        }
-        os.println("---------------------------------");
-    }
-    
-    
+
+
     /**
      * N‰ytet‰‰n kappale
      */
     protected void naytaKappale() {
         kappaleKohdalla = chooserKappaleet.getSelectedObject();       
         if (kappaleKohdalla == null) return;
-        
+
         EditTrackController.naytaKappale(edits, kappaleKohdalla);
     }
-    
-    
+
+    /**
+     * Tulostaa setiss‰ olevat kappaleet tekstialueeseen
+     * @param text alue johon tulostetaan
+     */
+    public void tulostaSetti(TextArea text) {
+        settiKohdalla = comboSets.getSelectedObject();
+        if (settiKohdalla == null) return;
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
+            List<Relaatio> relaatiolista = music.annaRelaatiot(settiKohdalla.getTunnusNro()); 
+            tulosta(os, settiKohdalla.getNimi(), relaatiolista);                                  
+        }
+    }
+
+
+    /**
+     * Tulostaa j‰senen tiedot
+     * @param os tietovirta johon tulostetaan
+     * @param setinNimi nimi
+     * @param reLista tulostettava relaatiolista
+     */
+    public void tulosta(PrintStream os, String setinNimi, List<Relaatio> reLista) {
+        os.println(setinNimi);
+        os.println("----------------------------------------------");
+        for (Relaatio rel : reLista) {
+            music.kappaleTunnus(rel.getKNro()).tulosta1(os);
+        }
+        os.println("----------------------------------------------");
+    }    
+
+
     /**
      * Asetetaan k‰ytett‰v‰ music
      * @param music jota k‰ytet‰‰n
@@ -387,4 +431,5 @@ public class MusicGUIController implements Initializable {
     public void setMusic(Music music) {
         this.music = music;
     }
+
 }

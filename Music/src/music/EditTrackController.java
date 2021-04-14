@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import music2.Kappale;
+import music2.Music;
 
 /**
  * Muokkausikkunan tapahtumat
@@ -34,18 +35,31 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
    }
     
     @FXML private void handleDelete() {
-        Dialogs.showQuestionDialog("Delete track", "Do you want to delete this track?", "Yes", "No");
+        poistaKappale();
    }
-    
-    @FXML private void handleSave() {
-       if ( kappaleKohdalla != null && kappaleKohdalla.anna(kappaleKohdalla.ekaKentta()).trim().equals("") ) {
-                        naytaVirhe("Ei saa olla tyhj‰");
-                       return;
-                    }
-                    ModalController.closeStage(labelVirhe);
-     }
    
+   private void poistaKappale() {
+        if ( !Dialogs.showQuestionDialog("Delete track", "Do you want to delete this track?", "Yes", "No") )
+           return;
+        if (kappaleKohdalla == null) return;
+        Kappale kap = kappaleKohdalla;
+        music.poistaKappale(kap);
+       kappaleKohdalla = null;
+        ModalController.closeStage(buttonSulje);
+    }
+   
+  
     
+
+    @FXML private void handleSave() {
+        if ( kappaleKohdalla != null && kappaleKohdalla.anna(kappaleKohdalla.ekaKentta()).trim().equals("") ) {
+            naytaVirhe("Ei saa olla tyhj‰");
+            return;
+        }
+        ModalController.closeStage(labelVirhe);
+    }
+
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         alusta();       
@@ -79,6 +93,7 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
     private int kentta = 0;
+    private Music music;
     
     
     /**
@@ -192,16 +207,21 @@ public class EditTrackController implements ModalControllerInterface<Kappale>, I
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mit‰ dataan n‰ytet‰‰n oletuksena
      * @param kentta mik‰ kentt‰ saa fokuksen kun n‰ytet‰‰n 
+     * @param music music
      * @return null jos painetaan Cancel, muuten t‰ytetty tietue
      */
-    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta) {
+    public static Kappale kysyKappale(Stage modalityStage, Kappale oletus, int kentta, Music music) {
         return ModalController.<Kappale, EditTrackController>showModal(
                 EditTrackController.class.getResource("EditTrackView.fxml"),
                 "Track Info",
                 modalityStage, oletus,
-                ctrl -> { ctrl.setKentta(kentta);  }
+                ctrl -> { ctrl.setKentta(kentta); ctrl.setMusic(music);  }
                 );
     }
+     private void setMusic(Music music) {
+               this.music = music;
+        }
+
  
     
  

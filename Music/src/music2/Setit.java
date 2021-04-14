@@ -57,7 +57,14 @@ public class Setit {
         alkiot.add(setti);
         muutettu = true;
     }
-  
+    
+    
+    public boolean poista(Setti setti) {
+        boolean ret = alkiot.remove(setti);
+        if (ret) muutettu = true;
+        return ret;
+    }
+
 
    /**
     * Haetaan kaikki setit

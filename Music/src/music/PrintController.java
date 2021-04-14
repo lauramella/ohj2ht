@@ -4,7 +4,9 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
 import javafx.scene.control.TextArea;
+import javafx.scene.web.WebEngine;
 
 /**
  * @author laura
@@ -17,7 +19,13 @@ public class PrintController implements ModalControllerInterface<String>{
 
     
     @FXML private void handlePrint() {
-      Dialogs.showMessageDialog("Ei osata viel‰ tulostaa");
+               PrinterJob job = PrinterJob.createPrinterJob();
+               if ( job != null && job.showPrintDialog(null) ) {
+                   WebEngine webEngine = new WebEngine();
+                   webEngine.loadContent("<pre>" + tulostusAlue.getText() + "</pre>");
+                   webEngine.print(job);
+                   job.endJob();
+              }
     }
     
     
@@ -42,10 +50,21 @@ public class PrintController implements ModalControllerInterface<String>{
         /**
          * N‰ytt‰‰ tulostusalueessa tekstin
          * @param tulostus tulostettava teksti
+         * @return kontrolleri, jolta voidaan pyyt‰‰ lis‰‰ tietoa
          */
-        public static void tulosta(String tulostus) {
+        public static PrintController tulosta(String tulostus) {
+            PrintController tulostusCtrl =
                 ModalController.showModeless(PrintController.class.getResource("PrintView.fxml"),
                          "Tulostus", tulostus);
+            return tulostusCtrl;
              }
-//
+
+
+        /**
+         * @return textarea
+         */
+        public TextArea getTextArea() {
+            return tulostusAlue;
+        }
+      
 }

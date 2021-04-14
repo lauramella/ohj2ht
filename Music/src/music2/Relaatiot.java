@@ -60,6 +60,17 @@ public class Relaatiot implements Iterable<Relaatio> {
     }
     
     
+       /**
+     * @param rel poistettava relaatio
+     * @return true jos onnistui
+     */
+    public boolean poista(Relaatio rel) {
+               boolean ret = alkiot.remove(rel);
+                if (ret) muutettu = true;
+                return ret;
+          }
+    
+    
     /**
      * Lukee relaatiot tiedostosta
      * @param hakemisto tiedoston hakemisto
@@ -189,6 +200,42 @@ public class Relaatiot implements Iterable<Relaatio> {
         return loydetyt;
     }
 
+
+    
+    /**
+     * Haetaan kaikki kappaleen relaatiot
+     * @param kappaleTunnusNro kappaleen tunnusnumero jolle relaatioita haetaan
+     * @return tietorakenne jossa viitteet löydetteyihin relaatioihin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     *  Relaatiot relaatiot = new Relaatiot();
+     *  Relaatio rel1 = new Relaatio(1,2); relaatiot.lisaa(rel1);
+     *  Relaatio rel2 = new Relaatio(2,2); relaatiot.lisaa(rel2);
+     *  Relaatio rel3 = new Relaatio(4,2); relaatiot.lisaa(rel3);
+     *  Relaatio rel4 = new Relaatio(1,1); relaatiot.lisaa(rel4);
+     *  Relaatio rel5 = new Relaatio(2,4); relaatiot.lisaa(rel5);
+     *  Relaatio rel6 = new Relaatio(1,2); relaatiot.lisaa(rel6);
+     *  
+     *  List<Relaatio> loytyneet;
+     *  loytyneet = relaatiot.annaKappaleenRelaatiot(5);
+     *  loytyneet.size() === 0; 
+     *  loytyneet = relaatiot.annaKappaleenRelaatiot(2);
+     *  loytyneet.size() === 2; 
+     *  loytyneet.get(0) == rel2 === true;
+     *  loytyneet.get(1) == rel5 === true;
+     *  loytyneet = relaatiot.annaKappaleenRelaatiot(4);
+     *  loytyneet.size() === 1; 
+     *  loytyneet.get(0) == rel3 === true;
+     * </pre> 
+     */  
+    public List<Relaatio> annaKappaleenRelaatiot(int kappaleTunnusNro) {
+        List <Relaatio> loydetyt = new ArrayList<Relaatio>();
+        for (Relaatio rel : alkiot)
+            if (rel.getKNro() == kappaleTunnusNro) loydetyt.add(rel);
+        return loydetyt;
+    }
 
         @Override
         public Iterator<Relaatio> iterator() {

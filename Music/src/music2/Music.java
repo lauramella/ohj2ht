@@ -61,6 +61,45 @@ public class Music {
         kappaleet.korvaaTaiLisaa(kappale);
     }
     
+    /**
+     * @param rel poistettava relaatio
+     */
+    public void poistaRelaatio(Relaatio rel) { 
+        relaatiot.poista(rel); 
+    }
+
+
+    /**
+     * @param setti poistettava setti
+     */
+    public void poistaSetti(Setti setti) {
+        List<Relaatio> relaatioLista = annaRelaatiot(setti.getTunnusNro());
+        if (!relaatioLista.isEmpty()) {       
+            for (Relaatio rel:relaatioLista) {
+                poistaRelaatio(rel);
+            }
+        }
+        setit.poista(setti);
+
+    }
+
+
+        /**
+        * @param kap poistettava kappale
+         * @return kokonaisluvun
+        */
+       public int poistaKappale(Kappale kap) {
+           if ( kap == null ) return 0;
+           List<Relaatio> relaatioLista = annaKappaleenRelaatiot(kap.getTunnusNro());        
+           if (!relaatioLista.isEmpty()) {       
+               for (Relaatio rel:relaatioLista) {                   
+                   poistaRelaatio(rel);
+               }
+           }
+              int ret = kappaleet.poista(kap.getTunnusNro()); 
+                return ret;
+       }
+    
     
     /** 
     * Palauttaa "taulukossa" hakuehtoon vastaavien kappaleiden viitteet 
@@ -245,6 +284,15 @@ public class Music {
     }
     
     
+    /**
+     * @param kapTunnusNro kappaleen tunnusnumero
+     * @return lista tietyn kappaleen relaatioista
+     */
+    public List<Relaatio> annaKappaleenRelaatiot(int kapTunnusNro) {
+        return relaatiot.annaKappaleenRelaatiot(kapTunnusNro);
+    }
+    
+    
     
     /**
      * @return lista seteistä
@@ -277,13 +325,5 @@ public class Music {
      */
     public Kappale kappaleTunnus(int knro) {
         return kappaleet.kappaleTunnus(knro);
-    }
 }
-
-
-//chooserbiisiLista.clear();        
-//int index = 0;
-//for (Relaatio relaatio:relaatioLista) {
-  //  chooserbiisiLista.add(music.kappaleTunnus(relaatio.getKappaleNro()).getName(), relaatio);
-//}       
-//chooserbiisiLista.setSelectedIndex(index); //tästä tulee muutosviesti
+}

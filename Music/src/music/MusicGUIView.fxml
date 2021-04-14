@@ -71,7 +71,7 @@
             </BorderPane>
             <BorderPane>
                <center>
-                  <ScrollPane fx:id="panelKappale" fitToWidth="true" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="panelKappale" fitToWidth="true" minWidth="230.0" BorderPane.alignment="CENTER">
                      <content>
                         <GridPane fx:id="gridKappale" hgap="10.0">
                           <columnConstraints>

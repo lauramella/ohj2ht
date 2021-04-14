@@ -19,6 +19,6 @@
       </HBox>
    </bottom>
    <center>
-      <TextArea fx:id="tulostusAlue" prefHeight="200.0" prefWidth="200.0" text="teksti&#10;t&#10;t&#10;t&#10;t&#10;t&#10;t&#10;t&#10;" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="tulostusAlue" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

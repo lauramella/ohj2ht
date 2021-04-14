@@ -49,9 +49,6 @@ public class Main extends Application {
         }
     }
 
-            
-
-
 
     /**
      * @param args ei käytössä
