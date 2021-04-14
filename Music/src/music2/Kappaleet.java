@@ -26,8 +26,8 @@ import fi.jyu.mit.ohj2.WildChars;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Kappale         |
-| - pitää yllä varsinaista rekisteriä kappaleista    | -                 |
-| - voi lisätä ja poistaa kappaleen                  | -                 |
+| - pit yllä varsinaista rekisteriä kappaleista      |                   |
+| - voi lisätä ja poistaa kappaleen                  |                   |
 | - lukee ja kirjoittaa kappaleet tiedostoon         |                   |
 | - osaa etsiä ja lajitella                          |                   |
 |                                                    |                   |
@@ -48,8 +48,6 @@ public class Kappaleet implements Iterable<Kappale> {
     
     private static final int MAX_KAPPALEITA = 5;
     private int lkm = 0;
-    private String kokoNimi = "";
-    private String tiedostonNimi = "kappaleet";
     private Kappale[] alkiot;
     private boolean muutettu = false;
 
@@ -62,9 +60,9 @@ public class Kappaleet implements Iterable<Kappale> {
     }
     
     /**
-     * Lisää uuden kappaleen tietorakenteeseen. Ottaa kappaleen omistukseensa.
-     * @param kappale lisättävän kappaleen viite.
-     * @throws SailoException  jos tietorakenne on jo täynnä
+     * Lis uuden kappaleen tietorakenteeseen. Ottaa kappaleen omistukseensa.
+     * @param kappale listtvn kappaleen viite.
+     * @throws SailoException  jos tietorakenne on jo tynn
      * @example
      * <pre name="test">
      * #THROWS SailoException
@@ -116,8 +114,8 @@ public class Kappaleet implements Iterable<Kappale> {
     
     
     /**
-     * Palauttaa kappaleiden lukumäärän
-     * @return kappaleiden lukumäärä
+     * Palauttaa kappaleiden lukumrn
+     * @return kappaleiden lukumr
      */
     public int getLkm() {
         return lkm;
@@ -127,7 +125,7 @@ public class Kappaleet implements Iterable<Kappale> {
     /**
      * Lukee kappaleet tiedostosta
      * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos lukeminen epäonnistuu
+     * @throws SailoException jos lukeminen eponnistuu
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
         String nimi = hakemisto + "/kappaleet.dat";
@@ -157,7 +155,7 @@ public class Kappaleet implements Iterable<Kappale> {
      * 3 |This for B    |Alex Pervukhin |Lac002            |   |    |vinyl |    |      |Electronic|Minimal|2018       |Ukraine |  
      * </pre> 
      * @param tiednimi tallennettavan tiedoston nimi
-     * @throws SailoException jos talletus epäonnistuu
+     * @throws SailoException jos talletus eponnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
         if ( !muutettu ) return;
@@ -178,10 +176,10 @@ public class Kappaleet implements Iterable<Kappale> {
     
     /**
      * Korvaa kappaleen tietorakenteessa.  Ottaa kappaleen omistukseensa.
-     * Etsitään samalla tunnusnumerolla oleva kappale.  Jos ei löydy,
-     * niin lisätään uutena jäsenenä.
-     * @param kappale lisätäävän kappaleen viite.  Huom tietorakenne muuttuu omistajaksi
-     * @throws SailoException jos tietorakenne on jo täynnä
+     * Etsitn samalla tunnusnumerolla oleva kappale.  Jos ei lydy,
+     * niin listn uutena jsenen.
+     * @param kappale listvn kappaleen viite.  Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo tynn
      * <pre name="test">
      * #THROWS SailoException,CloneNotSupportedException
      * #PACKAGEIMPORT
@@ -261,9 +259,9 @@ public class Kappaleet implements Iterable<Kappale> {
         private int kohdalla = 0;
     
         /**
-         * Onko olemassa vielä seuraavaa kappaletta
+         * Onko olemassa viel seuraavaa kappaletta
          * @see java.util.Iterator#hasNext()
-         * @return true jos on vielä kappaleita
+         * @return true jos on viel kappaleita
          */
         @Override
         public boolean hasNext() {
@@ -274,7 +272,7 @@ public class Kappaleet implements Iterable<Kappale> {
         /**
          * Annetaan seuraava kappale
          * @return seuraava kappale
-         * @throws NoSuchElementException jos seuraava alkiota ei enää ole
+         * @throws NoSuchElementException jos seuraava alkiota ei en ole
          * @see java.util.Iterator#next()
          */
         @Override
@@ -308,8 +306,8 @@ public class Kappaleet implements Iterable<Kappale> {
     /** 
      * Palauttaa "taulukossa" hakuehtoon vastaavien kappaleiden viitteet 
      * @param hakuehto hakuehto 
-     * @param k etsittävän kentän indeksi  
-     * @return tietorakenteen löytyneistä kappaleista 
+     * @param k etsittvn kentn indeksi  
+     * @return tietorakenteen lytyneist kappaleista 
      * @example 
      * <pre name="test"> 
      * #THROWS SailoException  
@@ -337,6 +335,21 @@ public class Kappaleet implements Iterable<Kappale> {
     }
     
 
+    /** 
+     * Etsii kappaleen id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen kappaleen indeksi tai -1 jos ei löydy 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Kappaleet kappaleet = new Kappaleet(); 
+     * Kappale kappale1 = new Kappale(), kappale2 = new Kappale(), kappale3 = new Kappale(); 
+     * kappale1.rekisteroi(); kappale2.rekisteroi(); kappale3.rekisteroi(); 
+     * int id1 = kappale1.getTunnusNro(); 
+     * kappaleet.lisaa(kappale1); kappaleet.lisaa(kappale2); kappaleet.lisaa(kappale3); 
+     * kappaleet.etsiId(id1+1) === 1; 
+     * kappaleet.etsiId(id1+2) === 2; 
+     * </pre> 
+     */ 
     public int etsiId(int id) { 
         for (int i = 0; i < lkm; i++) 
             if (id == alkiot[i].getTunnusNro()) return i; 
@@ -345,6 +358,26 @@ public class Kappaleet implements Iterable<Kappale> {
 
 
 
+
+    /** 
+     * Poistaa kappaleen jolla on valittu tunnusnumero  
+     * @param id poistettavan kappaleen tunnusnumero 
+     * @return 1 jos poistettiin, 0 jos ei löydy 
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Kappaleet kappaleet = new Kappaleet(); 
+     * Kappale kappale1 = new Kappale(), kappale2 = new Kappale(), kappale3 = new Kappale(); 
+     * kappale1.rekisteroi(); kappale2.rekisteroi(); kappale3.rekisteroi(); 
+     * int id1 = kappale1.getTunnusNro(); 
+     * kappaleet.lisaa(kappale1); kappaleet.lisaa(kappale2); kappaleet.lisaa(kappale3); 
+     * kappaleet.poista(id1+1) === 1; 
+     * kappaleet.kappaleTunnus(id1+1) === null; kappaleet.getLkm() === 2; 
+     * kappaleet.poista(id1) === 1; kappaleet.getLkm() === 1; 
+     * kappaleet.poista(id1+3) === 0; kappaleet.getLkm() === 1; 
+     * </pre> 
+     *  
+     */
 
     public int poista(int id) { 
         int ind = etsiId(id); 
@@ -400,3 +433,4 @@ public class Kappaleet implements Iterable<Kappale> {
     }
 
 }
+

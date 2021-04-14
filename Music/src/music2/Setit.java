@@ -18,10 +18,10 @@ import java.util.Scanner;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Setti           |
-|- pitää yllä varsinaista rekisteriä seteistä eli    | -                 |
-|  osaa lisätä ja poistaa setin                      | -                 |
+|- pit yll varsinaista rekisteri seteist eli    | -                 |
+|  osaa list ja poistaa setin                      | -                 |
 |- lukee ja kirjoittaa setit tiedostoon              |                   |
-|- osaa etsiä ja lajitella                           |                   |
+|- osaa etsi ja lajitella                           |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -46,12 +46,12 @@ public class Setit {
      * Alustaminen
      */
     public Setit() {
-       // ei vielä tarvii mitään.
+       // ei viel tarvii mitn.
     }
     
     
     /**
-     * @param setti lisättävä setti
+     * @param setti listtv setti
      */
     public void lisaa(Setti setti) {
         alkiot.add(setti);
@@ -68,7 +68,7 @@ public class Setit {
 
    /**
     * Haetaan kaikki setit
-    * @return tietorakenne jossa viitteet löydetteyihin setteihin
+    * @return tietorakenne jossa viitteet lydetteyihin setteihin
     * @example
     * <pre name="test">
     * #import java.util.*;
@@ -113,7 +113,7 @@ public class Setit {
     /**
      * Lukee setit tiedostosta.
      * @param hakemisto tiedoston nimen alkuosa
-     * @throws SailoException jos lukeminen epäonnistuu
+     * @throws SailoException jos lukeminen eponnistuu
      * 
      * @example
      * <pre name="test">
@@ -148,7 +148,7 @@ public class Setit {
                 s = fi.nextLine().trim();
                 if ( "".equals(s) || s.charAt(0) == ';' ) continue;
                 Setti setti = new Setti();
-                setti.parse(s); // voisi olla virhekäsittely
+                setti.parse(s); // voisi olla virheksittely
                 lisaa(setti);
             }
             muutettu = false;
@@ -166,7 +166,7 @@ public class Setit {
      * 3|Setti4|5
      * </pre>
      * @param tiednimi tallennettavan tiedoston hakemisto
-     * @throws SailoException jos talletus epäonnistuu
+     * @throws SailoException jos talletus eponnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
         if ( !muutettu ) return;
@@ -186,7 +186,7 @@ public class Setit {
     
     /**
      * Testiohjelma seteille
-     * @param args ei käytössä
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Setit setit = new Setit();
@@ -232,3 +232,4 @@ public class Setit {
     }
 
 }
+

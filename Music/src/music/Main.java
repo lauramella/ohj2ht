@@ -27,13 +27,14 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("music.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("Music");
+            primaryStage.setOnCloseRequest((event) -> {
+                if ( !musicCtrl.voikoSulkea() ) event.consume();
+            });
 
             Music music = new Music();
             musicCtrl.setMusic(music);
             
-            primaryStage.setOnCloseRequest((event) -> {
-                if ( !musicCtrl.voikoSulkea() ) event.consume();
-            });
+
 
             primaryStage.show();
            // if ( !musicCtrl.avaa() ) Platform.exit();

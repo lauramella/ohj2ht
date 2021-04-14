@@ -5,8 +5,6 @@ package music2;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Iterator;
-import org.junit.*;
 
 /**
  * CRC - kortti
@@ -16,8 +14,8 @@ import org.junit.*;
 | Vastuualueet:                                      |                   |
 |                                                    | - Kappale         |
 | - Huolehtii Kappaleet ja Setit -luokkien yhteis-   | - Kappaleet       |
-|   tyˆst‰                                           | - Setti           |
-| - Lukee ja kirjoittaa tiedostoon kysym‰ll‰ apua    | - Setit           |
+|   tyst                                           | - Setti           |
+| - Lukee ja kirjoittaa tiedostoon kysymll apua    | - Setit           |
 |   avustajiltaan                                    | - Relaatio        |
 |                                                    | - Relaatiot       |
 |                                                    |                   |
@@ -41,9 +39,9 @@ public class Music {
     private String hakemisto = "musa";
     
     /**
-     * Lis‰t‰‰n uusi kappale
-     * @param kappale lis‰tt‰v‰ kappale
-     * @throws SailoException js lis‰‰minen ei onnistu
+     * Listn uusi kappale
+     * @param kappale listtv kappale
+     * @throws SailoException js lisminen ei onnistu
      */
     public void lisaa(Kappale kappale) throws SailoException {
         this.kappaleet.lisaa(kappale);
@@ -52,10 +50,10 @@ public class Music {
     
     /** 
      * Korvaa kappaleen tietorakenteessa.  Ottaa kapapleen omistukseensa. 
-     * Etsit‰‰n samalla tunnusnumerolla oleva kappale.  Jos ei lˆydy, 
-     * niin lis‰t‰‰n uutena kappaleena. 
-     * @param kappale lis‰tt‰v‰n kappaleen viite.  Huom tietorakenne muuttuu omistajaksi 
-     * @throws SailoException jos tietorakenne on jo t‰ynn‰ 
+     * Etsitn samalla tunnusnumerolla oleva kappale.  Jos ei lydy, 
+     * niin listn uutena kappaleena. 
+     * @param kappale listtvn kappaleen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @throws SailoException jos tietorakenne on jo tynn 
      */
     public void korvaaTaiLisaa(Kappale kappale) throws SailoException {
         kappaleet.korvaaTaiLisaa(kappale);
@@ -104,9 +102,9 @@ public class Music {
     /** 
     * Palauttaa "taulukossa" hakuehtoon vastaavien kappaleiden viitteet 
     * @param hakuehto hakuehto  
-    * @param k etsitt‰v‰n kent‰n indeksi  
-    * @return tietorakenteen lˆytyneist‰ kappaleista
-    * @throws SailoException Jos jotakin menee v‰‰rin
+    * @param k etsittvn kentn indeksi  
+    * @return tietorakenteen lytyneist kappaleista
+    * @throws SailoException Jos jotakin menee vrin
     */ 
     public Collection<Kappale> etsi(String hakuehto, int k) throws SailoException { 
         return kappaleet.etsi(hakuehto, k); 
@@ -115,15 +113,14 @@ public class Music {
     
     /**
      * Lukee kappaleiden tiedot tiedostosta
-     * @param nimi jota k‰yte‰‰n lukemisessa
-     * @throws SailoException jos lukeminen ep‰onnistuu
+     * @param nimi jota kyten lukemisessa
+     * @throws SailoException jos lukeminen eponnistuu
      */
     public void lueTiedostosta(String nimi) throws SailoException {
         kappaleet = new Kappaleet();
         setit = new Setit();
         relaatiot = new Relaatiot();
-        
-       // setTiedosto(nimi);
+ 
         kappaleet.lueTiedostosta(nimi);
         setit.lueTiedostosta(nimi);
         relaatiot.lueTiedostosta(nimi);
@@ -166,21 +163,18 @@ public class Music {
         if ( !"".equals(virhe) ) throw new SailoException(virhe);
     }
 
-    
-    
-
-    
+   
     /**
-     * Lis‰t‰‰n uusi setti
-     * @param setti lis‰tt‰v‰ setti
+     * Listn uusi setti
+     * @param setti listtv setti
      */
     public void lisaa(Setti setti) {
         setit.lisaa(setti);
     }
     
     /**
-     * Lis‰t‰‰n uusi relaatio
-     * @param rel lis‰tt‰v‰ relaatio
+     * Listn uusi relaatio
+     * @param rel listtv relaatio
      */
     public void lisaa(Relaatio rel) {
         relaatiot.lisaa(rel);
@@ -188,7 +182,7 @@ public class Music {
     
 
     /**
-     * @param args ei k‰ytˆss‰
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Music music = new Music();
@@ -295,7 +289,7 @@ public class Music {
     
     
     /**
-     * @return lista seteist‰
+     * @return lista seteist
      */
     public List<Setti> annaSetit () {
         return setit.annaSetit();
@@ -303,7 +297,7 @@ public class Music {
     
     
     /**
-     * @return kappaleiden lukum‰‰r‰
+     * @return kappaleiden lukumr
      */
     public int getKappaleet() {
         return this.kappaleet.getLkm();

@@ -95,7 +95,7 @@
                         <Insets bottom="10.0" left="160.0" right="5.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
+                  <Button fx:id="buttonSulje" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin>

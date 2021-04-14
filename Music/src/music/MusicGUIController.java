@@ -59,7 +59,7 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * @return Kysyt‰‰n tiedoston nimi ja luetaan se
+     * @return Kysytn tiedoston nimi ja luetaan se
      */
     public boolean avaa() {
         String uusinimi = LoginController.kysyNimi(null, username);
@@ -157,8 +157,8 @@ public class MusicGUIController implements Initializable {
     
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
-     * yksi iso tekstikentt‰, johon voidaan tulostaa kappaleiden tiedot.
-     * Alustetaan myˆs kappalelistan kuuntelija
+     * yksi iso tekstikentt, johon voidaan tulostaa kappaleiden tiedot.
+     * Alustetaan mys kappalelistan kuuntelija
      */
     private void alusta() {
         chooserKappaleet.clear();
@@ -221,7 +221,7 @@ public class MusicGUIController implements Initializable {
    
    /**
     * Tietojen tallennus
-    * @return null jos onnistuu, muuten virhe tekstin‰
+    * @return null jos onnistuu, muuten virhe tekstin
     */
     private String tallenna() {
         try {
@@ -265,7 +265,6 @@ public class MusicGUIController implements Initializable {
      */
     protected String lueTiedosto(String nimi) {
         username = nimi;
-        // setTitle("Kerho - " + username);
         try {
             music.lueTiedostosta(nimi);
             haeSetit();
@@ -282,7 +281,7 @@ public class MusicGUIController implements Initializable {
 
       
     /**
-     * Lis‰t‰‰n tietty kappale settiin
+     * Listn tietty kappale settiin
      */
     private void kappaleSettiin() {
         kappaleKohdalla = chooserKappaleet.getSelectedObject();
@@ -296,7 +295,7 @@ public class MusicGUIController implements Initializable {
     
 
     /**
-     * N‰ytet‰‰n setti
+     * Nytetn setti
      */
     private void naytaSetti() {
         settiKohdalla = comboSets.getSelectedObject();
@@ -307,14 +306,14 @@ public class MusicGUIController implements Initializable {
         for (Relaatio relaatio:relaatioLista) {
             chooserbiisiLista.add(music.kappaleTunnus(relaatio.getKNro()).getName(), relaatio);
         }       
-        chooserbiisiLista.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
+        chooserbiisiLista.setSelectedIndex(index); //tst tulee muutosviesti
 
 
     }
 
 
     /**
-     * Lis‰t‰‰n uusi setti
+     * Listn uusi setti
      */
     private void uusiSetti() {
         Setti setti = new Setti();
@@ -339,7 +338,7 @@ public class MusicGUIController implements Initializable {
 
     /**
      * Haetaan kappale ja laitetaan se valituksi
-     * @param knro kappaleen nro, joka aktivoidaan haun j‰lkeen
+     * @param knro kappaleen nro, joka aktivoidaan haun jlkeen
      * jos 0 aktivoidaan nykyinen kappale
      */ 
     private void haeKappaleTiedot(int knro) {        
@@ -358,14 +357,14 @@ public class MusicGUIController implements Initializable {
                 chooserKappaleet.add(kappale.getName(), kappale);
             }
         } catch (SailoException ex) {
-            naytaVirhe("J‰senen hakemisessa ongelmia! " + ex.getMessage());
+            naytaVirhe("Jsenen hakemisessa ongelmia! " + ex.getMessage());
         }       
-        chooserKappaleet.setSelectedIndex(index); //t‰st‰ tulee muutosviesti
+        chooserKappaleet.setSelectedIndex(index); //tst tulee muutosviesti
     }
 
 
     /**
-     * Lis‰t‰‰n uusi kappale
+     * Listn uusi kappale
      */
     private void uusiKappale() {
         try {
@@ -378,14 +377,14 @@ public class MusicGUIController implements Initializable {
             haeKappaleTiedot(kappale.getTunnusNro());
             EditTrackController.naytaKappale(edits, kappale);
         } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia kappaleen lis‰‰misess‰");
+            Dialogs.showMessageDialog("Ongelmia kappaleen lismisess");
             return;
         }
     }
 
 
     /**
-     * N‰ytet‰‰n kappale
+     * Nytetn kappale
      */
     protected void naytaKappale() {
         kappaleKohdalla = chooserKappaleet.getSelectedObject();       
@@ -395,7 +394,7 @@ public class MusicGUIController implements Initializable {
     }
 
     /**
-     * Tulostaa setiss‰ olevat kappaleet tekstialueeseen
+     * Tulostaa setiss olevat kappaleet tekstialueeseen
      * @param text alue johon tulostetaan
      */
     public void tulostaSetti(TextArea text) {
@@ -409,7 +408,7 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Tulostaa j‰senen tiedot
+     * Tulostaa jsenen tiedot
      * @param os tietovirta johon tulostetaan
      * @param setinNimi nimi
      * @param reLista tulostettava relaatiolista
@@ -425,8 +424,8 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Asetetaan k‰ytett‰v‰ music
-     * @param music jota k‰ytet‰‰n
+     * Asetetaan kytettv music
+     * @param music jota kytetn
      */
     public void setMusic(Music music) {
         this.music = music;

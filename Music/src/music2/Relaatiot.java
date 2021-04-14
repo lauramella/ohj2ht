@@ -18,9 +18,9 @@ import java.util.Scanner;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Relaatio        |
-| - huolehtii Kappaleet ja Setit -luokkien välisestä |                   |
-|   yhteistyöstä ja välittää näitä tietoja pyydet-   |                   |
-|   täessä                                           |                   |
+| - huolehtii Kappaleet ja Setit -luokkien vlisest |                   |
+|   yhteistyst ja vlitt nit tietoja pyydet-   |                   |
+|   tess                                           |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -38,7 +38,6 @@ import java.util.Scanner;
  */
 public class Relaatiot implements Iterable<Relaatio> {
     private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
-    private String nimi = "";
     private boolean muutettu = false;
 
 
@@ -51,7 +50,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     
     
     /**
-     * @param rel lisättävä setti
+     * @param rel listtv setti
      */
     public void lisaa(Relaatio rel) {
         rel.rekisteroi();
@@ -74,7 +73,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     /**
      * Lukee relaatiot tiedostosta
      * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos lukeminen epäonnistuu
+     * @throws SailoException jos lukeminen eponnistuu
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
         String nimi1 = hakemisto + "/relaatiot.dat";
@@ -91,8 +90,6 @@ public class Relaatiot implements Iterable<Relaatio> {
             muutettu = false;
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
-        //} catch ( IOException e ) {
-            //throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
         }
     }
 
@@ -105,7 +102,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * 3 |4  |1
      * </pre> 
      * @param tiednimi tallennettavan tiedoston nimi
-     * @throws SailoException jos talletus epäonnistuu
+     * @throws SailoException jos talletus eponnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
         if ( !muutettu ) return;
@@ -125,7 +122,7 @@ public class Relaatiot implements Iterable<Relaatio> {
 
     /**
      * Testiohjelma seteille
-     * @param args ei käytössä
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Relaatiot relaatiot = new Relaatiot();
@@ -168,7 +165,7 @@ public class Relaatiot implements Iterable<Relaatio> {
          /**
           * Haetaan kaikki setin relaatiot
           * @param settiTunnusNro setin tunnusnumero jolle relaatioita haetaan
-          * @return tietorakenne jossa viitteet löydetteyihin relaatioihin
+          * @return tietorakenne jossa viitteet lydetteyihin relaatioihin
           * @example
           * <pre name="test">
           * #import java.util.*;
@@ -205,7 +202,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     /**
      * Haetaan kaikki kappaleen relaatiot
      * @param kappaleTunnusNro kappaleen tunnusnumero jolle relaatioita haetaan
-     * @return tietorakenne jossa viitteet löydetteyihin relaatioihin
+     * @return tietorakenne jossa viitteet lydetteyihin relaatioihin
      * @example
      * <pre name="test">
      * #import java.util.*;
