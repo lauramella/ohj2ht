@@ -371,9 +371,9 @@ public class MusicGUIController implements Initializable {
             Kappale kappale = new Kappale();
             kappale = AddNewTrackController.kysyKappale(null, kappale, 1);
             if ( kappale == null ) return;
-            tallenna();
             kappale.rekisteroi();
             music.lisaa(kappale);
+            tallenna();
             haeKappaleTiedot(kappale.getTunnusNro());
             EditTrackController.naytaKappale(edits, kappale);
         } catch (SailoException e) {

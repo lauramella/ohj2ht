@@ -31,8 +31,7 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        alusta();
-        
+        //alusta();       
     }
 
     @Override
@@ -42,14 +41,17 @@ public class AddNewTrackController implements ModalControllerInterface<Kappale>,
 
     @Override
     public void handleShown() {
+        alusta();
         kentta = Math.max(uusikappale.ekaKentta(), Math.min(kentta, uusikappale.getKenttia()-1));
-        edits[kentta].requestFocus();        
+        edits[kentta].requestFocus(); 
+        naytaKappale(edits, uusikappale);
     }
 
     @Override
     public void setDefault(Kappale oletus) {
         uusikappale = oletus;
-        naytaKappale(edits, uusikappale);
+        //naytaKappale(edits, uusikappale);
+       
         
     }
     
