@@ -1,20 +1,15 @@
 package music;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import music2.Music;
-import music2.Relaatio;
 
 /**
  * @author laura

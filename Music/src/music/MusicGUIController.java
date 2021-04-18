@@ -46,20 +46,6 @@ public class MusicGUIController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         alusta();
     }
-
-
-    /**
-     * @return Kysytn tiedoston nimi ja luetaan se
-     */
-    public boolean avaa() {
-        String uusinimi = LoginController.kysyNimi(null, username);
-        uusinimi= LoginController.getNimi();       
-        if (uusinimi == null) return false;
-        music.setHakemisto(uusinimi);
-        lueTiedosto(uusinimi);
-        tallenna();
-        return true;
-    }
     
     /**
      * Tarkistetaan onko tallennus tehty
@@ -86,42 +72,13 @@ public class MusicGUIController implements Initializable {
         uusiSetti();
     }
     
-    /**
-     * Listn uusi setti
-     */
-    private void uusiSetti() {
-        Setti setti = new Setti();
-        setti.rekisteroi();
-        music.lisaa(setti);
-        String setinNimi = NewSetController.getSetinNimi();
-        if (setinNimi != null) setti.uusiNimi(setinNimi);
-        int index = comboSets.getSelectedIndex();
-        haeSetit();
-        comboSets.setSelectedIndex(index);
-        naytaSetti();
-        tallenna();
-    }
-    
+
 
     @FXML private void handleRenameSet() {
         var resurssi3 = MusicGUIController.class.getResource("RenameSetView.fxml");
         ModalController.showModal(resurssi3, "Rename thisset", null, "");
         uusiNimi();
     }
-    
-    
-   private void uusiNimi() {
-       settiKohdalla = comboSets.getSelectedObject();
-       if (settiKohdalla == null) return;
-       String uusiNimi = RenameSetController.getNimi();
-       if (uusiNimi == null) return;
-       settiKohdalla.uusiNimi(uusiNimi);
-       int index = comboSets.getSelectedIndex();
-       haeSetit();
-       comboSets.setSelectedIndex(index);
-       naytaSetti();
-       tallenna();
-   }
 
 
     @FXML private void handleDeleteSet() {
@@ -166,7 +123,21 @@ public class MusicGUIController implements Initializable {
     private String username;
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
-    private int kentta = 0; 
+    private int kentta = 0;
+    
+    
+    /**
+     * @return Kysytn tiedoston nimi ja luetaan se
+     */
+    public boolean avaa() {
+        String uusinimi = LoginController.kysyNimi(null, username);
+        uusinimi= LoginController.getNimi();       
+        if (uusinimi == null) return false;
+        music.setHakemisto(uusinimi);
+        lueTiedosto(uusinimi);
+        tallenna();
+        return true;
+    }
     
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
@@ -219,6 +190,24 @@ public class MusicGUIController implements Initializable {
         comboSets.setSelectedIndex(index);
         naytaSetti();               
     }
+    
+    
+    /**
+     * Listn uusi setti
+     */
+    private void uusiSetti() {
+        Setti setti = new Setti();
+        setti.rekisteroi();
+        music.lisaa(setti);
+        String setinNimi = NewSetController.getSetinNimi();
+        if (setinNimi != null) setti.uusiNimi(setinNimi);
+        int index = comboSets.getSelectedIndex();
+        haeSetit();
+        comboSets.setSelectedIndex(index);
+        naytaSetti();
+        tallenna();
+    }
+    
     
     
     private void naytaVirhe(String virhe) {
@@ -290,7 +279,20 @@ public class MusicGUIController implements Initializable {
             if ( virhe != null ) Dialogs.showMessageDialog(virhe);
             return virhe;
         }
-    }   
+    } 
+    
+    private void uusiNimi() {
+        settiKohdalla = comboSets.getSelectedObject();
+        if (settiKohdalla == null) return;
+        String uusiNimi = RenameSetController.getNimi();
+        if (uusiNimi == null) return;
+        settiKohdalla.uusiNimi(uusiNimi);
+        int index = comboSets.getSelectedIndex();
+        haeSetit();
+        comboSets.setSelectedIndex(index);
+        naytaSetti();
+        tallenna();
+    }
 
       
     /**
