@@ -169,7 +169,7 @@ public class Setit {
      * @throws SailoException jos talletus eponnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
-        if ( !muutettu ) return;
+        //if ( !muutettu ) return;
         if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
         File ftied = new File(tiednimi + "/setit.dat");
         

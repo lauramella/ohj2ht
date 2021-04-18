@@ -50,6 +50,13 @@ public class Setti {
     // Viel‰ ei tarvita mit‰‰n
     }
     
+    /**
+     * @param nimi nimi
+     */
+    public void uusiNimi(String nimi) {
+        name = nimi;       
+         
+     }
         
     
     /**
@@ -183,6 +190,7 @@ public class Setti {
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         name = Mjonot.erota(sb, '|', name);
     }
+
 
 
    

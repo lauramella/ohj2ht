@@ -12,7 +12,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Kappale         |
-| - yhdist‰‰ Kappale:en tiettyyn Setti:in            | - Setti           |
+| - yhdist Kappale:en tiettyyn Setti:in            | - Setti           |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -77,8 +77,8 @@ public class Relaatio {
     
     
     /**
-     * Asettaa tunnusnumeron ja samalla varmistaa ett‰
-     * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
+     * Asettaa tunnusnumeron ja samalla varmistaa ett
+     * seuraava numero on aina suurempi kuin thn menness suurin.
      * @param nr asetettava tunnusnumero
      */
     private void setTunnusNro(int nr) {
@@ -88,8 +88,8 @@ public class Relaatio {
     
     
     /**
-     * Selvit‰‰ relaation tiedot | erotellusta merkkijonosta
-     * Pit‰‰ huolen ett‰ seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * Selvit relaation tiedot | erotellusta merkkijonosta
+     * Pit huolen ett seuraavaNro on suurempi kuin tuleva tunnusNro.
      * @param rivi josta relaation tiedot otetaan
      * 
      * @example
@@ -101,7 +101,7 @@ public class Relaatio {
      *   relaatio.rekisteroi();
      *   int n = relaatio.getTunnusNro();
      *   relaatio.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   relaatio.rekisteroi();           // ja tarkistetaan ett‰ seuraavalla kertaa tulee yht‰ isompi
+     *   relaatio.rekisteroi();           // ja tarkistetaan ett seuraavalla kertaa tulee yht isompi
      *   relaatio.getTunnusNro() === n+20+1;
      *     
      * </pre>
@@ -117,7 +117,7 @@ public class Relaatio {
        
     /**
      * Testiohjelma Setille
-     * @param args ei k‰ytˆss‰
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Relaatio rel1 = new Relaatio(1,1);
@@ -188,9 +188,4 @@ public class Relaatio {
     
     
 }   
-    
-    
-    
-    
-    
     

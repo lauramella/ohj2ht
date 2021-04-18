@@ -23,6 +23,7 @@ import music2.SailoException;
 import music2.Setti;
 import static music.EditTrackController.getFieldId;
 
+
 /**
  * @author laura
  * @version 1.2.2021
@@ -39,17 +40,6 @@ public class MusicGUIController implements Initializable {
     @FXML private GridPane gridKappale;
     @FXML private ScrollPane panelKappale;
     @FXML private ScrollPane panelSetti;   
-    @FXML private TextField editArtist;
-    @FXML private TextField editName;
-    @FXML private TextField editFormat;
-    @FXML private TextField editLabel;
-    @FXML private TextField editBpm;
-    @FXML private TextField editLength;
-    @FXML private TextField editGenre;
-    @FXML private TextField editStyle;
-    @FXML private TextField editReleased;
-    @FXML private TextField editCountry;
-    @FXML private TextField editInfo;
 
     
     @Override
@@ -96,23 +86,26 @@ public class MusicGUIController implements Initializable {
     @FXML private void handleRenameSet() {
         var resurssi3 = MusicGUIController.class.getResource("RenameSetView.fxml");
         ModalController.showModal(resurssi3, "Rename thisset", null, "");
+        uusiNimi();
     }
+    
+    
+   private void uusiNimi() {
+       settiKohdalla = comboSets.getSelectedObject();
+       if (settiKohdalla == null) return;
+       String uusiNimi = RenameSetController.getNimi();
+       if (uusiNimi == null) return;
+       settiKohdalla.uusiNimi(uusiNimi);
+       int index = comboSets.getSelectedIndex();
+       haeSetit();
+       comboSets.setSelectedIndex(index);
+       naytaSetti();
+       tallenna();
+   }
 
 
     @FXML private void handleDeleteSet() {
         poistaSetti();
-    }
-    
-    
-    private void poistaKappale() {
-        kappaleKohdalla = chooserKappaleet.getSelectedObject();
-    if (kappaleKohdalla == null) return;
-    Kappale kap = kappaleKohdalla;
-    music.poistaKappale(kap);
-    chooserbiisiLista.clear();
-    haeSetit();
-    haeKappaleTiedot(0);
-    chooserbiisiLista.clear();
     }
     
     

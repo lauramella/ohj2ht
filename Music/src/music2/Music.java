@@ -38,6 +38,8 @@ public class Music {
     private Relaatiot relaatiot = new Relaatiot();
     private String hakemisto = "musa";
     
+   
+    
     /**
      * Listn uusi kappale
      * @param kappale listtv kappale

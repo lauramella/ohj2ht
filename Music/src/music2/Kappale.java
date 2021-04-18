@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -17,13 +18,13 @@ CRC-kortti
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | -                 |
-| - Tietää kappaleen kentät (nimi, artisti, genre    | -                 |
+| - Tiet kappaleen kentt (nimi, artisti, genre    | -                 |
 |   jne.)                                            |                   |
 | - Osaa muuttaa merkkijonon (esim|esim|esim jne.)   |                   |
 |   tiedoiksi                                        |                   |
-| - Osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
-| - Osaa antaa merkkijono i:n kentän tiedot          |                   |
-| - Osaa laittaa merkkijonon i:neksi kentäksi        |                   |
+| - Osaa tarkistaa tietyn kentn oikeellisuuden      |                   |
+| - Osaa antaa merkkijono i:n kentn tiedot          |                   |
+| - Osaa laittaa merkkijonon i:neksi kentksi        |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -56,13 +57,13 @@ public class Kappale implements Cloneable {
      * ja tunnusnro = 0.
      */
     public Kappale() {
-        // Toistaiseksi ei tarvita mitään
+        // Toistaiseksi ei tarvita mitn
     }
     
     
     /**
-     * Palauttaa jäsenen kenttien lukumäärän
-     * @return kenttien lukumäärä
+     * Palauttaa jsenen kenttien lukumrn
+     * @return kenttien lukumr
      */
     public int getKenttia() {
         return 12;
@@ -70,8 +71,8 @@ public class Kappale implements Cloneable {
     
     
     /**
-    * Eka kenttä joka on mielekäs kysyttäväksi
-    * @return ekan kentän indeksi
+    * Eka kentt joka on mieleks kysyttvksi
+    * @return ekan kentn indeksi
     */
     public int ekaKentta() {
         return 1;
@@ -101,9 +102,9 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Antaa k:n kentän sisällön merkkijonona
-     * @param k monenenko kentän sisältö palautetaan
-     * @return kentän sisältö merkkijonona
+     * Antaa k:n kentn sislln merkkijonona
+     * @param k monenenko kentn sislt palautetaan
+     * @return kentn sislt merkkijonona
      */
     public String anna(int k) {
         switch ( k ) {
@@ -125,9 +126,9 @@ public class Kappale implements Cloneable {
     
     
     /** 
-     * Antaa k:n kentän sisällön merkkijonona 
-     * @param k monenenko kentän sisältö palautetaan 
-     * @return kentän sisältö merkkijonona 
+     * Antaa k:n kentn sislln merkkijonona 
+     * @param k monenenko kentn sislt palautetaan 
+     * @return kentn sislt merkkijonona 
      */ 
     public String getAvain(int k) { 
         switch ( k ) { 
@@ -145,9 +146,9 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Asettaa k:n kentän arvoksi parametrina tuodun merkkijonon arvon
-     * @param k kuinka monennen kentän arvo asetetaan
-     * @param jono jonoa joka asetetaan kentän arvoksi
+     * Asettaa k:n kentn arvoksi parametrina tuodun merkkijonon arvon
+     * @param k kuinka monennen kentn arvo asetetaan
+     * @param jono jonoa joka asetetaan kentn arvoksi
      * @return null jos asettaminen onnistuu, muuten vastaava virheilmoitus.
      * @example
      * <pre name="test">
@@ -204,9 +205,9 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Palauttaa k:tta kappaleen kenttää vastaavan kysymyksen
-     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
-     * @return k:netta kenttää vastaava kysymys
+     * Palauttaa k:tta kappaleen kentt vastaavan kysymyksen
+     * @param k kuinka monennen kentn kysymys palautetaan (0-alkuinen)
+     * @return k:netta kentt vastaava kysymys
      */
     public String getKysymys(int k) {
         switch ( k ) {
@@ -228,7 +229,7 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Tehdään identtinen klooni kappaleesta
+     * Tehdn identtinen klooni kappaleesta
      * @return Object kloonattu kappale
      * @example
      * <pre name="test">
@@ -285,7 +286,7 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Apumetodi, jolla saadaan täyettyä testiarvot jäsenelle.
+     * Apumetodi, jolla saadaan tyetty testiarvot jsenelle.
      */
     public void taytaKappaleTiedoilla() {
         artist  ="Alex Pervukhin " + Tarkistus.rand(1000, 9999);
@@ -317,7 +318,7 @@ public class Kappale implements Cloneable {
      * <pre name="test">
      *   Kappale kappale = new Kappale();
      *   kappale.parse("   3  |  Alex   | This For B");
-     *   kappale.toString().startsWith("3|Alex|This For B|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   kappale.toString().startsWith("3|Alex|This For B|") === true; // on enemmkin kuin 3 kentt, siksi loppu |
      * </pre>  
      */
     @Override
@@ -335,8 +336,8 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Asettaa tunnusnumeron ja samalla varmistaa että
-     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * Asettaa tunnusnumeron ja samalla varmistaa ett
+     * seuraava numero on aina suurempi kuin thn menness suurin.
      * @param nr asetettava tunnusnumero
      */
     private void setTunnusNro(int nr) {
@@ -355,8 +356,8 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Selvitää kappaleen tiedot | erotellusta merkkijonosta
-     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * Selvit kappaleen tiedot | erotellusta merkkijonosta
+     * Pit huolen ett seuraavaNro on suurempi kuin tuleva tunnusNro.
      * @param rivi josta kappaleen tiedot otetaan
      * 
      * @example
@@ -364,12 +365,12 @@ public class Kappale implements Cloneable {
      *   Kappale kappale = new Kappale();
      *   kappale.parse("   3  |  Guy From Downstairs   | Nokia");
      *   kappale.getTunnusNro() === 3;
-     *   kappale.toString().startsWith("3|Guy From Downstairs|Nokia|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   kappale.toString().startsWith("3|Guy From Downstairs|Nokia|") === true; // on enemmkin kuin 3 kentt, siksi loppu |
      *
      *   kappale.rekisteroi();
      *   int n = kappale.getTunnusNro();
      *   kappale.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   kappale.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   kappale.rekisteroi();           // ja tarkistetaan ett seuraavalla kertaa tulee yht isompi
      *   kappale.getTunnusNro() === n+20+1;
      *     
      * </pre>
@@ -383,7 +384,7 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * @param args ei käytössä
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Kappale kappale1 = new Kappale();
@@ -404,7 +405,7 @@ public class Kappale implements Cloneable {
     
     
     /**
-     * Tulostetaan henkilön tiedot
+     * Tulostetaan henkiln tiedot
      * @param out tietovirta johon tulostetaan 
      */
     public void tulosta(PrintStream out) {
@@ -461,7 +462,7 @@ public class Kappale implements Cloneable {
 
         private int k;
         /**
-         * @param k minkä kentän mukaan vertaillaan
+         * @param k mink kentn mukaan vertaillaan
          */
         public Vertailija(int k) {
             this.k = k;
@@ -487,3 +488,4 @@ public class Kappale implements Cloneable {
         }}
 
 }
+

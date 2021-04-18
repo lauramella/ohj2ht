@@ -26,10 +26,10 @@ import fi.jyu.mit.ohj2.WildChars;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Kappale         |
-| - pit yllä varsinaista rekisteriä kappaleista      |                   |
-| - voi lisätä ja poistaa kappaleen                  |                   |
+| - pit yll varsinaista rekisteri kappaleista      |                   |
+| - voi list ja poistaa kappaleen                  |                   |
 | - lukee ja kirjoittaa kappaleet tiedostoon         |                   |
-| - osaa etsiä ja lajitella                          |                   |
+| - osaa etsi ja lajitella                          |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -337,8 +337,8 @@ public class Kappaleet implements Iterable<Kappale> {
 
     /** 
      * Etsii kappaleen id:n perusteella 
-     * @param id tunnusnumero, jonka mukaan etsitään 
-     * @return löytyneen kappaleen indeksi tai -1 jos ei löydy 
+     * @param id tunnusnumero, jonka mukaan etsitn 
+     * @return lytyneen kappaleen indeksi tai -1 jos ei lydy 
      * <pre name="test"> 
      * #THROWS SailoException  
      * Kappaleet kappaleet = new Kappaleet(); 
@@ -362,7 +362,7 @@ public class Kappaleet implements Iterable<Kappale> {
     /** 
      * Poistaa kappaleen jolla on valittu tunnusnumero  
      * @param id poistettavan kappaleen tunnusnumero 
-     * @return 1 jos poistettiin, 0 jos ei löydy 
+     * @return 1 jos poistettiin, 0 jos ei lydy 
      * @example 
      * <pre name="test"> 
      * #THROWS SailoException  
@@ -392,7 +392,7 @@ public class Kappaleet implements Iterable<Kappale> {
 
     
     /**
-     * @param args ei käytössä
+     * @param args ei kytss
      */
     public static void main(String[] args) {
         Kappaleet kappaleet = new Kappaleet();
@@ -433,4 +433,5 @@ public class Kappaleet implements Iterable<Kappale> {
     }
 
 }
+
 
