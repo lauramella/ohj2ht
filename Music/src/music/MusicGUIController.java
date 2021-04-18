@@ -53,9 +53,11 @@ public class MusicGUIController implements Initializable {
      */
     public boolean avaa() {
         String uusinimi = LoginController.kysyNimi(null, username);
+        uusinimi= LoginController.getNimi();       
         if (uusinimi == null) return false;
         music.setHakemisto(uusinimi);
         lueTiedosto(uusinimi);
+        tallenna();
         return true;
     }
     
@@ -161,7 +163,7 @@ public class MusicGUIController implements Initializable {
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
     private Relaatio relaatioKohdalla;
-    private String username = "musa";
+    private String username;
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
     private int kentta = 0; 

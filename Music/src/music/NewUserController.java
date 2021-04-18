@@ -5,6 +5,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 /**
  * jsj
@@ -14,29 +15,43 @@ import javafx.scene.control.Button;
  */
 public class NewUserController implements ModalControllerInterface<String> {
     @FXML private Button buttonSulje;
+    @FXML private TextField tekstiUusiKayttaja;
+    private static String uusiKayttaja = "";
+    
+    
     @FXML private void handleCancel() {
+        uusiKayttaja = null;
         ModalController.closeStage(buttonSulje);
    }
+    
     @FXML private void handleAddUser() {
-        Dialogs.showMessageDialog("Ei toimi lis‰‰minen");
+        uusiKayttaja = tekstiUusiKayttaja.getText();
+        ModalController.closeStage(buttonSulje);
    } 
  
     @Override
     public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return uusiKayttaja;
     }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
-        
+        tekstiUusiKayttaja.requestFocus();       
     }
 
     @Override
-    public void setDefault(String arg0) {
-        // TODO Auto-generated method stub
-        
+    public void setDefault(String oletus) {
+        uusiKayttaja = oletus;       
+    }
+    
+    
+    public static String getUusiKayttaja() {
+        String palautus = uusiKayttaja;
+        return palautus;
+    }
+
+    public static String getNimi() {
+        return getUusiKayttaja();
     }
     
 

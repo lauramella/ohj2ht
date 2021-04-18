@@ -16,9 +16,9 @@ import javafx.scene.control.TextField;
 public class RenameSetController implements ModalControllerInterface<String> {
     @FXML private Button buttonSulje;
 
-    @FXML
-    private TextField tekstiUusiNimi;
+    @FXML    private TextField tekstiUusiNimi;
     private static String uusiNimi;
+    
     @FXML private void handleCancel() {
         uusiNimi = null;
         ModalController.closeStage(buttonSulje);
