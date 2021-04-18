@@ -3,6 +3,7 @@
  */
 package music2;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Music {
     private Relaatiot relaatiot = new Relaatiot();
     private String hakemisto = "musa";
     
-   
+
     
     /**
      * Listn uusi kappale
@@ -65,7 +66,8 @@ public class Music {
      * @param rel poistettava relaatio
      */
     public void poistaRelaatio(Relaatio rel) { 
-        relaatiot.poista(rel); 
+        if ( rel == null ) return;
+        relaatiot.poista(rel.getTunnusNro()); 
     }
 
 
@@ -314,6 +316,18 @@ public class Music {
     public Kappale annaKappale(int i) {
         return kappaleet.anna(i);
     }
+    
+    
+    /**
+     * Antaa kerhon i:n kappaleen
+     * @param i monesko kappale (alkaa 0:sta)
+     * @return kappale paikasta i
+     */
+    public Relaatio annaRelaatio(int i) {
+        return relaatiot.anna(i);
+    }
+    
+    
     
     /**
      * @param knro kappalenumero

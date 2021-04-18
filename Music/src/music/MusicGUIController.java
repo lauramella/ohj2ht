@@ -2,7 +2,9 @@ package music;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,6 +49,8 @@ public class MusicGUIController implements Initializable {
         alusta();
     }
     
+    
+    
     /**
      * Tarkistetaan onko tallennus tehty
      * @return true jos saa sulkea sovelluksen, false jos ei
@@ -82,7 +86,7 @@ public class MusicGUIController implements Initializable {
 
 
     @FXML private void handleDeleteSet() {
-        poistaSetti();
+       poistaSetti();
     }
     
     
@@ -120,6 +124,7 @@ public class MusicGUIController implements Initializable {
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
     private Relaatio relaatioKohdalla;
+    private Relaatio apuRelaatio;
     private String username;
     private static Kappale apukappale = new Kappale();
     private TextField edits[];

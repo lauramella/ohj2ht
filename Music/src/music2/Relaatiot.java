@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,37 +38,64 @@ import java.util.Scanner;
  *
  */
 public class Relaatiot implements Iterable<Relaatio> {
-    private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
+   // private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
     private boolean muutettu = false;
+    private static final int MAX_RELAATIOT = 20;
+    private int lkm = 0;
+    private Relaatio[] alkiot2;
 
 
     /**
      * Alustaminen
      */
     public Relaatiot() {
-        //
-    }
-    
+        alkiot2 = new Relaatio[MAX_RELAATIOT];
+    } 
     
     /**
      * @param rel listtv setti
      */
+   // public void lisaa2(Relaatio rel) {
+   //     rel.rekisteroi();
+    //    alkiot.add(rel);
+    //    muutettu = true;
+ //   }
+    
     public void lisaa(Relaatio rel) {
         rel.rekisteroi();
-        alkiot.add(rel);
+        if (lkm >= alkiot2.length) 
+            alkiot2 = Arrays.copyOf(alkiot2, alkiot2.length+10);
+        this.alkiot2[this.lkm] = rel;
+        lkm++;
         muutettu = true;
     }
+    
+    public void poista(int id) { 
+        int ind = etsiId(id); 
+        if (ind < 0) return; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            alkiot2[i] = alkiot2[i + 1]; 
+        alkiot2[lkm] = null; 
+        muutettu = true;  
+    }
+    
+    public int etsiId(int id) { 
+        for (int i = 0; i < lkm; i++) 
+            if (id == alkiot2[i].getTunnusNro()) return i; 
+        return -1; 
+    } 
     
     
        /**
      * @param rel poistettava relaatio
      * @return true jos onnistui
      */
-    public boolean poista(Relaatio rel) {
-               boolean ret = alkiot.remove(rel);
-                if (ret) muutettu = true;
-                return ret;
-          }
+  //  public boolean poista2(Relaatio rel) {
+               //boolean ret = alkiot.remove(rel);
+             //   if (ret) muutettu = true;
+              //  return ret;
+       //   }
     
     
     /**
@@ -92,6 +120,7 @@ public class Relaatiot implements Iterable<Relaatio> {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
         }
     }
+    
 
     
     /**
@@ -109,15 +138,35 @@ public class Relaatiot implements Iterable<Relaatio> {
         if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
         File ftied = new File(tiednimi + "/relaatiot.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
-            for (var relaatiot: alkiot) {
-                fo.println(relaatiot.toString());
-            }
+            for (int i = 0; i < getLkm(); i++) {
+                Relaatio rel = anna(i);
+                fo.println(rel.toString());
+            }          
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedosto " + ftied.getAbsolutePath() + " ei aukea.");
             return;
         } 
         muutettu = false;
     }
+    
+    /**
+     * @return lkm
+     */
+    public int getLkm() {
+        return lkm;
+    }
+    
+    /**
+     * @param i d
+     * @return d
+     * @throws IndexOutOfBoundsException d
+     */
+    public Relaatio anna(int i) throws IndexOutOfBoundsException{
+        if (i < 0 || lkm <=i)
+            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+        return alkiot2[i];
+    }
+
 
 
     /**
@@ -133,32 +182,33 @@ public class Relaatiot implements Iterable<Relaatio> {
             System.err.println(e1.getMessage());
         }
         
-        Relaatio rel1 = new Relaatio(1,1);
-        Relaatio rel2 = new Relaatio(2,1);
-        Relaatio rel3 = new Relaatio(3,1);
-        Relaatio rel4 = new Relaatio(3,2);
-        rel1.rekisteroi();
-        rel2.rekisteroi();
-        rel3.rekisteroi();
-        rel4.rekisteroi();
+      //  Relaatio rel1 = new Relaatio(1,1);
+        //Relaatio rel2 = new Relaatio(2,1);
+       // Relaatio rel3 = new Relaatio(3,1);
+       // Relaatio rel4 = new Relaatio(3,2);
+      //  rel1.rekisteroi();
+      //  rel2.rekisteroi();
+      //  rel3.rekisteroi();
+        //rel4.rekisteroi();
         
-        relaatiot.lisaa(rel1);
-        relaatiot.lisaa(rel2);
-        relaatiot.lisaa(rel3);
-        relaatiot.lisaa(rel4);
+        //relaatiot.lisaa(rel1);
+        //relaatiot.lisaa(rel2);
+        //relaatiot.lisaa(rel3);
+        //relaatiot.lisaa(rel4);
         
         
-        List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);                        //anna kaikki relaatiot, jotka setId=1
+       // List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);                        //anna kaikki relaatiot, jotka setId=1
         
-          for (Relaatio rel : relaatioLista) {
-                   rel.tulosta(System.out);
-              }
+       //   for (Relaatio rel : relaatioLista) {
+         //          rel.tulosta(System.out);
+         //     }
           
           try {
               relaatiot.tallenna("musa");
           } catch (SailoException e) {
               e.printStackTrace();
           }
+
 
     }   
 
@@ -192,8 +242,10 @@ public class Relaatiot implements Iterable<Relaatio> {
           */   
     public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
         List <Relaatio> loydetyt = new ArrayList<Relaatio>();
-        for (Relaatio rel : alkiot)
+        for (int i = 0; i < getLkm(); i++) {
+            Relaatio rel = anna(i);
             if (rel.getSettiNro()== settiTunnusNro) loydetyt.add(rel);
+        }
         return loydetyt;
     }
 
@@ -229,15 +281,20 @@ public class Relaatiot implements Iterable<Relaatio> {
      */  
     public List<Relaatio> annaKappaleenRelaatiot(int kappaleTunnusNro) {
         List <Relaatio> loydetyt = new ArrayList<Relaatio>();
-        for (Relaatio rel : alkiot)
+        for (int i = 0; i < getLkm(); i++) {
+            Relaatio rel = anna(i);
             if (rel.getKNro() == kappaleTunnusNro) loydetyt.add(rel);
+        }
         return loydetyt;
     }
 
-        @Override
-        public Iterator<Relaatio> iterator() {
-            return alkiot.iterator();
-        }  
+    @Override
+    public Iterator<Relaatio> iterator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+      
 
 
 }
