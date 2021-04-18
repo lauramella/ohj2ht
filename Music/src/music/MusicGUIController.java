@@ -79,7 +79,25 @@ public class MusicGUIController implements Initializable {
     }
        
     @FXML private void handleNewSet() {
+        var resurssi = MusicGUIController.class.getResource("NewSetView.fxml");
+        ModalController.showModal(resurssi, "New set", null, "");
         uusiSetti();
+    }
+    
+    /**
+     * Listn uusi setti
+     */
+    private void uusiSetti() {
+        Setti setti = new Setti();
+        setti.rekisteroi();
+        music.lisaa(setti);
+        String setinNimi = NewSetController.getSetinNimi();
+        if (setinNimi != null) setti.uusiNimi(setinNimi);
+        int index = comboSets.getSelectedIndex();
+        haeSetit();
+        comboSets.setSelectedIndex(index);
+        naytaSetti();
+        tallenna();
     }
     
 
@@ -304,17 +322,6 @@ public class MusicGUIController implements Initializable {
 
     }
 
-
-    /**
-     * Listn uusi setti
-     */
-    private void uusiSetti() {
-        Setti setti = new Setti();
-        setti.rekisteroi();
-        music.lisaa(setti);
-        haeSetit();
-        naytaSetti();
-    }
 
 
     /**

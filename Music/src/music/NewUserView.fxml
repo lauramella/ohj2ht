@@ -43,7 +43,7 @@
       </Label>
    </left>
    <right>
-      <TextField maxWidth="160.0" BorderPane.alignment="CENTER">
+      <TextField fx:id="tekstiUusiKayttaja" maxWidth="160.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="20.0" />
          </BorderPane.margin>

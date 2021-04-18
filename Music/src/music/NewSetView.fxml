@@ -43,7 +43,7 @@
                   <Insets bottom="10.0" left="20.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <TextField>
+            <TextField fx:id="tekstiNimi">
                <HBox.margin>
                   <Insets bottom="5.0" right="20.0" top="5.0" />
                </HBox.margin>

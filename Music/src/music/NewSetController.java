@@ -8,6 +8,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import music2.Kappale;
 import music2.Music;
 import music2.Setti;
@@ -18,33 +19,42 @@ import music2.Setti;
  *
  */
 public class NewSetController implements ModalControllerInterface<String> {
-    private Music music;
-   // @FXML private ListChooser<Setti> chooserSetit;
     @FXML private Button buttonSulje;
+    @FXML private TextField tekstiNimi;
+    private static String setinNimi;
+    
     @FXML private void handleCancel() {
+        setinNimi = null;
         ModalController.closeStage(buttonSulje);
    }
     @FXML private void handleSave() {
-        Dialogs.showMessageDialog("Ei toimi tallennus");
-        
+        setinNimi = tekstiNimi.getText();
+        ModalController.closeStage(buttonSulje); 
    } 
  
     @Override
     public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return setinNimi;
     }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
-        
+        tekstiNimi.requestFocus();       
     }
 
     @Override
     public void setDefault(String arg0) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public static String getSetinNimi() {
+        String palautus = setinNimi;
+        return palautus;
+    }
+
+    public static String setinNimi() {
+        return getSetinNimi();
     }
     
    
