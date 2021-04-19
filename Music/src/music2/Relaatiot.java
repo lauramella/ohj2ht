@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -19,9 +18,9 @@ import java.util.Scanner;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Relaatio        |
-| - huolehtii Kappaleet ja Setit -luokkien vlisest |                   |
-|   yhteistyst ja vlitt nit tietoja pyydet-   |                   |
-|   tess                                           |                   |
+| - huolehtii Kappaleet ja Setit -luokkien välisestä |                   |
+|   yhteistyöstä ja välittää niitä tietoja pyydet-   |                   |
+|   tessä                                            |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -38,12 +37,11 @@ import java.util.Scanner;
  *
  */
 public class Relaatiot implements Iterable<Relaatio> {
-   // private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
+    // private Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
     private boolean muutettu = false;
     private static final int MAX_RELAATIOT = 20;
     private int lkm = 0;
     private Relaatio[] alkiot2;
-
 
     /**
      * Alustaminen
@@ -51,16 +49,24 @@ public class Relaatiot implements Iterable<Relaatio> {
     public Relaatiot() {
         alkiot2 = new Relaatio[MAX_RELAATIOT];
     } 
-    
+
+
     /**
-     * @param rel listtv setti
+     * Lisää ja rekisteröi relaation
+     * @param rel lisättävä relaatio
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio rel1 = new Relaatio(1,1), rel2 = new Relaatio(3,3);
+     * relaatiot.getLkm() === 0;
+     * relaatiot.lisaa(rel1); relaatiot.getLkm() === 1;
+     * relaatiot.lisaa(rel2); relaatiot.getLkm() === 2;
+     * relaatiot.lisaa(rel1); relaatiot.getLkm() === 3;  
+     * relaatiot.lisaa(rel1); relaatiot.getLkm() === 4;
+     * relaatiot.lisaa(rel1); relaatiot.getLkm() === 5;
+     * </pre>
      */
-   // public void lisaa2(Relaatio rel) {
-   //     rel.rekisteroi();
-    //    alkiot.add(rel);
-    //    muutettu = true;
- //   }
-    
     public void lisaa(Relaatio rel) {
         rel.rekisteroi();
         if (lkm >= alkiot2.length) 
@@ -69,7 +75,22 @@ public class Relaatiot implements Iterable<Relaatio> {
         lkm++;
         muutettu = true;
     }
-    
+
+ 
+    /** 
+     * Poistaa relaation jolla on valittu tunnusnumero  
+     * @param id poistettavan relaation tunnusnumero 
+     * @example 
+     * <pre name="test">  
+     * Relaatiot relaatiot = new Relaatiot(); 
+     * Relaatio rel1 = new Relaatio(1,1), rel2 = new Relaatio(2,4), rel3 = new Relaatio(7,8); 
+     * rel1.rekisteroi(); rel2.rekisteroi(); rel3.rekisteroi();  
+     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3); 
+     * relaatiot.poista(rel2.getTunnusNro()); relaatiot.getLkm() === 2; 
+     * relaatiot.poista(rel1.getTunnusNro()); relaatiot.getLkm() === 1; 
+     * </pre> 
+     *  
+     */
     public void poista(int id) { 
         int ind = etsiId(id); 
         if (ind < 0) return; 
@@ -79,25 +100,28 @@ public class Relaatiot implements Iterable<Relaatio> {
         alkiot2[lkm] = null; 
         muutettu = true;  
     }
-    
+
+
+
+    /** 
+     * Etsii relaation id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen relaation indeksi tai -1 jos ei löydy 
+     * <pre name="test">  
+     * Relaatiot relaatiot = new Relaatiot(); 
+     * Relaatio rel1 = new Relaatio(1,1), rel2 = new Relaatio(2,4), rel3 = new Relaatio(3,4); 
+     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3); 
+     * relaatiot.etsiId(rel2.getTunnusNro()) === 1; 
+     * relaatiot.etsiId(rel3.getTunnusNro()) === 2; 
+     * </pre> 
+     */
     public int etsiId(int id) { 
         for (int i = 0; i < lkm; i++) 
             if (id == alkiot2[i].getTunnusNro()) return i; 
         return -1; 
     } 
-    
-    
-       /**
-     * @param rel poistettava relaatio
-     * @return true jos onnistui
-     */
-  //  public boolean poista2(Relaatio rel) {
-               //boolean ret = alkiot.remove(rel);
-             //   if (ret) muutettu = true;
-              //  return ret;
-       //   }
-    
-    
+
+
     /**
      * Lukee relaatiot tiedostosta
      * @param hakemisto tiedoston hakemisto
@@ -120,9 +144,9 @@ public class Relaatiot implements Iterable<Relaatio> {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
         }
     }
-    
 
-    
+
+
     /**
      * Tallentaa relaatiot tiedostoon.
      * Tiedoston muoto:
@@ -148,98 +172,56 @@ public class Relaatiot implements Iterable<Relaatio> {
         } 
         muutettu = false;
     }
-    
+
     /**
-     * @return lkm
+     * Relaatioiden lukumäärä
+     * @return relaatioiden lukumäärä
      */
     public int getLkm() {
         return lkm;
     }
-    
+
     /**
-     * @param i d
-     * @return d
-     * @throws IndexOutOfBoundsException d
+     * Palauttaa relaation, joka on paikassa i
+     * @param i relaation indeksi taulukossa
+     * @return relaatio kohdassa i
+     * @throws IndexOutOfBoundsException jos indeksiä ei ole
      */
     public Relaatio anna(int i) throws IndexOutOfBoundsException{
         if (i < 0 || lkm <=i)
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return alkiot2[i];
     }
-
-
+   
 
     /**
-     * Testiohjelma seteille
-     * @param args ei kytss
-     */
-    public static void main(String[] args) {
-        Relaatiot relaatiot = new Relaatiot();
-        
-        try {
-            relaatiot.lueTiedostosta("musa");
-        } catch (SailoException e1) {
-            System.err.println(e1.getMessage());
-        }
-        
-      //  Relaatio rel1 = new Relaatio(1,1);
-        //Relaatio rel2 = new Relaatio(2,1);
-       // Relaatio rel3 = new Relaatio(3,1);
-       // Relaatio rel4 = new Relaatio(3,2);
-      //  rel1.rekisteroi();
-      //  rel2.rekisteroi();
-      //  rel3.rekisteroi();
-        //rel4.rekisteroi();
-        
-        //relaatiot.lisaa(rel1);
-        //relaatiot.lisaa(rel2);
-        //relaatiot.lisaa(rel3);
-        //relaatiot.lisaa(rel4);
-        
-        
-       // List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);                        //anna kaikki relaatiot, jotka setId=1
-        
-       //   for (Relaatio rel : relaatioLista) {
-         //          rel.tulosta(System.out);
-         //     }
-          
-          try {
-              relaatiot.tallenna("musa");
-          } catch (SailoException e) {
-              e.printStackTrace();
-          }
-
-
-    }   
-
-         /**
-          * Haetaan kaikki setin relaatiot
-          * @param settiTunnusNro setin tunnusnumero jolle relaatioita haetaan
-          * @return tietorakenne jossa viitteet lydetteyihin relaatioihin
-          * @example
-          * <pre name="test">
-          * #import java.util.*;
-          * 
-          *  Relaatiot relaatiot = new Relaatiot();
-          *  Relaatio rel1 = new Relaatio(1,2); relaatiot.lisaa(rel1);
-          *  Relaatio rel2 = new Relaatio(2,2); relaatiot.lisaa(rel2);
-          *  Relaatio rel3 = new Relaatio(4,2); relaatiot.lisaa(rel3);
-          *  Relaatio rel4 = new Relaatio(1,1); relaatiot.lisaa(rel4);
-          *  Relaatio rel5 = new Relaatio(2,4); relaatiot.lisaa(rel5);
-          *  Relaatio rel6 = new Relaatio(1,2); relaatiot.lisaa(rel6);
-          *  
-          *  List<Relaatio> loytyneet;
-          *  loytyneet = relaatiot.annaRelaatiot(3);
-          *  loytyneet.size() === 0; 
-          *  loytyneet = relaatiot.annaRelaatiot(2);
-          *  loytyneet.size() === 4; 
-          *  loytyneet.get(0) == rel1 === true;
-          *  loytyneet.get(1) == rel2 === true;
-          *  loytyneet = relaatiot.annaRelaatiot(4);
-          *  loytyneet.size() === 1; 
-          *  loytyneet.get(0) == rel5 === true;
-          * </pre> 
-          */   
+     * Haetaan kaikki setin relaatiot
+     * @param settiTunnusNro setin tunnusnumero jolle relaatioita haetaan
+     * @return tietorakenne jossa viitteet löydettyihin relaatioihin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     *  Relaatiot relaatiot = new Relaatiot();
+     *  Relaatio rel1 = new Relaatio(1,2); relaatiot.lisaa(rel1);
+     *  Relaatio rel2 = new Relaatio(2,2); relaatiot.lisaa(rel2);
+     *  Relaatio rel3 = new Relaatio(4,2); relaatiot.lisaa(rel3);
+     *  Relaatio rel4 = new Relaatio(1,1); relaatiot.lisaa(rel4);
+     *  Relaatio rel5 = new Relaatio(2,4); relaatiot.lisaa(rel5);
+     *  Relaatio rel6 = new Relaatio(1,2); relaatiot.lisaa(rel6);
+     *  
+     *  List<Relaatio> loytyneet;
+     *  loytyneet = relaatiot.annaRelaatiot(3);
+     *  loytyneet.size() === 0; 
+     *  loytyneet = relaatiot.annaRelaatiot(2);
+     *  loytyneet.size() === 4; 
+     *  loytyneet.get(0) == rel1 === true;
+     *  loytyneet.get(1) == rel2 === true;
+     *  loytyneet = relaatiot.annaRelaatiot(4);
+     *  loytyneet.size() === 1; 
+     *  loytyneet.get(0) == rel5 === true;
+     * </pre> 
+     */   
     public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
         List <Relaatio> loydetyt = new ArrayList<Relaatio>();
         for (int i = 0; i < getLkm(); i++) {
@@ -250,7 +232,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     }
 
 
-    
+
     /**
      * Haetaan kaikki kappaleen relaatiot
      * @param kappaleTunnusNro kappaleen tunnusnumero jolle relaatioita haetaan
@@ -288,14 +270,50 @@ public class Relaatiot implements Iterable<Relaatio> {
         return loydetyt;
     }
 
+
     @Override
     public Iterator<Relaatio> iterator() {
-        // TODO Auto-generated method stub
         return null;
     }
+    
+    
+    /**
+     * Testiohjelma seteille
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        Relaatiot relaatiot = new Relaatiot();
 
-      
+        try {
+            relaatiot.lueTiedostosta("musa");
+        } catch (SailoException e1) {
+            System.err.println(e1.getMessage());
+        }
 
+        Relaatio rel1 = new Relaatio(1,1);
+        Relaatio rel2 = new Relaatio(2,1);
+        Relaatio rel3 = new Relaatio(3,1);
+        Relaatio rel4 = new Relaatio(3,2);
+        rel1.rekisteroi();
+        rel2.rekisteroi();
+        rel3.rekisteroi();
+        rel4.rekisteroi();
 
+        relaatiot.lisaa(rel1);
+        relaatiot.lisaa(rel2);
+        relaatiot.lisaa(rel3);
+        relaatiot.lisaa(rel4);
+
+        List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);       
+
+        for (Relaatio rel : relaatioLista) {
+            rel.tulosta(System.out);
+        }
+
+        try {
+            relaatiot.tallenna("musa");
+        } catch (SailoException e) {
+            e.printStackTrace();
+        }
+    }
 }
-

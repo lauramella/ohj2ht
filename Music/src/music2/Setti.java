@@ -2,12 +2,7 @@ package music2;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.Tarkistus;
 
 
 /**
@@ -32,33 +27,33 @@ import kanta.Tarkistus;
 |                                                    |                   |
 |-------------------------------------------------------------------------
  * @author laura
- * @version 8.3.2021
+ * @version 19.4.2021
  *
  */
 public class Setti {   
-    
+
     private int     tunnusNro;
     private String  name    ="Setti1";
-    
+
     private static int seuraavaNro  = 1;
-    
-    
+
     /**
-     * Alustetaan setti. Toistaiseksi ei tarvitse tehdä mitään
+     * Alustetaan setti.
      */
     public Setti() {
-    // Vielä ei tarvita mitään
+        //
     }
     
+
     /**
-     * @param nimi nimi
+     * Annetaan setille uusi nimi
+     * @param nimi setin uusi nimi
      */
     public void uusiNimi(String nimi) {
         name = nimi;       
-         
-     }
-        
-    
+    }
+
+
     /**
      * Tulostetaan setin tiedot
      * @param out tietovirta johon tulostetaan 
@@ -66,8 +61,8 @@ public class Setti {
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro) + " Setin nimi: " + name);       
     }
-     
-    
+
+
     /**
      * Tulostetaan kappaleen tiedot
      * @param os tietovirta johon tulostetaan
@@ -75,8 +70,8 @@ public class Setti {
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
-    
-    
+
+
     /**
      * Antaa setille seuraavan rekisterinumeron.
      * @return setin uusi tunnus_nro
@@ -98,8 +93,6 @@ public class Setti {
         return this.tunnusNro;
     }
     
-    
-
 
     /**
      * Asettaa tunnusnumeron ja samalla varmistaa että
@@ -111,8 +104,7 @@ public class Setti {
         if ( tunnusNro >= seuraavaNro ) seuraavaNro = tunnusNro + 1;
     }
 
-    
-    
+
     /**
      * Apumetodi, jolla saadaan täyettyä testiarvot Setille.
      */
@@ -120,13 +112,21 @@ public class Setti {
         name    = "Setti1";
     }
     
+    
     /**
-     * @return Setin nimi
+     * Palauttaa setin nimen
+     * @return setin nimi
+     * @example
+     * <pre name="test">
+     *   Setti setti = new Setti();
+     *   setti.taytaSettiTiedoilla();
+     *   setti.getNimi() =R= "Setti1.*";
+     * </pre>
      */
     public String getNimi() {
         return name;
     }
-    
+
 
     /**
      * Palautetaan setin oma id
@@ -135,22 +135,8 @@ public class Setti {
     public int getTunnusNro() {
         return tunnusNro;
     }
-  
-    
-    /**
-     * Testiohjelma Setille
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Setti setti1 = new Setti();
-        setti1.rekisteroi();
-        setti1.taytaSettiTiedoilla();
-    
-        setti1.tulosta(System.out);
-         
-    }
-    
-    
+
+
     /**
      * Palauttaa setin tiedot merkkijonona jonka voi tallentaa tiedostoon.
      * @return setti tolppaeroteltuna merkkijonona 
@@ -165,7 +151,7 @@ public class Setti {
     public String toString() {
         return "" + getTunnusNro() + "|" + name;
     }
-    
+
 
     /**
      * Selvitää setin tiedot | erotellusta merkkijonosta.
@@ -190,8 +176,16 @@ public class Setti {
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         name = Mjonot.erota(sb, '|', name);
     }
-
-
-
-   
+    
+    
+    /**
+     * Testiohjelma setille
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        Setti setti1 = new Setti();
+        setti1.rekisteroi();
+        setti1.taytaSettiTiedoilla();
+        setti1.tulosta(System.out);
+    }
 }

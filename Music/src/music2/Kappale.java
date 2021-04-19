@@ -7,9 +7,7 @@ package music2;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Comparator;
-
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.*;
 
 /**
 CRC-kortti
@@ -18,13 +16,13 @@ CRC-kortti
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | -                 |
-| - Tiet kappaleen kentt (nimi, artisti, genre    | -                 |
+| - Tietää kappaleen kentän (nimi, artisti, genre    | -                 |
 |   jne.)                                            |                   |
 | - Osaa muuttaa merkkijonon (esim|esim|esim jne.)   |                   |
 |   tiedoiksi                                        |                   |
-| - Osaa tarkistaa tietyn kentn oikeellisuuden      |                   |
-| - Osaa antaa merkkijono i:n kentn tiedot          |                   |
-| - Osaa laittaa merkkijonon i:neksi kentksi        |                   |
+| - Osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
+| - Osaa antaa merkkijono i:n kentän tiedot          |                   |
+| - Osaa laittaa merkkijonon i:neksi kentäksi        |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -32,7 +30,7 @@ CRC-kortti
 |                                                    |                   |
 |-------------------------------------------------------------------------
  * @author laura
- * @version 27.2.2021
+ * @version 19.4.2021
  *
  */
 public class Kappale implements Cloneable {
@@ -48,37 +46,36 @@ public class Kappale implements Cloneable {
     private String  released=""; 
     private String  country =""; 
     private String  info    ="";
-    
+
     private static int seuraavaNro  = 1;
-    
-    
+
+
     /**
-     * Alustetaan kappaleen merkkijono-attribuuti tyhjiksi jonoiksi
-     * ja tunnusnro = 0.
+     * Alustetaan kappale
      */
     public Kappale() {
-        // Toistaiseksi ei tarvita mitn
+        // 
     }
-    
-    
+
+
     /**
-     * Palauttaa jsenen kenttien lukumrn
-     * @return kenttien lukumr
+     * Palauttaa kappaleen kenttien lukumäärän
+     * @return kenttien lukumäärä
      */
     public int getKenttia() {
         return 12;
     }
-    
-    
+
+
     /**
-    * Eka kentt joka on mieleks kysyttvksi
-    * @return ekan kentn indeksi
-    */
+     * Eka kenttä joka on mielekäs kysyttäväksi
+     * @return ekan kentän indeksi
+     */
     public int ekaKentta() {
         return 1;
     }
-    
-    
+
+
     /**
      * Antaa kappaleelle seuraavan tunnusnumeron.
      * @return kappaleen uusi tunnusNro
@@ -99,12 +96,12 @@ public class Kappale implements Cloneable {
         seuraavaNro++;
         return this.tunnusNro;
     } 
-    
-    
+
+
     /**
-     * Antaa k:n kentn sislln merkkijonona
-     * @param k monenenko kentn sislt palautetaan
-     * @return kentn sislt merkkijonona
+     * Antaa k:n kentän sisällön merkkijonona
+     * @param k monenenko kentän sisältö palautetaan
+     * @return kentän sisältö merkkijonona
      */
     public String anna(int k) {
         switch ( k ) {
@@ -123,12 +120,12 @@ public class Kappale implements Cloneable {
         default: return "Moikka";
         }
     }
-    
-    
+
+
     /** 
-     * Antaa k:n kentn sislln merkkijonona 
-     * @param k monenenko kentn sislt palautetaan 
-     * @return kentn sislt merkkijonona 
+     * Antaa k:n kentän sisällön merkkijonona 
+     * @param k monenenko kentän sisältö palautetaan 
+     * @return kentän sisältö merkkijonona 
      */ 
     public String getAvain(int k) { 
         switch ( k ) { 
@@ -143,12 +140,12 @@ public class Kappale implements Cloneable {
         } 
     }
 
-    
-    
+
+
     /**
-     * Asettaa k:n kentn arvoksi parametrina tuodun merkkijonon arvon
-     * @param k kuinka monennen kentn arvo asetetaan
-     * @param jono jonoa joka asetetaan kentn arvoksi
+     * Asettaa k:n kentän arvoksi parametrina tuodun merkkijonon arvon
+     * @param k kuinka monennen kentän arvo asetetaan
+     * @param jono jonoa joka asetetaan kentän arvoksi
      * @return null jos asettaminen onnistuu, muuten vastaava virheilmoitus.
      * @example
      * <pre name="test">
@@ -202,12 +199,12 @@ public class Kappale implements Cloneable {
             return "Moikka";
         }
     }
-    
-    
+
+
     /**
-     * Palauttaa k:tta kappaleen kentt vastaavan kysymyksen
-     * @param k kuinka monennen kentn kysymys palautetaan (0-alkuinen)
-     * @return k:netta kentt vastaava kysymys
+     * Palauttaa k:tta kappaleen kenttää vastaavan kysymyksen
+     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
+     * @return k:netta kenttää vastaava kysymys
      */
     public String getKysymys(int k) {
         switch ( k ) {
@@ -226,10 +223,10 @@ public class Kappale implements Cloneable {
         default: return "Moikka";
         }
     }
-    
-    
+
+
     /**
-     * Tehdn identtinen klooni kappaleesta
+     * Tehdään identtinen klooni kappaleesta
      * @return Object kloonattu kappale
      * @example
      * <pre name="test">
@@ -248,8 +245,8 @@ public class Kappale implements Cloneable {
         uusi = (Kappale) super.clone();
         return uusi;
     }
-    
-    
+
+
     /**
      * Tutkii onko kappaleen tiedot samat kuin parametrina tuodun kappaleen tiedot
      * @param kappale johon verrataan
@@ -275,21 +272,20 @@ public class Kappale implements Cloneable {
             if ( !anna(k).equals(kappale.anna(k)) ) return false;
         return true;
     }
-    
-    
+
+
     @Override
-        public boolean equals(Object kappale) {
+    public boolean equals(Object kappale) {
         if ( kappale instanceof Kappale ) return equals((Kappale)kappale);
         return false;
     }
 
-    
-    
+
     /**
-     * Apumetodi, jolla saadaan tyetty testiarvot jsenelle.
+     * Apumetodi, jolla saadaan täytettyä testiarvot kappaleelle.
      */
     public void taytaKappaleTiedoilla() {
-        artist  ="Alex Pervukhin " + Tarkistus.rand(1000, 9999);
+        artist  ="Alex Pervukhin ";
         name    ="This for B";
         format  ="Vinyl";
         label   ="Lac002";
@@ -301,16 +297,22 @@ public class Kappale implements Cloneable {
         country ="Ukraine";
         info    ="";
     }
-       
-    
+
+
     /**
-     * @return Kappaleen nimi
+     * @return kappaleen nimi
+     * @example
+     * <pre name="test">
+     *   Kappale kap = new Kappale();
+     *   kap.taytaKappaleTiedoilla();
+     *   kap.getName() =R= "Alex Pervukhin .*";
+     * </pre>
      */
     public String getName() {
         return artist + " - " + name;
     }
-    
-    
+
+
     /**
      * Palauttaa kappaleen tiedot merkkijonona jonka voi tallentaa tiedostoon.
      * @return kappale tolppaeroteltuna merkkijonona 
@@ -318,12 +320,11 @@ public class Kappale implements Cloneable {
      * <pre name="test">
      *   Kappale kappale = new Kappale();
      *   kappale.parse("   3  |  Alex   | This For B");
-     *   kappale.toString().startsWith("3|Alex|This For B|") === true; // on enemmkin kuin 3 kentt, siksi loppu |
+     *   kappale.toString().startsWith("3|Alex|This For B|") === true; // on enemmkin kuin 3 kenttää, siksi loppu |
      * </pre>  
      */
     @Override
     public String toString() {
-        //return artist + " - " + name;
         StringBuilder sb = new StringBuilder("");
         String erotin = "";
         for (int k = 0; k < getKenttia(); k++) {
@@ -331,21 +332,21 @@ public class Kappale implements Cloneable {
             sb.append(anna(k));
             erotin = "|";
         }
-       return sb.toString();            
+        return sb.toString();            
     }  
-    
-    
+
+
     /**
-     * Asettaa tunnusnumeron ja samalla varmistaa ett
-     * seuraava numero on aina suurempi kuin thn menness suurin.
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
      * @param nr asetettava tunnusnumero
      */
     private void setTunnusNro(int nr) {
         tunnusNro = nr;
         if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
     }
-    
-    
+
+
     /**
      * Palauttaa kappaleen tunnusnumeron
      * @return kappaleen tunnusnumero
@@ -353,11 +354,11 @@ public class Kappale implements Cloneable {
     public int getTunnusNro() {
         return tunnusNro;
     }
-    
-    
+
+
     /**
-     * Selvit kappaleen tiedot | erotellusta merkkijonosta
-     * Pit huolen ett seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * Selvittää kappaleen tiedot | erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
      * @param rivi josta kappaleen tiedot otetaan
      * 
      * @example
@@ -365,47 +366,59 @@ public class Kappale implements Cloneable {
      *   Kappale kappale = new Kappale();
      *   kappale.parse("   3  |  Guy From Downstairs   | Nokia");
      *   kappale.getTunnusNro() === 3;
-     *   kappale.toString().startsWith("3|Guy From Downstairs|Nokia|") === true; // on enemmkin kuin 3 kentt, siksi loppu |
+     *   kappale.toString().startsWith("3|Guy From Downstairs|Nokia|") === true; // on enemmkin kuin 3 kenttää, siksi loppu |
      *
      *   kappale.rekisteroi();
      *   int n = kappale.getTunnusNro();
      *   kappale.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   kappale.rekisteroi();           // ja tarkistetaan ett seuraavalla kertaa tulee yht isompi
+     *   kappale.rekisteroi();           // ja tarkistetaan ett seuraavalla kertaa tulee yhtä isompi
      *   kappale.getTunnusNro() === n+20+1;
      *     
      * </pre>
      */
-
     public void parse(String rivi) {
         StringBuffer sb = new StringBuffer(rivi);
         for (int k = 0; k < getKenttia(); k++)
             aseta(k, Mjonot.erota(sb, '|'));
     }
-    
-    
+
+
+
+
     /**
-     * @param args ei kytss
+     * @param out tietovirta johon tulostetaan
      */
-    public static void main(String[] args) {
-        Kappale kappale1 = new Kappale();
-        Kappale kappale2 = new Kappale();
-        
-        kappale1.rekisteroi();
-        kappale2.rekisteroi();
-        
-        kappale1.tulosta(System.out);
-        kappale1.taytaKappaleTiedoilla(); 
-        kappale1.tulosta(System.out);
-        
-        kappale2.tulosta(System.out);
-        kappale2.taytaKappaleTiedoilla();
-        kappale2.tulosta(System.out);
-          
+    public void tulosta1(PrintStream out) {
+        out.println(artist + " - " + name);
     }
-    
-    
+
+
     /**
-     * Tulostetaan henkiln tiedot
+     * Tulostetaan kappaleen tiedot
+     * @param os tietovirta johon tulostetaan
+     */
+    public void tulosta1(OutputStream os) {
+        tulosta1(new PrintStream(os));
+    }
+
+
+    /**
+     * Tulostetaan kappaleen tiedot
+     * @param os tietovirta johon tulostetaan
+     */
+    public void tulosta(OutputStream os) {
+        tulosta(new PrintStream(os));
+    }
+
+
+    @Override
+    public int hashCode() {
+        return tunnusNro;
+    }
+
+
+    /**
+     * Tulostetaan kappaleen tiedot
      * @param out tietovirta johon tulostetaan 
      */
     public void tulosta(PrintStream out) {
@@ -420,39 +433,28 @@ public class Kappale implements Cloneable {
         out.println("Country: " + country);
         out.println("Info: " + info);
     }
-    
-    
+
+
     /**
-     * @param out tietovirta johon tulostetaan
+     * @param args ei käytössä
      */
-    public void tulosta1(PrintStream out) {
-        out.println(artist + " - " + name);
-    }
-    
-    
-    /**
-     * Tulostetaan kappaleen tiedot
-     * @param os tietovirta johon tulostetaan
-     */
-    public void tulosta1(OutputStream os) {
-        tulosta1(new PrintStream(os));
-    }
-        
-    
-    /**
-     * Tulostetaan kappaleen tiedot
-     * @param os tietovirta johon tulostetaan
-     */
-    public void tulosta(OutputStream os) {
-        tulosta(new PrintStream(os));
+    public static void main(String[] args) {
+        Kappale kappale1 = new Kappale();
+        Kappale kappale2 = new Kappale();
+
+        kappale1.rekisteroi();
+        kappale2.rekisteroi();
+
+        kappale1.tulosta(System.out);
+        kappale1.taytaKappaleTiedoilla(); 
+        kappale1.tulosta(System.out);
+
+        kappale2.tulosta(System.out);
+        kappale2.taytaKappaleTiedoilla();
+        kappale2.tulosta(System.out);
     }
 
 
-    @Override
-    public int hashCode() {
-        return tunnusNro;
-    }
-    
     /**
      * @author laura
      * @version 14.4.2021
@@ -462,12 +464,13 @@ public class Kappale implements Cloneable {
 
         private int k;
         /**
-         * @param k mink kentn mukaan vertaillaan
+         * @param k minkä kentän mukaan vertaillaan
          */
         public Vertailija(int k) {
             this.k = k;
         }
-        
+
+
         /**
          * @return kokonaisluku
          */
@@ -476,16 +479,15 @@ public class Kappale implements Cloneable {
             return kappale1.getAvain(k).compareTo(kappale2.getAvain(k));
         }  
 
+
         /**
-         * @param o1 eka
-         * @param o2 toka
+         * @param o1 ensimmäinen kappale
+         * @param o2 toinen kappale
          * @return kokonaisluku
          */
         @SuppressWarnings("unused")
         public int compare1(Kappale o1, Kappale o2) {
-            // TODO Auto-generated method stub
             return 0;
         }}
 
 }
-

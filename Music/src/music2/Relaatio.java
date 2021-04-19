@@ -12,7 +12,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Kappale         |
-| - yhdist Kappale:en tiettyyn Setti:in            | - Setti           |
+| - yhdistää Kappale:en tiettyyn Setti:in            | - Setti           |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -26,34 +26,36 @@ import fi.jyu.mit.ohj2.Mjonot;
 |                                                    |                   |
 |-------------------------------------------------------------------------
  * @author laura
- * @version 12.3.2021
+ * @version 19.4.2021
  *
  */
+
 public class Relaatio {
     private int     tunnusNro;   
     private int     settiNro;
     private int     kappaleNro;
-   
+
     private static int seuraavaNro  = 1;    
-    
+
     /**
-    * Alustetaan relaatio  
+     * Alustetaan relaatio  
      * @param kappaleNro kappaleen tunnusnumero 
      * @param settiNro setin tunnusnumero
-    */
+     */
     public Relaatio(int kappaleNro, int settiNro) {
         this.kappaleNro = kappaleNro;
         this.settiNro = settiNro;
     }
-    
+
+
     /**
      * @return palauttaa kappaleen tunnusnumeron
      */
     public int getKNro() {
         return this.kappaleNro;
     }
-    
-            
+
+
     /**
      * Antaa relaatiolle seuraavan rekisterinumeron.
      * @return relaation uusi tunnus_nro
@@ -74,22 +76,22 @@ public class Relaatio {
         seuraavaNro++;
         return this.tunnusNro;
     }
-    
-    
+
+
     /**
-     * Asettaa tunnusnumeron ja samalla varmistaa ett
-     * seuraava numero on aina suurempi kuin thn menness suurin.
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
      * @param nr asetettava tunnusnumero
      */
     private void setTunnusNro(int nr) {
         tunnusNro = nr;
         if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
     }
-    
-    
+
+
     /**
-     * Selvit relaation tiedot | erotellusta merkkijonosta
-     * Pit huolen ett seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * Selvittää relaation tiedot | erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
      * @param rivi josta relaation tiedot otetaan
      * 
      * @example
@@ -101,23 +103,22 @@ public class Relaatio {
      *   relaatio.rekisteroi();
      *   int n = relaatio.getTunnusNro();
      *   relaatio.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   relaatio.rekisteroi();           // ja tarkistetaan ett seuraavalla kertaa tulee yht isompi
+     *   relaatio.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
      *   relaatio.getTunnusNro() === n+20+1;
      *     
      * </pre>
      */
-
     public void parse(String rivi) {
         var sb = new StringBuilder(rivi);
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         kappaleNro = Mjonot.erota(sb, '|', kappaleNro);
         settiNro = Mjonot.erota(sb, '|', settiNro);
     }
-  
-       
+
+
     /**
      * Testiohjelma Setille
-     * @param args ei kytss
+     * @param args ei käytössä
      */
     public static void main(String[] args) {
         Relaatio rel1 = new Relaatio(1,1);
@@ -126,13 +127,13 @@ public class Relaatio {
         rel1.rekisteroi();
         rel2.rekisteroi();
         rel3.rekisteroi();
-        
+
         rel1.tulosta(System.out);
         rel2.tulosta(System.out);
         rel3.tulosta(System.out);
-         }
-    
-    
+    }
+
+
     /**
      * Tulostetaan setin tiedot
      * @param out tietovirta johon tulostetaan 
@@ -140,8 +141,8 @@ public class Relaatio {
     public void tulosta(PrintStream out) { 
         out.println("Relaatio: " + tunnusNro);    
     }
-    
-    
+
+
     /**
      * Palauttaa relaation tiedot merkkijonona jonka voi tallentaa tiedostoon.
      * @return relaatio tolppaeroteltuna merkkijonona 
@@ -154,20 +155,19 @@ public class Relaatio {
      */
     @Override
     public String toString() {
-        //return "Relaatio: " + tunnusNro;
         return "" + getTunnusNro() + "|" + kappaleNro + "|" + settiNro;
     }
-   
-    
+
+
     /**
-    * Palautetaan setin tunnusNro
-    * @return setin tunnusNro
-    */
+     * Palautetaan setin tunnusNro
+     * @return setin tunnusNro
+     */
     public int getSettiNro() {
         return settiNro;
     }
-    
-    
+
+
     /**
      * Palautetaan relaation tunnusnumero
      * @return relaation tunnusnumero
@@ -175,7 +175,7 @@ public class Relaatio {
     public int getTunnusNro() {
         return tunnusNro;
     }
-       
+
 
     /**
      * Tulostetaan kappaleen tiedot
@@ -184,8 +184,10 @@ public class Relaatio {
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
-   
-    
-    
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }    
 }   
-    
+

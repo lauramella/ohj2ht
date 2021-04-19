@@ -49,8 +49,7 @@ public class MusicGUIController implements Initializable {
         alusta();
     }
     
-    
-    
+ 
     /**
      * Tarkistetaan onko tallennus tehty
      * @return true jos saa sulkea sovelluksen, false jos ei
@@ -124,7 +123,6 @@ public class MusicGUIController implements Initializable {
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
     private Relaatio relaatioKohdalla;
-    private Relaatio apuRelaatio;
     private String username;
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
@@ -198,7 +196,7 @@ public class MusicGUIController implements Initializable {
     
     
     /**
-     * Listn uusi setti
+     * Lis‰‰‰tn uusi setti
      */
     private void uusiSetti() {
         Setti setti = new Setti();

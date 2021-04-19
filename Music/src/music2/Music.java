@@ -39,7 +39,7 @@ public class Music {
     private Relaatiot relaatiot = new Relaatiot();
     private String hakemisto = "musa";
     
-
+   
     
     /**
      * Listn uusi kappale
@@ -52,15 +52,16 @@ public class Music {
     
     
     /** 
-     * Korvaa kappaleen tietorakenteessa.  Ottaa kapapleen omistukseensa. 
-     * Etsitn samalla tunnusnumerolla oleva kappale.  Jos ei lydy, 
-     * niin listn uutena kappaleena. 
-     * @param kappale listtvn kappaleen viite.  Huom tietorakenne muuttuu omistajaksi 
-     * @throws SailoException jos tietorakenne on jo tynn 
+     * Korvaa kappaleen tietorakenteessa.  Ottaa kappaleen omistukseensa. 
+     * Etsit‰‰n samalla tunnusnumerolla oleva kappale.  Jos ei lˆydy, 
+     * niin lis‰t‰‰n uutena kappaleena. 
+     * @param kappale lis‰tt‰v‰n kappaleen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @throws SailoException jos tietorakenne on jo t‰ynn‰ 
      */
     public void korvaaTaiLisaa(Kappale kappale) throws SailoException {
         kappaleet.korvaaTaiLisaa(kappale);
     }
+    
     
     /**
      * @param rel poistettava relaatio
@@ -141,7 +142,7 @@ public class Music {
     
 
     /**
-     * Tallettaa kerhon tiedot tiedostoon
+     * Tallettaa musiikkitiedot tiedostoon
      * @throws SailoException jos tallettamisessa ongelmia
      */
     public void tallenna() throws SailoException {
@@ -169,24 +170,89 @@ public class Music {
 
    
     /**
-     * Listn uusi setti
-     * @param setti listtv setti
+     * Lis‰t‰‰n uusi setti
+     * @param setti lis‰tt‰v‰ setti
      */
     public void lisaa(Setti setti) {
         setit.lisaa(setti);
     }
     
+    
     /**
-     * Listn uusi relaatio
-     * @param rel listtv relaatio
+     * Lis‰t‰‰n uusi relaatio
+     * @param rel lis‰tt‰v‰ relaatio
      */
     public void lisaa(Relaatio rel) {
         relaatiot.lisaa(rel);
     }
     
+    
+    /**
+     * @param settiTunnusNro setin tunnusnumero
+     * @return lista tietyn setin relaatioista
+     */
+    public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
+        return relaatiot.annaRelaatiot(settiTunnusNro);
+    }
+    
+    
+    /**
+     * @param kapTunnusNro kappaleen tunnusnumero
+     * @return lista tietyn kappaleen relaatioista
+     */
+    public List<Relaatio> annaKappaleenRelaatiot(int kapTunnusNro) {
+        return relaatiot.annaKappaleenRelaatiot(kapTunnusNro);
+    }
+    
+    
+    /**
+     * @return lista seteist‰
+     */
+    public List<Setti> annaSetit () {
+        return setit.annaSetit();
+    }
+    
+    
+    /**
+     * @return kappaleiden lukum‰‰r‰
+     */
+    public int getKappaleet() {
+        return this.kappaleet.getLkm();
+    }
+    
+    
+    /**
+     * Antaa tiedoston i:n kappaleen
+     * @param i monesko kappale (alkaa 0:sta)
+     * @return kappale paikasta i
+     */
+    public Kappale annaKappale(int i) {
+        return kappaleet.anna(i);
+    }
+    
+    
+    /**
+     * Antaa tiedoston i:n relaation
+     * @param i monesko kappale (alkaa 0:sta)
+     * @return kappale paikasta i
+     */
+    public Relaatio annaRelaatio(int i) {
+        return relaatiot.anna(i);
+    }
+    
+    
+    
+    /**
+     * @param knro kappalenumero
+     * @return palauttaa kappaleen jolla sama tunnusnumero
+     */
+    public Kappale kappaleTunnus(int knro) {
+        return kappaleet.kappaleTunnus(knro);
+}
+    
 
     /**
-     * @param args ei kytss
+     * @param args ei k‰ytˆss‰
      */
     public static void main(String[] args) {
         Music music = new Music();
@@ -245,7 +311,7 @@ public class Music {
             set.tulosta(System.out);
        }
         
-       //====================RELAATIOT===========================================
+       //====================RELAATIOT===================
         Relaatio rel1 = new Relaatio(1,1);
         Relaatio rel2 = new Relaatio(2,1);
         Relaatio rel3 = new Relaatio(3,1);
@@ -269,71 +335,6 @@ public class Music {
         
           for (Relaatio rel : relaatioLista) {
                    rel.tulosta(System.out);
-              }
-    
+              }    
     }
-    
-    /**
-     * @param settiTunnusNro setin tunnusnumero
-     * @return lista tietyn setin relaatioista
-     */
-    public List<Relaatio> annaRelaatiot(int settiTunnusNro) {
-        return relaatiot.annaRelaatiot(settiTunnusNro);
-    }
-    
-    
-    /**
-     * @param kapTunnusNro kappaleen tunnusnumero
-     * @return lista tietyn kappaleen relaatioista
-     */
-    public List<Relaatio> annaKappaleenRelaatiot(int kapTunnusNro) {
-        return relaatiot.annaKappaleenRelaatiot(kapTunnusNro);
-    }
-    
-    
-    
-    /**
-     * @return lista seteist
-     */
-    public List<Setti> annaSetit () {
-        return setit.annaSetit();
-    }
-    
-    
-    /**
-     * @return kappaleiden lukumr
-     */
-    public int getKappaleet() {
-        return this.kappaleet.getLkm();
-    }
-    
-    
-    /**
-     * Antaa kerhon i:n kappaleen
-     * @param i monesko kappale (alkaa 0:sta)
-     * @return kappale paikasta i
-     */
-    public Kappale annaKappale(int i) {
-        return kappaleet.anna(i);
-    }
-    
-    
-    /**
-     * Antaa kerhon i:n kappaleen
-     * @param i monesko kappale (alkaa 0:sta)
-     * @return kappale paikasta i
-     */
-    public Relaatio annaRelaatio(int i) {
-        return relaatiot.anna(i);
-    }
-    
-    
-    
-    /**
-     * @param knro kappalenumero
-     * @return palauttaa kappaleen jolla sama tunnusnumero
-     */
-    public Kappale kappaleTunnus(int knro) {
-        return kappaleet.kappaleTunnus(knro);
-}
 }

@@ -18,10 +18,10 @@ import java.util.Scanner;
 |-------------------------------------------------------------------------
 | Vastuualueet:                                      |                   |
 |                                                    | - Setti           |
-|- pit yll varsinaista rekisteri seteist eli    | -                 |
-|  osaa list ja poistaa setin                      | -                 |
+|- pit‰‰ ylll varsinaista rekisteri‰ seteist‰ eli    | -                 |
+|  osaa lis‰t‰ ja poistaa setin                      | -                 |
 |- lukee ja kirjoittaa setit tiedostoon              |                   |
-|- osaa etsi ja lajitella                           |                   |
+|- osaa etsi‰ ja lajitella                           |                   |
 |                                                    |                   |
 |                                                    |                   |
 |                                                    |                   |
@@ -33,32 +33,37 @@ import java.util.Scanner;
 |                                                    |                   |
 |-------------------------------------------------------------------------
  * @author laura
- * @version 8.3.2021
+ * @version 19.4.2021
  *
  */
+
 public class Setit {
     private Collection<Setti> alkiot = new ArrayList<Setti>();
     private String nimi = "";
     private boolean muutettu = false;
 
-
     /**
      * Alustaminen
      */
     public Setit() {
-       // ei viel tarvii mitn.
+        //
     }
-    
-    
+
+
     /**
-     * @param setti listtv setti
+     * Lis‰t‰‰n setti
+     * @param setti lis‰tt‰v‰ setti
      */
     public void lisaa(Setti setti) {
         alkiot.add(setti);
         muutettu = true;
     }
-    
-    
+
+
+    /**
+     * @param setti poistettava setti
+     * @return true, jos onnistuu
+     */
     public boolean poista(Setti setti) {
         boolean ret = alkiot.remove(setti);
         if (ret) muutettu = true;
@@ -66,50 +71,51 @@ public class Setit {
     }
 
 
-   /**
-    * Haetaan kaikki setit
-    * @return tietorakenne jossa viitteet lydetteyihin setteihin
-    * @example
-    * <pre name="test">
-    * #import java.util.*;
-    * 
-    *  Setit setit = new Setit();
-    *  Setti s1 = new Setti(); setit.lisaa(s1);
-    *  Setti s2 = new Setti(); setit.lisaa(s2);
-    *  Setti s3 = new Setti(); setit.lisaa(s3);
-    *  Setti s4 = new Setti(); setit.lisaa(s4);
-    *  Setti s5 = new Setti(); setit.lisaa(s5);
-    *  Setti s6 = new Setti(); setit.lisaa(s6);
-    *  
-    *  List<Setti> loytyneet;
-    *  loytyneet = setit.annaSetit();
-    *  loytyneet.size() === 6;
-    *  loytyneet.get(0) == s1 === true;
-    *  loytyneet.get(1) == s2 === true;
-    * </pre> 
-    */   
+    /**
+     * Haetaan kaikki setit
+     * @return tietorakenne jossa viitteet lydetteyihin setteihin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     *  Setit setit = new Setit();
+     *  Setti s1 = new Setti(); setit.lisaa(s1);
+     *  Setti s2 = new Setti(); setit.lisaa(s2);
+     *  Setti s3 = new Setti(); setit.lisaa(s3);
+     *  Setti s4 = new Setti(); setit.lisaa(s4);
+     *  Setti s5 = new Setti(); setit.lisaa(s5);
+     *  Setti s6 = new Setti(); setit.lisaa(s6);
+     *  
+     *  List<Setti> loytyneet;
+     *  loytyneet = setit.annaSetit();
+     *  loytyneet.size() === 6;
+     *  loytyneet.get(0) == s1 === true;
+     *  loytyneet.get(1) == s2 === true;
+     * </pre> 
+     */   
     public List<Setti> annaSetit() {
         List <Setti> loydetyt = new ArrayList<Setti>();
-            for (Setti set : alkiot)
-                loydetyt.add(set);
+        for (Setti set : alkiot)
+            loydetyt.add(set);
         return loydetyt;
-} 
-   
-    
+    } 
+
+
     @Override
     public String toString() {
         return nimi + ", settien lkm: " + alkiot.size();
     }
-    
+
+
     /**
-     * Tulostetaan kappaleen tiedot
+     * Tulostetaan setin tiedot
      * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
-    
-    
+
+
     /**
      * Lukee setit tiedostosta.
      * @param hakemisto tiedoston nimen alkuosa
@@ -142,13 +148,13 @@ public class Setit {
     public void lueTiedostosta(String hakemisto) throws SailoException {
         String nimi1 = hakemisto + "/setit.dat";
         File ftied = new File(nimi1);
-        try (Scanner fi = new Scanner(new FileInputStream(ftied))) { // Jotta UTF8/ISO-8859 toimii'
+        try (Scanner fi = new Scanner(new FileInputStream(ftied))) { 
             while ( fi.hasNext() ) {
                 String s = "";
                 s = fi.nextLine().trim();
                 if ( "".equals(s) || s.charAt(0) == ';' ) continue;
                 Setti setti = new Setti();
-                setti.parse(s); // voisi olla virheksittely
+                setti.parse(s); 
                 lisaa(setti);
             }
             muutettu = false;
@@ -156,23 +162,22 @@ public class Setit {
             throw new SailoException("Ei saa luettua tiedostoa " + nimi1);
         }
     }
-    
-    
+
+
     /**
      * Tallentaa setit tiedostoon.  
      * Tiedoston muoto:
      * <pre>
-     * 2|Minimal|5
-     * 3|Setti4|5
+     * 2|Minimal
+     * 3|Setti4
      * </pre>
      * @param tiednimi tallennettavan tiedoston hakemisto
      * @throws SailoException jos talletus eponnistuu
      */
     public void tallenna(String tiednimi) throws SailoException {
-        //if ( !muutettu ) return;
         if (!new File(tiednimi).exists()) new File(tiednimi).mkdir();
         File ftied = new File(tiednimi + "/setit.dat");
-        
+
         try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (var sets: alkiot) {
                 fo.println(sets.toString());
@@ -182,15 +187,15 @@ public class Setit {
         }
         muutettu = false;
     }
-    
-    
+
+
     /**
      * Testiohjelma seteille
      * @param args ei kytss
      */
     public static void main(String[] args) {
         Setit setit = new Setit();
-        
+
         try {
             setit.lueTiedostosta("musa");
         } catch (SailoException ex) {
@@ -209,27 +214,24 @@ public class Setit {
         Setti setti4 = new Setti();
         setti4.rekisteroi();
         setti4.taytaSettiTiedoilla();
-        
+
         setit.lisaa(setti1);
         setit.lisaa(setti2);
         setit.lisaa(setti3);
         setit.lisaa(setti2);
 
-        
         System.out.println("============= Setit testi =================");
-        
+
         List<Setti> settiLista = setit.annaSetit();
         for (Setti set : settiLista) {
             set.tulosta(System.out);
-       }
-        
+        }
+
         try {
             setit.tallenna("musa");
         } catch (SailoException e) {
             e.printStackTrace();
         }
-
     }
-
 }
 
