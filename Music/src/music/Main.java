@@ -1,5 +1,5 @@
 package music;
-	
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -33,18 +33,16 @@ public class Main extends Application {
 
             Music music = new Music();
             musicCtrl.setMusic(music);
-            
-
 
             primaryStage.show();
-           // if ( !musicCtrl.avaa() ) Platform.exit();
-            
+            // if ( !musicCtrl.avaa() ) Platform.exit();
+
             Application.Parameters params = getParameters(); 
             if ( params.getRaw().size() > 0 ) 
                 musicCtrl.lueTiedosto(params.getRaw().get(0));  
             else
                 if ( !musicCtrl.avaa() ) Platform.exit();
-            
+
         } catch(Exception e) {
             e.printStackTrace();
         }

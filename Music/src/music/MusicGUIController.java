@@ -2,12 +2,9 @@ package music;
 
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
 import music2.Kappale;
 import music2.Music;
 import music2.Relaatio;
@@ -32,7 +28,6 @@ import static music.EditTrackController.getFieldId;
  *
  */
 public class MusicGUIController implements Initializable {
-
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
     @FXML private ComboBoxChooser<Kappale> comboTracks;
@@ -43,39 +38,21 @@ public class MusicGUIController implements Initializable {
     @FXML private ScrollPane panelKappale;
     @FXML private ScrollPane panelSetti;   
 
-    
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        alusta();
-    }
-    
- 
-    /**
-     * Tarkistetaan onko tallennus tehty
-     * @return true jos saa sulkea sovelluksen, false jos ei
-     */
-    public boolean voikoSulkea() {
+    @FXML private void handlePrint() {
+        PrintController tulostusCtrl = PrintController.tulosta(null); 
+        tulostaSetti(tulostusCtrl.getTextArea());
+    }   
+
+    @FXML private void handleExit() {
         tallenna();
-        return true;
+        Platform.exit();
     }
 
-    @FXML private void handlePrint() {
-          PrintController tulostusCtrl = PrintController.tulosta(null); 
-          tulostaSetti(tulostusCtrl.getTextArea());
-    }   
-    
-    @FXML private void handleExit() {
-       tallenna();
-       Platform.exit();
-    }
-       
     @FXML private void handleNewSet() {
         var resurssi = MusicGUIController.class.getResource("NewSetView.fxml");
         ModalController.showModal(resurssi, "New set", null, "");
         uusiSetti();
     }
-    
-
 
     @FXML private void handleRenameSet() {
         var resurssi3 = MusicGUIController.class.getResource("RenameSetView.fxml");
@@ -83,42 +60,35 @@ public class MusicGUIController implements Initializable {
         uusiNimi();
     }
 
-
     @FXML private void handleDeleteSet() {
-       poistaSetti();
-    }
-    
-    
+        poistaSetti();
+    }    
+
     @FXML private void handleHelp() {
         Dialogs.showMessageDialog("Ei toimi");
-    }
-    
+    }   
 
     @FXML private void handleAddTrack() {
         kappaleSettiin();
-    }
-    
-    
+    }   
+
     @FXML private void handleDeleteTrack() {
         poistaRelaatio();
-    } 
-    
-    
+    }   
+
     @FXML private void handleNewTrack() {
         uusiKappale();
-    }
-    
-    
+    } 
+
     @FXML private void handleEdit() {
         muokkaa(1);
     }
-        
+
     @FXML private void handleHakuehto() {
         haeKappaleTiedot(0);
     }
-    
-//==================================================
-    
+
+    //==================================================   
     private Music music;    
     private Kappale kappaleKohdalla;
     private Setti settiKohdalla;
@@ -126,11 +96,10 @@ public class MusicGUIController implements Initializable {
     private String username;
     private static Kappale apukappale = new Kappale();
     private TextField edits[];
-    private int kentta = 0;
-    
-    
+    private int kentta = 0; 
+
     /**
-     * @return Kysytn tiedoston nimi ja luetaan se
+     * @return Kysytään tiedoston nimi ja luetaan se
      */
     public boolean avaa() {
         String uusinimi = LoginController.kysyNimi(null, username);
@@ -141,17 +110,33 @@ public class MusicGUIController implements Initializable {
         tallenna();
         return true;
     }
-    
+
+
+    /**
+     * Tarkistetaan onko tallennus tehty
+     * @return true jos saa sulkea sovelluksen, false jos ei
+     */
+    public boolean voikoSulkea() {
+        tallenna();
+        return true;
+    }
+
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        alusta();
+    }
+
+
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
-     * yksi iso tekstikentt, johon voidaan tulostaa kappaleiden tiedot.
-     * Alustetaan mys kappalelistan kuuntelija
+     * yksi iso tekstikenttä, johon voidaan tulostaa kappaleiden tiedot.
+     * Alustetaan myös kappalelistan kuuntelija
      */
     private void alusta() {
         chooserKappaleet.clear();
         chooserKappaleet.addSelectionListener(e -> naytaKappale());
         chooserbiisiLista.clear();
-        //comboSets.clear();
         comboSets.addSelectionListener(e -> naytaSetti());
         edits = EditTrackController.luoKentat(gridKappale); 
         for (TextField edit: edits)  
@@ -164,23 +149,27 @@ public class MusicGUIController implements Initializable {
         for (int k = apukappale.ekaKentta(); k < 7; k++) 
             comboTracks.add(apukappale.getKysymys(k), null);
         comboTracks.getSelectionModel().select(0);
-
-        }
-    
+    }
 
 
+    /**
+     * Poistetaan setti ja siihen kuuluvat relaatiot.
+     */
     private void poistaSetti() {
         settiKohdalla = comboSets.getSelectedObject();
         if (settiKohdalla == null) return;
         Setti set = settiKohdalla;
         if ( !Dialogs.showQuestionDialog("Delete set", "Do you want to delete this set?", "Yes", "No") )
-        return;
+            return;
         music.poistaSetti(set);
         haeSetit();
         chooserbiisiLista.clear();
     }
 
-    
+
+    /**
+     * Poistetaan kappale setistä, eli relaatio.
+     */
     private void poistaRelaatio() {
         settiKohdalla = comboSets.getSelectedObject();
         relaatioKohdalla = chooserbiisiLista.getSelectedObject();
@@ -192,27 +181,9 @@ public class MusicGUIController implements Initializable {
         int index = comboSets.getSelectedIndex();
         comboSets.setSelectedIndex(index);
         naytaSetti();               
-    }
-    
-    
-    /**
-     * Lisääätn uusi setti
-     */
-    private void uusiSetti() {
-        Setti setti = new Setti();
-        setti.rekisteroi();
-        music.lisaa(setti);
-        String setinNimi = NewSetController.getSetinNimi();
-        if (setinNimi != null) setti.uusiNimi(setinNimi);
-        int index = comboSets.getSelectedIndex();
-        haeSetit();
-        comboSets.setSelectedIndex(index);
-        naytaSetti();
-        tallenna();
-    }
-    
-    
-    
+    }   
+
+
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");
@@ -222,12 +193,12 @@ public class MusicGUIController implements Initializable {
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
     }
-    
-   
-   /**
-    * Tietojen tallennus
-    * @return null jos onnistuu, muuten virhe tekstin
-    */
+
+
+    /**
+     * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe tekstin
+     */
     private String tallenna() {
         try {
             music.tallenna();
@@ -237,8 +208,34 @@ public class MusicGUIController implements Initializable {
             return ex.getMessage();
         }
     }
-    
-    
+
+
+    /**
+     * Alustaa ohjelman lukemalla sen tiedot käyttäjän valitsemasta tiedostosta
+     * @param nimi kayttajan nimi
+     * @return palauttaa null muuten antaa ilmoituksen virhe
+     */
+    protected String lueTiedosto(String nimi) {
+        username = nimi;
+        try {
+            music.lueTiedostosta(nimi);
+            haeSetit();
+            haeKappaleTiedot(0);
+            naytaSetti();
+            return null;
+        } catch (SailoException e) {
+            haeKappaleTiedot(0);
+            String virhe = e.getMessage(); 
+            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+    }
+
+
+    /**
+     * Muokataan kappaletta
+     * @param k muokattava kenttä
+     */
     private void muokkaa(int k) {
         if (kappaleKohdalla == null) return;
         try {
@@ -260,30 +257,11 @@ public class MusicGUIController implements Initializable {
             Dialogs.showMessageDialog(e.getMessage()); 
         }
     }
-    
-   
-    
+
+
     /**
-     * TODO
-     * @param nimi kayttajan nimi
-     * @return palauttaa null muuten antaa ilmoituksen virhe
+     * Annetaan setille uusi nimi
      */
-    protected String lueTiedosto(String nimi) {
-        username = nimi;
-        try {
-            music.lueTiedostosta(nimi);
-            haeSetit();
-            haeKappaleTiedot(0);
-            naytaSetti();
-            return null;
-        } catch (SailoException e) {
-            haeKappaleTiedot(0);
-            String virhe = e.getMessage(); 
-            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
-            return virhe;
-        }
-    } 
-    
     private void uusiNimi() {
         settiKohdalla = comboSets.getSelectedObject();
         if (settiKohdalla == null) return;
@@ -297,9 +275,26 @@ public class MusicGUIController implements Initializable {
         tallenna();
     }
 
-      
+
     /**
-     * Listn tietty kappale settiin
+     * Lisätään uusi setti
+     */
+    private void uusiSetti() {
+        Setti setti = new Setti();
+        setti.rekisteroi();
+        music.lisaa(setti);
+        String setinNimi = NewSetController.getSetinNimi();
+        if (setinNimi != null) setti.uusiNimi(setinNimi);
+        int index = comboSets.getSelectedIndex();
+        haeSetit();
+        comboSets.setSelectedIndex(index);
+        naytaSetti();
+        tallenna();
+    }
+
+
+    /**
+     * Lisätään tietty kappale settiin luomalla uusi relaatio.
      */
     private void kappaleSettiin() {
         kappaleKohdalla = chooserKappaleet.getSelectedObject();
@@ -309,11 +304,11 @@ public class MusicGUIController implements Initializable {
         Relaatio rel = new Relaatio(kappaleKohdalla.getTunnusNro(),settiKohdalla.getTunnusNro());
         music.lisaa(rel);
         naytaSetti();
-         }
-    
+    }
+
 
     /**
-     * Nytetn setti
+     * Näytetään valittu setti eli sen relaatiot.
      */
     private void naytaSetti() {
         settiKohdalla = comboSets.getSelectedObject();
@@ -325,10 +320,7 @@ public class MusicGUIController implements Initializable {
             chooserbiisiLista.add(music.kappaleTunnus(relaatio.getKNro()).getName(), relaatio);
         }       
         chooserbiisiLista.setSelectedIndex(index); //tst tulee muutosviesti
-
-
     }
-
 
 
     /**
@@ -371,7 +363,7 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Listn uusi kappale
+     * Lisätään uusi kappale, jota voi muokata.
      */
     private void uusiKappale() {
         try {
@@ -391,7 +383,7 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Nytetn kappale
+     * Näyttää valitun kappaleen tiedot tekstikenttiin.
      */
     protected void naytaKappale() {
         kappaleKohdalla = chooserKappaleet.getSelectedObject();       
@@ -400,8 +392,9 @@ public class MusicGUIController implements Initializable {
         EditTrackController.naytaKappale(edits, kappaleKohdalla);
     }
 
+
     /**
-     * Tulostaa setiss olevat kappaleet tekstialueeseen
+     * Tulostaa setissä olevat kappaleet tekstialueeseen
      * @param text alue johon tulostetaan
      */
     public void tulostaSetti(TextArea text) {
@@ -415,7 +408,7 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Tulostaa jsenen tiedot
+     * Tulostaa kappaleen tiedot
      * @param os tietovirta johon tulostetaan
      * @param setinNimi nimi
      * @param reLista tulostettava relaatiolista
@@ -431,11 +424,10 @@ public class MusicGUIController implements Initializable {
 
 
     /**
-     * Asetetaan kytettv music
-     * @param music jota kytetn
+     * Asetetaan käytettävä music
+     * @param music jota käytetään
      */
     public void setMusic(Music music) {
         this.music = music;
     }
-
 }

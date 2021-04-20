@@ -314,8 +314,7 @@ public class Kappaleet implements Iterable<Kappale> {
      *   Kappale kappale3 = new Kappale(); kappale3.parse("3|Sebastian Eric|Not This Time||Tzinah Records|130"); 
      *   Kappale kappale4 = new Kappale(); kappale4.parse("4|Runy|Ice Queen|digi"); 
      *   Kappale kappale5 = new Kappale(); kappale5.parse("5|Robag Wruhme|Yes|Digi"); 
-     *   kappaleet.lisaa(kappale1); kappaleet.lisaa(kappale2); kappaleet.lisaa(kappale3); kappaleet.lisaa(kappale4); kappaleet.lisaa(kappale5);
-     *   // TODO: toistaiseksi palauttaa kaikki kappaleet 
+     *   kappaleet.lisaa(kappale1); kappaleet.lisaa(kappale2); kappaleet.lisaa(kappale3); kappaleet.lisaa(kappale4); kappaleet.lisaa(kappale5); 
      * </pre> 
      */ 
     public Collection<Kappale> etsi(String hakuehto, int k) { 
