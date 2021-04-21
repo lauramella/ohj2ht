@@ -24,7 +24,7 @@ import static music.EditTrackController.getFieldId;
 
 /**
  * @author laura
- * @version 1.2.2021
+ * @version 20.4.2021
  *
  */
 public class MusicGUIController implements Initializable {
@@ -348,15 +348,11 @@ public class MusicGUIController implements Initializable {
         chooserKappaleet.clear();        
         int index = 0;
         Collection<Kappale> kappaleet;
-        try {
-            kappaleet = music.etsi(ehto, k);
-            int i = 0;
-            for (Kappale kappale:kappaleet) {
-                if (kappale.getTunnusNro() == knro) index = i;
-                chooserKappaleet.add(kappale.getName(), kappale);
-            }
-        } catch (SailoException ex) {
-            naytaVirhe("Jsenen hakemisessa ongelmia! " + ex.getMessage());
+        kappaleet = music.etsi(ehto, k);
+        int i = 0;
+        for (Kappale kappale:kappaleet) {
+            if (kappale.getTunnusNro() == knro) index = i;
+            chooserKappaleet.add(kappale.getName(), kappale);
         }       
         chooserKappaleet.setSelectedIndex(index); //tst tulee muutosviesti
     }

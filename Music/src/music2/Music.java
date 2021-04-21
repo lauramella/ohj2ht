@@ -121,9 +121,8 @@ public class Music {
      * @param hakuehto hakuehto  
      * @param k etsittävän kentn indeksi  
      * @return tietorakenteen löytyneistä kappaleista
-     * @throws SailoException Jos jotakin menee väärin
      */ 
-    public Collection<Kappale> etsi(String hakuehto, int k) throws SailoException { 
+    public Collection<Kappale> etsi(String hakuehto, int k)  { 
         return kappaleet.etsi(hakuehto, k); 
     } 
 
@@ -143,12 +142,13 @@ public class Music {
      * @param setti poistettava setti
      */
     public void poistaSetti(Setti setti) {
-        List<Relaatio> relaatioLista = annaRelaatiot(setti.getTunnusNro());
-        if (!relaatioLista.isEmpty()) {       
-            for (Relaatio rel:relaatioLista) {
-                poistaRelaatio(rel);
-            }
-        }
+        //List<Relaatio> relaatioLista = annaRelaatiot(setti.getTunnusNro());
+        //if (!relaatioLista.isEmpty()) {       
+            //for (Relaatio rel:relaatioLista) {
+                //poistaRelaatio(rel);
+            //}
+        //}
+        relaatiot.poistaKaikki(setti.getTunnusNro());
         setit.poista(setti);
     }
 

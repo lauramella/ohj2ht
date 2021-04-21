@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 
 /**
  * @author laura
- * @version 1.2.2021
+ * @version 20.4.2021
  *
  */
 public class Main extends Application {

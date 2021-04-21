@@ -100,6 +100,28 @@ public class Relaatiot implements Iterable<Relaatio> {
         alkiot2[lkm] = null; 
         muutettu = true;  
     }
+    
+    
+    /**
+     * Poistetaan kaikki setin relaatiot
+     * @param setId setin tunnusnumero
+     */
+    public void poistaKaikki(int setId){
+        int poistettu = 0;
+        for (int i=0; i < lkm; i++) {
+            if (alkiot2[i].getSettiNro()== setId) {
+                poistettu ++;
+            }
+            else if (poistettu > 0) {
+                alkiot2[i-poistettu] = alkiot2[i];
+            }
+        }
+        for (int i=lkm; i > poistettu; i--) {
+            alkiot2[lkm--] = null;
+            lkm = lkm--;
+        }
+        muutettu = true;
+    }
 
 
 
@@ -290,25 +312,25 @@ public class Relaatiot implements Iterable<Relaatio> {
             System.err.println(e1.getMessage());
         }
 
-        Relaatio rel1 = new Relaatio(1,1);
-        Relaatio rel2 = new Relaatio(2,1);
-        Relaatio rel3 = new Relaatio(3,1);
-        Relaatio rel4 = new Relaatio(3,2);
-        rel1.rekisteroi();
-        rel2.rekisteroi();
-        rel3.rekisteroi();
-        rel4.rekisteroi();
+        //Relaatio rel1 = new Relaatio(1,1);
+        //Relaatio rel2 = new Relaatio(2,1);
+        //Relaatio rel3 = new Relaatio(3,1);
+        //Relaatio rel4 = new Relaatio(3,2);
+        //rel1.rekisteroi();
+        //rel2.rekisteroi();
+        //rel3.rekisteroi();
+        //rel4.rekisteroi();
 
-        relaatiot.lisaa(rel1);
-        relaatiot.lisaa(rel2);
-        relaatiot.lisaa(rel3);
-        relaatiot.lisaa(rel4);
+        //relaatiot.lisaa(rel1);
+        //relaatiot.lisaa(rel2);
+        //relaatiot.lisaa(rel3);
+        //relaatiot.lisaa(rel4);
 
-        List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);       
+        //List<Relaatio> relaatioLista = relaatiot.annaRelaatiot(1);       
 
-        for (Relaatio rel : relaatioLista) {
-            rel.tulosta(System.out);
-        }
+        //for (Relaatio rel : relaatioLista) {
+            //rel.tulosta(System.out);
+        //}
 
         try {
             relaatiot.tallenna("musa");
