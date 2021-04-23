@@ -112,13 +112,12 @@ public class Relaatiot implements Iterable<Relaatio> {
             if (alkiot2[i].getSettiNro()== setId) {
                 poistettu ++;
             }
-            else if (poistettu > 0) {
+            else  {
                 alkiot2[i-poistettu] = alkiot2[i];
             }
         }
-        for (int i=lkm; i > poistettu; i--) {
-            alkiot2[lkm--] = null;
-            lkm = lkm--;
+        for (; poistettu > 0; poistettu--) {
+            alkiot2[--lkm] = null;
         }
         muutettu = true;
     }
